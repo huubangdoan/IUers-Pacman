@@ -12,5 +12,5 @@ public class LightPoint implements Collectable{
     @Override
     public int getX(){return x;}
     @Override
-    public int gety(){return y;}
+    public int getY(){return y;}
 }

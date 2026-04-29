@@ -1,3 +1,4 @@
+import java.util.Random;
 public class Ghost extends MoveSystem{
     private String ghostType;
     private boolean isFrighted;//con ma có trong trạng thái có thể ăn được hay không
@@ -7,10 +8,17 @@ public class Ghost extends MoveSystem{
         this.ghostType=ghostType;
     }
     @Override
-    public void move(Map map){
-        if (!map.isWall(x + dx*speed, y + dy*speed)){
-            generateRandomDirection(map);
-        }}
+    public void move(Map map){ //PacMan copy y chang khác mỗi cái nó di chuyển theo set Direction thôi
+            if (x % 32 == 0 && y % 32 == 0) {
+                if (map.isWall(x + dx * 32, y + dy * 32)) {
+                    generateRandomDirection(map);
+                } else {
+                    if (new Random().nextInt(100) < 5) { 
+                        generateRandomDirection(map);
+                    }}}
+            x += dx * speed;
+            y += dy * speed;
+        }
     public void generateRandomDirection(Map map){
     int[] directions = {-1, 0, 1}; 
     java.util.Random rand = new java.util.Random();

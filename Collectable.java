@@ -1,5 +1,5 @@
 public interface Collectable{
     public void onCollected(PacMan player);
     public int getX();
-    public int gety();
+    public int getY();
 }
