@@ -8,7 +8,7 @@ public class Ghost extends MoveSystem{
     }
     @Override
     public void move(Map map){
-        if (!Map.isWall(x + dx*speed, y + dy*speed)){
+        if (!map.isWall(x + dx*speed, y + dy*speed)){
             generateRandomDirection(map);
         }}
     public void generateRandomDirection(Map map){
