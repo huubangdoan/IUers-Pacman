@@ -1,8 +1,32 @@
-import javax.swing.*;
-public class MainMenu {
+import javax.swing.SwingUtilities;
+public class Main {
 public static void main(String[] args){
-    ImageIcon bgrgachaframe = new ImageIcon("đường dẫn hình nền gachaframe");
-    ImageIcon maygacha = new ImageIcon("đường dẫn hình cái máy gacha");
+    SwingUtilities.invokeLater(()->{
+        GameFrame game = new GameFrame();
+        game.setVisible(true);
+    });
+}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /* 
+    ImageIcon bgrgachaframe = new ImageIcon("C:\\Users\\Admin\\OOP_Lab\\IUers-s-Pacman\\Graphics\\fn1.png");
+    ImageIcon maygacha = new ImageIcon("C:\\Users\\Admin\\OOP_Lab\\IUers-s-Pacman\\Graphics\\main.png");
 
     JFrame frame = new JFrame("Pac-Man: Cuoc chien Qua mong");
     frame.setSize(672, 672);
@@ -96,5 +120,4 @@ public static void main(String[] args){
         System.exit(0);
     });
     frame.setVisible(true);
-}
-}
+    */
