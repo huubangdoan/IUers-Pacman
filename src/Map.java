@@ -11,7 +11,29 @@ public class Map extends JPanel implements ActionListener {
     private Timer timer;
     private Image lightPointImg, wallImg;
     public Map() {
-        grid= new short[][]{};; // mấy bạn làm map làm lại cái này nhé, 1 là tường, 0 là trống, 2 là pacman, 3 là ma
+        grid = new short[][] {
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+            {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+        };
         player = new PacMan(32, 32, 2);
         collectable = new ArrayList<>();
         ghosts = new ArrayList<>();
@@ -19,7 +41,7 @@ public class Map extends JPanel implements ActionListener {
         setFocusable(true);
         timer = new Timer(16, this);
         timer.start();
-        setPreferredSize(new Dimension(640, 640));
+        setPreferredSize(new Dimension(672, 672));
         spawnRandomEvent();
     }
 
@@ -60,15 +82,28 @@ public class Map extends JPanel implements ActionListener {
             }
             return false;
         });
+
+        ghosts.removeIf(g -> {
+            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
+                return player.hasThorns();
+            }
+            return false;
+        });
     }
 
-    public void spawnRandomEvent() {for (int r = 0; r < grid.length; r++) {
-        for (int c = 0; c < grid[0].length; c++) {
-            if (grid[r][c] == 0) {
-                collectable.add(new LightPoint(c * 32, r * 32));
-            }}}
-    java.util.Random rand = new java.util.Random();
-    int numberOfFruits = 7; 
+    public void spawnRandomEvent() {
+        if (grid.length == 0 || grid[0].length == 0) {
+            return;
+        }
+        for (int r = 0; r < grid.length; r++) {
+            for (int c = 0; c < grid[0].length; c++) {
+                if (grid[r][c] == 0) {
+                    collectable.add(new LightPoint(c * 32, r * 32));
+                }
+            }
+        }
+        java.util.Random rand = new java.util.Random();
+        int numberOfFruits = 7; 
         for (int i = 0; i < numberOfFruits; i++) {
             boolean fruitPlaced = false;
             while (!fruitPlaced) {
