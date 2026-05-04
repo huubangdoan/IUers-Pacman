@@ -7,7 +7,7 @@ public class LightPoint implements Collectable{
     }
     @Override
     public void onCollected(PacMan player){
-        player.add(10);
+        player.addScore(10);
     }
     @Override
     public int getX(){return x;}
