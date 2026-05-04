@@ -9,6 +9,8 @@ public class PacMan {
     private int score = 0;
     private int lives = 3;
     private final int SIZE = 28;
+    private boolean isDisguised = false;
+    private long disguiseEndTime = 0;
     
     
     public PacMan(int x, int y, int speed) {
@@ -52,6 +54,10 @@ public class PacMan {
         }
     }
  public void move(Map map){ 
+    if (isDisguised) {
+        if (System.currentTimeMillis() > disguiseEndTime) {
+            isDisguised = false;
+        }
             if (x % 32 == 0 && y % 32 == 0) {
                 int ndx = getDx(nextDirection);
                 int ndy = getDy(nextDirection);
@@ -70,5 +76,13 @@ public class PacMan {
         
     public void addScore(int point) {
         score += point;
+    }
+
+    public void activateKiwiDisguise(){
+        this.isDisguised = true;
+        this.disguiseEndTime = System.currentTimeMillis() + 15000;
+    }
+    public boolean isDisguised(){
+        return this.isDisguised;
     }
 }

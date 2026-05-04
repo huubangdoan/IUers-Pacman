@@ -60,6 +60,17 @@ public class Map extends JPanel implements ActionListener {
             }
             return false;
         });
+        for (Ghost g : ghosts) {
+            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
+                if (player.isDisguised()) {
+                    System.out.println("Pac-Man đang tàng hình!");
+                    } else {
+                        System.out.println("Pac-Man bị Ma cắn!");
+                // thêm code trừ mạng 
+            }
+            
+        }
+    }
     }
 
     public void spawnRandomEvent() {for (int r = 0; r < grid.length; r++) {
@@ -78,6 +89,7 @@ public class Map extends JPanel implements ActionListener {
                     int fruitType = rand.nextInt(3); 
                     switch (fruitType) {
                         case 0 -> collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
+                        case 1 -> collectable.add(new Kiwi(randomC * 32, randomR * 32, "Kiwi"));
                         //tạo class fruit mới rồi thêm case vô đây copy y chang durian là đc
                 }
                 fruitPlaced = true;
