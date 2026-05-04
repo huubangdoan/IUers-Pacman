@@ -7,6 +7,9 @@ public class PacMan {
     private int score = 0;
     private int lives = 3;
     private boolean hasThorns = false;
+    private int animTick = 0;
+    private int animIndex = 0;
+    private boolean moving = false;
     private final int SIZE = 28;
 
     public PacMan(int x, int y, int speed) {
@@ -50,7 +53,9 @@ public class PacMan {
         }
     }
  public void move(Map map){ 
-            if (x % 32 == 0 && y % 32 == 0) {
+            if (nextDirection == (direction + 2) % 4) {
+                direction = nextDirection;
+            } else if (x % 32 == 0 && y % 32 == 0) {
                 int ndx = getDx(nextDirection);
                 int ndy = getDy(nextDirection);
                 
@@ -63,9 +68,33 @@ public class PacMan {
             if (!map.isWall(x + dx * speed, y + dy * speed)) {
                  x += dx * speed;
                  y += dy * speed;
+                 moving = true;
+            } else {
+                 moving = false;
             }
         }
         
+    public void updateAnimation() {
+        if (moving) {
+            animTick++;
+            if (animTick >= 6) {
+                animTick = 0;
+                animIndex = (animIndex + 1) % 3;
+            }
+        } else {
+            animTick = 0;
+            animIndex = 0;
+        }
+    }
+
+    public int getAnimIndex() {
+        return animIndex;
+    }
+
+    public boolean isMoving() {
+        return moving;
+    }
+    
     public boolean hasThorns() {
         return hasThorns;
     }
@@ -76,5 +105,26 @@ public class PacMan {
 
     public void addScore(int point) {
         score += point;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getLives() {
+        return lives;
+    }
+
+    public void loseLife() {
+        lives--;
+    }
+
+    public void setPosition(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public int getDirection() {
+        return direction;
     }
 }
