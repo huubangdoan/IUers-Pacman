@@ -1,5 +1,3 @@
-import java.util.Map;
-
  
 public class PacMan {
     private int x,y; 
@@ -8,9 +6,9 @@ public class PacMan {
     private int speed;
     private int score = 0;
     private int lives = 3;
+    private boolean hasThorns = false;
     private final int SIZE = 28;
-    
-    
+
     public PacMan(int x, int y, int speed) {
         this.x = x;
         this.y = y;
@@ -56,18 +54,26 @@ public class PacMan {
                 int ndx = getDx(nextDirection);
                 int ndy = getDy(nextDirection);
                 
-                if (map.isWall(x + dx * speed, y + dy * speed)) {
+                if (!map.isWall(x + ndx * speed, y + ndy * speed)) {
                     direction = nextDirection;
                 }
             }
             int dx = getDx(direction);
             int dy = getDy(direction);
-        if (map.isWall(x + dx * speed, y + dy * speed)) {
-             x += dx * speed;
-             y += dy * speed;
-        }
+            if (!map.isWall(x + dx * speed, y + dy * speed)) {
+                 x += dx * speed;
+                 y += dy * speed;
             }
+        }
         
+    public boolean hasThorns() {
+        return hasThorns;
+    }
+
+    public void setHasThorns(boolean hasThorns) {
+        this.hasThorns = hasThorns;
+    }
+
     public void addScore(int point) {
         score += point;
     }
