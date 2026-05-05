@@ -12,7 +12,8 @@ public class Map extends JPanel implements ActionListener {
     private Timer timer;
     private Image lightPointImg, wallImg;
     private Image[] pacmanRightImgs, pacmanLeftImgs, pacmanUpImgs, pacmanDownImgs;
-    private Image ghostImg, fruitImg, dotImg;
+    private Image ghostImg, dotImg;
+    private Image appleImg, durianImg;
     private Image blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
     public Map() {
         grid = new short[][] {
@@ -41,19 +42,7 @@ public class Map extends JPanel implements ActionListener {
         player = new PacMan(32, 32, 2);
         collectable = new ArrayList<>();
         ghosts = new ArrayList<>();
-
         File assetsBaseFile = new File(System.getProperty("user.dir"), "assets/Default Skin");
-        if (!assetsBaseFile.exists()) {
-            assetsBaseFile = new File("assets/Default Skin");
-        }
-        if (!assetsBaseFile.exists()) {
-            assetsBaseFile = new File(System.getProperty("user.dir"), "src/assets/Default Skin");
-        }
-        if (!assetsBaseFile.exists()) {
-            assetsBaseFile = new File("src/assets/Default Skin");
-        }
-        System.out.println("Map assets base: " + assetsBaseFile.getAbsolutePath() + " exists=" + assetsBaseFile.exists());
-
         pacmanRightImgs = new Image[3];
         pacmanLeftImgs = new Image[3];
         pacmanUpImgs = new Image[3];
@@ -64,20 +53,19 @@ public class Map extends JPanel implements ActionListener {
             pacmanUpImgs[i] = new ImageIcon(new File(new File(assetsBaseFile, "pacman-up"), (i + 1) + ".png").getAbsolutePath()).getImage();
             pacmanDownImgs[i] = new ImageIcon(new File(new File(assetsBaseFile, "pacman-down"), (i + 1) + ".png").getAbsolutePath()).getImage();
         }
-        ghostImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "blue_ghost.png").getAbsolutePath()).getImage();
-        blinkyImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "blinky.png").getAbsolutePath()).getImage();
-        pinkyImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "pinky.png").getAbsolutePath()).getImage();
-        inkyImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "inky.png").getAbsolutePath()).getImage();
-        clydeImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "clyde.png").getAbsolutePath()).getImage();
+        ghostImg = new ImageIcon("assets/Default Skin/ghosts/blue_ghost.png").getImage();
+        blinkyImg = new ImageIcon("assets/Default Skin/ghosts/blinky.png").getImage();
+        pinkyImg = new ImageIcon("assets/Default Skin/ghosts/pinky.png").getImage();
+        inkyImg = new ImageIcon("assets/Default Skin/ghosts/inky.png").getImage();
+        clydeImg = new ImageIcon("assets/Default Skin/ghosts/clyde.png").getImage();
         frightenedImg = ghostImg; // blue_ghost.png
-        dotImg = new ImageIcon(new File(new File(assetsBaseFile, "other"), "dot.png").getAbsolutePath()).getImage();
-        fruitImg = new ImageIcon(new File(new File(assetsBaseFile, "other"), "apple.png").getAbsolutePath()).getImage();
-
+        dotImg = new ImageIcon("assets/Default Skin/other/dot.png").getImage();
+        appleImg = new ImageIcon("assets/Default Skin/other/apple.png").getImage();
+        durianImg = new ImageIcon("assets/New Fruit/Durian.png").getImage();
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
-        ghosts.add(new Ghost(32 * 1, 32 * 1, 2, "pinky"));
+        ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
         ghosts.add(new Ghost(32 * 1, 32 * 19, 2, "clyde"));
-
         addKeyListener(new Tadapter(player));
         setFocusable(true);
         timer = new Timer(16, this);
@@ -85,29 +73,33 @@ public class Map extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(672, 672));
         spawnRandomEvent();
     }
-
+    private Image getImg(File base, String folder, String name) {
+        return new ImageIcon(new File(new File(base, folder), name).getAbsolutePath()).getImage();
+    }
     public void update() {
         player.move(this);
         player.updateAnimation();
-        for (Ghost g : ghosts) g.move(this);
+        player.updatePowerup();
+        for (Ghost g : ghosts) {
+            g.move(this);
+            g.updateFrightened();
+        }
         checkEntityCollisions();
     }
     public boolean isWall(int x, int y) {
-        int size = 28; 
-        int left = x;
-        int right = x + size - 1;
-        int top = y;
-        int bottom = y + size - 1;
-        int startCol = left / 32;
-        int endCol = right / 32;
-        int startRow = top / 32;
-        int endRow = bottom / 32;
+        final int size = 28; 
+        final int left = x;
+        final int right = x + size - 1;
+        final int top = y;
+        final int bottom = y + size - 1;
+        final int startCol = left / 32;
+        final int endCol = right / 32;
+        final int startRow = top / 32;
+        final int endRow = bottom / 32;
+        
         for (int r = startRow; r <= endRow; r++) {
             for (int c = startCol; c <= endCol; c++) {
-                if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) {
-                    return true; 
-                }
-                if (grid[r][c] == 1) {
+                if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] == 1) {
                     return true;
                 }
             }
@@ -120,6 +112,11 @@ public class Map extends JPanel implements ActionListener {
         collectable.removeIf(f -> {
             if (Math.hypot(player.getX() - f.getX(), player.getY() - f.getY()) < 16) {
                 f.onCollected(player);
+                if (f instanceof Apple) {
+                    for (Ghost g : ghosts) {
+                        g.setFrightened(true, 300); // 300 frames = ~5 seconds
+                    }
+                }
                 return true;
             }
             return false;
@@ -143,12 +140,20 @@ public class Map extends JPanel implements ActionListener {
             }
             return false;
         });
+        
         // PacMan collision with ghosts
         for (Ghost g : ghosts) {
-            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
-                if (!player.hasThorns()) {
+            double distance = Math.hypot(player.getX() - g.getX(), player.getY() - g.getY());
+            if (distance < 16) {
+                if (player.hasThorns() || (player.hasPowerup() && g.getIsFrighted())) {
+                    // Pac-Man eats ghost
+                    player.addScore(200);
+                    g.respawnAtRandomLocation(grid);
+                    g.setFrightened(false, 0);
+                } else if (!player.hasThorns() && !g.getIsFrighted()) {
+                    // Ghost eats Pac-Man
                     player.loseLife();
-                    player.setPosition(32, 32); // reset to start
+                    player.setPosition(32, 32);
                     if (player.getLives() <= 0) {
                         timer.stop();
                     }
@@ -161,6 +166,7 @@ public class Map extends JPanel implements ActionListener {
         if (grid.length == 0 || grid[0].length == 0) {
             return;
         }
+        // Spawn light points
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 if (grid[r][c] == 0) {
@@ -168,11 +174,13 @@ public class Map extends JPanel implements ActionListener {
                 }
             }
         }
+        // Spawn fruits randomly
         java.util.Random rand = new java.util.Random();
         int numberOfFruits = 7; 
         for (int i = 0; i < numberOfFruits; i++) {
             boolean fruitPlaced = false;
-            while (!fruitPlaced) {
+            int attempts = 0;
+            while (!fruitPlaced && attempts < 50) {
                 int randomR = rand.nextInt(grid.length);
                 int randomC = rand.nextInt(grid[0].length);
                 if (grid[randomR][randomC] == 0) {
@@ -181,9 +189,17 @@ public class Map extends JPanel implements ActionListener {
                         case 0 -> collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
                         case 1 -> collectable.add(new Kiwi(randomC * 32, randomR * 32, "Kiwi"));
                         //tạo class fruit mới rồi thêm case vô đây copy y chang durian là đc
+                    int fruitType = rand.nextInt(2); // 0 = Durian, 1 = Apple
+                    if (fruitType == 0) {
+                        collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
+                    } else {
+                        collectable.add(new Apple(randomC * 32, randomR * 32, "Apple"));
+                    }
+                    fruitPlaced = true;
                 }
-                fruitPlaced = true;
-        }}}}
+                attempts++;
+            }}
+        }
     public Boolean checkWin() {
         return collectable.isEmpty();
     }
@@ -215,12 +231,21 @@ public class Map extends JPanel implements ActionListener {
                     g2d.setColor(Color.WHITE);
                     g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);
                 }
-            } else {
-                if (fruitImg != null) {
-                    g2d.drawImage(fruitImg, f.getX(), f.getY(), 32, 32, this);
+            }
+            if (f instanceof Apple) {
+                if (appleImg != null) {
+                    g2d.drawImage(appleImg, f.getX(), f.getY(), 32, 32, this);
                 } else {
-                    g2d.setColor(Color.ORANGE);
-                    g2d.fillOval(f.getX() + 4, f.getY() + 4, 24, 24);
+                    g2d.setColor(Color.red);
+                    g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);
+                }
+            }
+            if (f instanceof Durian) {
+                if (durianImg != null) {
+                    g2d.drawImage(durianImg, f.getX(), f.getY(), 32, 32, this);
+                } else {
+                    g2d.setColor(Color.green);
+                    g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);
                 }
             }
         }
