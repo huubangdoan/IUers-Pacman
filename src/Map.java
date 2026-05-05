@@ -61,7 +61,7 @@ public class Map extends JPanel implements ActionListener {
         frightenedImg = ghostImg; // blue_ghost.png
         dotImg = new ImageIcon("assets/Default Skin/other/dot.png").getImage();
         appleImg = new ImageIcon("assets/Default Skin/other/apple.png").getImage();
-        durianImg = new ImageIcon("assets/New Fruit/Durian/Durian.png").getImage();
+        durianImg = new ImageIcon("assets/New Fruit/Durian.png").getImage();
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
         ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
