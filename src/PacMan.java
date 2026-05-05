@@ -18,6 +18,8 @@ public class PacMan {
     private final int SIZE = 28;
     private boolean isDisguised = false;
     private long disguiseEndTime = 0;
+    private boolean canShoot = false;
+    private int seedAmmo = 0;
     
     
     private final int TILE_SIZE = 32;
@@ -144,6 +146,17 @@ public class PacMan {
     public void addScore(int point) {
         score += point;
     }
+//watermelon
+    private boolean hasWatermelon = false;
+
+public void setHasWatermelon(boolean status) {
+    this.hasWatermelon = status;
+}
+
+public boolean hasWatermelon() {
+    return hasWatermelon;
+}
+
 //kiwi
     public void activateKiwiDisguise(){
         this.isDisguised = true;

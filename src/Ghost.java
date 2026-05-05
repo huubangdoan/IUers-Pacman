@@ -3,6 +3,7 @@ public class Ghost extends MoveSystem{
     private String ghostType;
     private boolean isFrighted = false; //con ma có trong trạng thái có thể ăn được hay không
     private int frightenedDuration = 0;
+   
     
     public Ghost(int x, int y, int speed, String ghostType){
         super(x,y, speed);
@@ -13,6 +14,16 @@ public class Ghost extends MoveSystem{
     @Override
     public void move(Map map){
             if (x % 32 == 0 && y % 32 == 0) {
+                if (isFrozen) {
+        freezeTimer--;
+        if (freezeTimer <= 0) {
+            isFrozen = false;
+        }
+        return; 
+    }
+
+
+    if (x % 32 == 0 && y % 32 == 0) {
                 if (map.isWall(x + dx * 32, y + dy * 32)) {
                     generateRandomDirection(map);
                 } else {
@@ -81,6 +92,20 @@ public class Ghost extends MoveSystem{
         return frightenedDuration;
     }
     
+    private boolean isFrozen = false;
+private int freezeTimer = 0;
+
+public void setFrozen(boolean status, int duration) {
+    this.isFrozen = status;
+    this.freezeTimer = duration;if (status) {
+        System.out.println("Ma đã bị đóng băng!");
+    }
+
+}
+
+public boolean isFrozen() {
+    return isFrozen;
+}
     public void respawnAtRandomLocation(short[][] grid) {
         java.util.Random rand = new java.util.Random();
         boolean positioned = false;

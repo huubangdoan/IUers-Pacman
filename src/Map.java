@@ -15,6 +15,7 @@ public class Map extends JPanel implements ActionListener {
     private Image ghostImg, dotImg;
     private Image appleImg, durianImg;
     private Image blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
+    private List<Seed> activeSeeds = new ArrayList<>();
     public Map() {
         grid = new short[][] {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -62,6 +63,7 @@ public class Map extends JPanel implements ActionListener {
         dotImg = new ImageIcon("src/assets/Default Skin/other/dot.png").getImage();
         appleImg = new ImageIcon("src/assets/Default Skin/other/apple.png").getImage();
         durianImg = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
+        watermelon = new ImageIcon("src/assets/New Fruit/Watermelon.png").getImage();
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
         ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
@@ -121,6 +123,18 @@ public class Map extends JPanel implements ActionListener {
             }
             return false;
         });
+        //Watermelon
+     if (player.hasWatermelon()) {
+    for (Ghost ghost : ghosts) {
+        double distance = Math.hypot(player.getX() - ghost.getX(), player.getY() - ghost.getY());
+        
+        // Nếu ma ở gần Pac-man (ví dụ trong khoảng 64 pixel - tương đương 2 ô gạch)
+        if (distance < 64) { 
+            ghost.setFrozen(true, 180); // Đóng băng ngay lập tức
+            // player.setHasWatermelon(false); // Mất hiệu ứng sau 1 lần dùng (tùy bạn chọn)
+        }
+    }
+}
         //Kiwi
         for (Ghost g : ghosts) {
             if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
