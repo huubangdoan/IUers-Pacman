@@ -1,16 +1,20 @@
  
 public class PacMan {
-    private int x,y; 
+    private int x, y; 
     private int direction = 1; //hướng hiện tại
     private int nextDirection = 1; //hướng người chơi input
     private int speed;
     private int score = 0;
     private int lives = 3;
     private boolean hasThorns = false;
+    private boolean hasPowerup = false;
+    private int powerupDuration = 0;
     private int animTick = 0;
     private int animIndex = 0;
     private boolean moving = false;
+    private boolean wasStuck = false; // Track if we were stuck last frame
     private final int SIZE = 28;
+    private final int TILE_SIZE = 32;
 
     public PacMan(int x, int y, int speed) {
         this.x = x;
@@ -33,21 +37,20 @@ public class PacMan {
     private int getDx(int dir) {
          switch(dir) {
             case 1:
-                return 1; // trái
+                return 1; // phải
             case 3:
-                return -1; // phải
+                return -1; // trái
             default:
                 return  0;
-        
         }
     }
     
     private int getDy(int dir) {
         switch(dir) {
             case 2:
-                return 1; // lên
+                return 1; // xuống
             case 0:
-                return -1; // xuống
+                return -1; // lên
             default:
                 return 0;
         }
@@ -69,8 +72,22 @@ public class PacMan {
                  x += dx * speed;
                  y += dy * speed;
                  moving = true;
+                 wasStuck = false;
             } else {
                  moving = false;
+                 if (!wasStuck) {
+                     if (dx != 0) {
+                         int remainder = x % 32;
+                         if (remainder > 16) x = x + (32 - remainder);
+                         else if (remainder > 0) x = x - remainder;
+                     }
+                     if (dy != 0) {
+                         int remainder = y % 32;
+                         if (remainder > 16) y = y + (32 - remainder);
+                         else if (remainder > 0) y = y - remainder;
+                     }
+                     wasStuck = true;
+                 }
             }
         }
         
@@ -126,5 +143,28 @@ public class PacMan {
 
     public int getDirection() {
         return direction;
+    }
+
+    public void activatePowerup(int duration) {
+        this.hasPowerup = true;
+        this.powerupDuration = duration;
+    }
+
+    public boolean hasPowerup() {
+        return hasPowerup;
+    }
+
+    public int getPowerupDuration() {
+        return powerupDuration;
+    }
+
+    public void updatePowerup() {
+        if (hasPowerup) {
+            powerupDuration--;
+            if (powerupDuration <= 0) {
+                hasPowerup = false;
+                powerupDuration = 0;
+            }
+        }
     }
 }
