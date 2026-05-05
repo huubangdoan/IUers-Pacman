@@ -9,6 +9,11 @@ public class PacMan {
     private boolean hasThorns = false;
     private boolean hasPowerup = false;
     private int powerupDuration = 0;
+<<<<<<< HEAD
+=======
+    private boolean dragonMode = false;
+    private int dragonTimer = 0;
+>>>>>>> cb98a270e84ab74c6db74044a09d4e9bf51f5faf
     private int animTick = 0;
     private int animIndex = 0;
     private boolean moving = false;
@@ -167,4 +172,30 @@ public class PacMan {
             }
         }
     }
+<<<<<<< HEAD
+=======
+
+    public void setDragonMode(boolean value){
+        this.dragonMode = value;
+    }
+
+    public boolean isDragonMode() {
+        return dragonMode;
+    }
+
+    public void setDragonTimer(int time) {
+        this.dragonTimer = time ;
+    }
+
+    public void updateDragon() {
+        if (dragonMode) {
+            dragonTimer --;
+            if (dragonTimer <= 0) {
+                dragonMode = false;
+                dragonTimer = 0;
+            }
+        }
+    }
+>>>>>>> cb98a270e84ab74c6db74044a09d4e9bf51f5faf
 }
+
