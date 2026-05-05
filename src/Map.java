@@ -12,7 +12,8 @@ public class Map extends JPanel implements ActionListener {
     private Timer timer;
     private Image lightPointImg, wallImg;
     private Image[] pacmanRightImgs, pacmanLeftImgs, pacmanUpImgs, pacmanDownImgs;
-    private Image ghostImg, fruitImg, dotImg;
+    private Image ghostImg, dotImg;
+    private Image appleImg, durianImg;
     private Image blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
     public Map() {
         grid = new short[][] {
@@ -41,19 +42,7 @@ public class Map extends JPanel implements ActionListener {
         player = new PacMan(32, 32, 2);
         collectable = new ArrayList<>();
         ghosts = new ArrayList<>();
-
         File assetsBaseFile = new File(System.getProperty("user.dir"), "assets/Default Skin");
-        if (!assetsBaseFile.exists()) {
-            assetsBaseFile = new File("assets/Default Skin");
-        }
-        if (!assetsBaseFile.exists()) {
-            assetsBaseFile = new File(System.getProperty("user.dir"), "src/assets/Default Skin");
-        }
-        if (!assetsBaseFile.exists()) {
-            assetsBaseFile = new File("src/assets/Default Skin");
-        }
-        System.out.println("Map assets base: " + assetsBaseFile.getAbsolutePath() + " exists=" + assetsBaseFile.exists());
-
         pacmanRightImgs = new Image[3];
         pacmanLeftImgs = new Image[3];
         pacmanUpImgs = new Image[3];
@@ -64,20 +53,19 @@ public class Map extends JPanel implements ActionListener {
             pacmanUpImgs[i] = new ImageIcon(new File(new File(assetsBaseFile, "pacman-up"), (i + 1) + ".png").getAbsolutePath()).getImage();
             pacmanDownImgs[i] = new ImageIcon(new File(new File(assetsBaseFile, "pacman-down"), (i + 1) + ".png").getAbsolutePath()).getImage();
         }
-        ghostImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "blue_ghost.png").getAbsolutePath()).getImage();
-        blinkyImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "blinky.png").getAbsolutePath()).getImage();
-        pinkyImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "pinky.png").getAbsolutePath()).getImage();
-        inkyImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "inky.png").getAbsolutePath()).getImage();
-        clydeImg = new ImageIcon(new File(new File(assetsBaseFile, "ghosts"), "clyde.png").getAbsolutePath()).getImage();
+        ghostImg = new ImageIcon("assets/Default Skin/ghosts/blue_ghost.png").getImage();
+        blinkyImg = new ImageIcon("assets/Default Skin/ghosts/blinky.png").getImage();
+        pinkyImg = new ImageIcon("assets/Default Skin/ghosts/pinky.png").getImage();
+        inkyImg = new ImageIcon("assets/Default Skin/ghosts/inky.png").getImage();
+        clydeImg = new ImageIcon("assets/Default Skin/ghosts/clyde.png").getImage();
         frightenedImg = ghostImg; // blue_ghost.png
-        dotImg = new ImageIcon(new File(new File(assetsBaseFile, "other"), "dot.png").getAbsolutePath()).getImage();
-        fruitImg = new ImageIcon(new File(new File(assetsBaseFile, "other"), "apple.png").getAbsolutePath()).getImage();
-
+        dotImg = new ImageIcon("assets/Default Skin/other/dot.png").getImage();
+        appleImg = new ImageIcon("assets/Default Skin/other/apple.png").getImage();
+        durianImg = new ImageIcon("assets/New Fruit/Durian/Durian.png").getImage();
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
         ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
         ghosts.add(new Ghost(32 * 1, 32 * 19, 2, "clyde"));
-
         addKeyListener(new Tadapter(player));
         setFocusable(true);
         timer = new Timer(16, this);
@@ -85,7 +73,9 @@ public class Map extends JPanel implements ActionListener {
         setPreferredSize(new Dimension(672, 672));
         spawnRandomEvent();
     }
-
+    private Image getImg(File base, String folder, String name) {
+        return new ImageIcon(new File(new File(base, folder), name).getAbsolutePath()).getImage();
+    }
     public void update() {
         player.move(this);
         player.updateAnimation();
@@ -167,7 +157,7 @@ public class Map extends JPanel implements ActionListener {
         }
         // Spawn fruits randomly
         java.util.Random rand = new java.util.Random();
-        int numberOfFruits = 8; 
+        int numberOfFruits = 7; 
         for (int i = 0; i < numberOfFruits; i++) {
             boolean fruitPlaced = false;
             int attempts = 0;
@@ -217,12 +207,21 @@ public class Map extends JPanel implements ActionListener {
                     g2d.setColor(Color.WHITE);
                     g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);
                 }
-            } else {
-                if (fruitImg != null) {
-                    g2d.drawImage(fruitImg, f.getX(), f.getY(), 32, 32, this);
+            }
+            if (f instanceof Apple) {
+                if (appleImg != null) {
+                    g2d.drawImage(appleImg, f.getX(), f.getY(), 32, 32, this);
                 } else {
-                    g2d.setColor(Color.ORANGE);
-                    g2d.fillOval(f.getX() + 4, f.getY() + 4, 24, 24);
+                    g2d.setColor(Color.red);
+                    g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);
+                }
+            }
+            if (f instanceof Durian) {
+                if (durianImg != null) {
+                    g2d.drawImage(durianImg, f.getX(), f.getY(), 32, 32, this);
+                } else {
+                    g2d.setColor(Color.green);
+                    g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);
                 }
             }
         }
