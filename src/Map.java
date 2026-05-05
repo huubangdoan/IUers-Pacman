@@ -74,7 +74,7 @@ public class Map extends JPanel implements ActionListener {
         fruitImg = new ImageIcon(new File(new File(assetsBaseFile, "other"), "apple.png").getAbsolutePath()).getImage();
 
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
-        ghosts.add(new Ghost(32 * 1, 32 * 1, 2, "pinky"));
+        ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
         ghosts.add(new Ghost(32 * 1, 32 * 19, 2, "clyde"));
 
@@ -89,25 +89,27 @@ public class Map extends JPanel implements ActionListener {
     public void update() {
         player.move(this);
         player.updateAnimation();
-        for (Ghost g : ghosts) g.move(this);
+        player.updatePowerup();
+        for (Ghost g : ghosts) {
+            g.move(this);
+            g.updateFrightened();
+        }
         checkEntityCollisions();
     }
     public boolean isWall(int x, int y) {
-        int size = 28; 
-        int left = x;
-        int right = x + size - 1;
-        int top = y;
-        int bottom = y + size - 1;
-        int startCol = left / 32;
-        int endCol = right / 32;
-        int startRow = top / 32;
-        int endRow = bottom / 32;
+        final int size = 28; 
+        final int left = x;
+        final int right = x + size - 1;
+        final int top = y;
+        final int bottom = y + size - 1;
+        final int startCol = left / 32;
+        final int endCol = right / 32;
+        final int startRow = top / 32;
+        final int endRow = bottom / 32;
+        
         for (int r = startRow; r <= endRow; r++) {
             for (int c = startCol; c <= endCol; c++) {
-                if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length) {
-                    return true; 
-                }
-                if (grid[r][c] == 1) {
+                if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] == 1) {
                     return true;
                 }
             }
@@ -120,23 +122,29 @@ public class Map extends JPanel implements ActionListener {
         collectable.removeIf(f -> {
             if (Math.hypot(player.getX() - f.getX(), player.getY() - f.getY()) < 16) {
                 f.onCollected(player);
+                if (f instanceof Apple) {
+                    for (Ghost g : ghosts) {
+                        g.setFrightened(true, 300); // 300 frames = ~5 seconds
+                    }
+                }
                 return true;
             }
             return false;
         });
-        //durian
-        ghosts.removeIf(g -> {
-            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
-                return player.hasThorns();
-            }
-            return false;
-        });
+        
         // PacMan collision with ghosts
         for (Ghost g : ghosts) {
-            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
-                if (!player.hasThorns()) {
+            double distance = Math.hypot(player.getX() - g.getX(), player.getY() - g.getY());
+            if (distance < 16) {
+                if (player.hasThorns() || (player.hasPowerup() && g.getIsFrighted())) {
+                    // Pac-Man eats ghost
+                    player.addScore(200);
+                    g.respawnAtRandomLocation(grid);
+                    g.setFrightened(false, 0);
+                } else if (!player.hasThorns() && !g.getIsFrighted()) {
+                    // Ghost eats Pac-Man
                     player.loseLife();
-                    player.setPosition(32, 32); // reset to start
+                    player.setPosition(32, 32);
                     if (player.getLives() <= 0) {
                         timer.stop();
                     }
@@ -149,6 +157,7 @@ public class Map extends JPanel implements ActionListener {
         if (grid.length == 0 || grid[0].length == 0) {
             return;
         }
+        // Spawn light points
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 if (grid[r][c] == 0) {
@@ -156,21 +165,27 @@ public class Map extends JPanel implements ActionListener {
                 }
             }
         }
+        // Spawn fruits randomly
         java.util.Random rand = new java.util.Random();
-        int numberOfFruits = 7; 
+        int numberOfFruits = 8; 
         for (int i = 0; i < numberOfFruits; i++) {
             boolean fruitPlaced = false;
-            while (!fruitPlaced) {
+            int attempts = 0;
+            while (!fruitPlaced && attempts < 50) {
                 int randomR = rand.nextInt(grid.length);
                 int randomC = rand.nextInt(grid[0].length);
                 if (grid[randomR][randomC] == 0) {
-                    int fruitType = rand.nextInt(3); 
-                    switch (fruitType) {
-                        case 0 -> collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
-                        //tạo class fruit mới rồi thêm case vô đây copy y chang durian là đc
+                    int fruitType = rand.nextInt(2); // 0 = Durian, 1 = Apple
+                    if (fruitType == 0) {
+                        collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
+                    } else {
+                        collectable.add(new Apple(randomC * 32, randomR * 32, "Apple"));
+                    }
+                    fruitPlaced = true;
                 }
-                fruitPlaced = true;
-        }}}}
+                attempts++;
+            }}
+        }
     public Boolean checkWin() {
         return collectable.isEmpty();
     }
