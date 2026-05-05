@@ -61,49 +61,56 @@ public class PacMan {
                 return 0;
         }
     }
- public void move(Map map){ 
-    //Kiwi
-   if (isDisguised) {
-        if (System.currentTimeMillis() > disguiseEndTime) {
-            isDisguised = false;
+    public void move(Map map) {
+        // 1. Kiểm tra thời gian hiệu lực của cải trang (Kiwi)
+        if (isDisguised) {
+            if (System.currentTimeMillis() > disguiseEndTime) {
+                isDisguised = false;
+            }
         }
-
-            if (x % 32 == 0 && y % 32 == 0) {
+    
+        // 2. Chỉ thay đổi hướng hoặc xử lý di chuyển khi PacMan nằm gọn trong 1 ô (ô 32x32)
+        if (x % 32 == 0 && y % 32 == 0) {
+            // Quay đầu 180 độ ngay lập tức
             if (nextDirection == (direction + 2) % 4) {
                 direction = nextDirection;
-            } else if (x % 32 == 0 && y % 32 == 0) {
+            } else {
+                // Kiểm tra xem hướng mới (nextDirection) có đi được không
                 int ndx = getDx(nextDirection);
                 int ndy = getDy(nextDirection);
-                
                 if (!map.isWall(x + ndx * speed, y + ndy * speed)) {
                     direction = nextDirection;
                 }
             }
-            int dx = getDx(direction);
-            int dy = getDy(direction);
-            if (!map.isWall(x + dx * speed, y + dy * speed)) {
-                 x += dx * speed;
-                 y += dy * speed;
-                 moving = true;
-                 wasStuck = false;
-            } else {
-                 moving = false;
-                 if (!wasStuck) {
-                     if (dx != 0) {
-                         int remainder = x % 32;
-                         if (remainder > 16) x = x + (32 - remainder);
-                         else if (remainder > 0) x = x - remainder;
-                     }
-                     if (dy != 0) {
-                         int remainder = y % 32;
-                         if (remainder > 16) y = y + (32 - remainder);
-                         else if (remainder > 0) y = y - remainder;
-                     }
-                     wasStuck = true;
-                 }
+        }
+    
+        // 3. Thực hiện di chuyển theo hướng hiện tại
+        int dx = getDx(direction);
+        int dy = getDy(direction);
+    
+        if (!map.isWall(x + dx * speed, y + dy * speed)) {
+            x += dx * speed;
+            y += dy * speed;
+            moving = true;
+            wasStuck = false;
+        } else {
+            // Xử lý khi đâm vào tường (Alignment - căn chỉnh vào ô)
+            moving = false;
+            if (!wasStuck) {
+                if (dx != 0) {
+                    int remainder = x % 32;
+                    if (remainder > 16) x = x + (32 - remainder);
+                    else if (remainder > 0) x = x - remainder;
+                }
+                if (dy != 0) {
+                    int remainder = y % 32;
+                    if (remainder > 16) y = y + (32 - remainder);
+                    else if (remainder > 0) y = y - remainder;
+                }
+                wasStuck = true;
             }
         }
-        
+    } 
     public void updateAnimation() {
         if (moving) {
             animTick++;
@@ -111,7 +118,8 @@ public class PacMan {
                 animTick = 0;
                 animIndex = (animIndex + 1) % 3;
             }
-        } else {
+        } 
+        else {
             animTick = 0;
             animIndex = 0;
         }

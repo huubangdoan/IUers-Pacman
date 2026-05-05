@@ -42,7 +42,7 @@ public class Map extends JPanel implements ActionListener {
         player = new PacMan(32, 32, 2);
         collectable = new ArrayList<>();
         ghosts = new ArrayList<>();
-        File assetsBaseFile = new File(System.getProperty("user.dir"), "assets/Default Skin");
+        File assetsBaseFile = new File(System.getProperty("user.dir"), "src/assets/Default Skin");
         pacmanRightImgs = new Image[3];
         pacmanLeftImgs = new Image[3];
         pacmanUpImgs = new Image[3];
@@ -53,15 +53,15 @@ public class Map extends JPanel implements ActionListener {
             pacmanUpImgs[i] = new ImageIcon(new File(new File(assetsBaseFile, "pacman-up"), (i + 1) + ".png").getAbsolutePath()).getImage();
             pacmanDownImgs[i] = new ImageIcon(new File(new File(assetsBaseFile, "pacman-down"), (i + 1) + ".png").getAbsolutePath()).getImage();
         }
-        ghostImg = new ImageIcon("assets/Default Skin/ghosts/blue_ghost.png").getImage();
-        blinkyImg = new ImageIcon("assets/Default Skin/ghosts/blinky.png").getImage();
-        pinkyImg = new ImageIcon("assets/Default Skin/ghosts/pinky.png").getImage();
-        inkyImg = new ImageIcon("assets/Default Skin/ghosts/inky.png").getImage();
-        clydeImg = new ImageIcon("assets/Default Skin/ghosts/clyde.png").getImage();
+        ghostImg = new ImageIcon("src/assets/Default Skin/ghosts/blue_ghost.png").getImage();
+        blinkyImg = new ImageIcon("src/assets/Default Skin/ghosts/blinky.png").getImage();
+        pinkyImg = new ImageIcon("src/assets/Default Skin/ghosts/pinky.png").getImage();
+        inkyImg = new ImageIcon("src/assets/Default Skin/ghosts/inky.png").getImage();
+        clydeImg = new ImageIcon("src/assets/Default Skin/ghosts/clyde.png").getImage();
         frightenedImg = ghostImg; // blue_ghost.png
-        dotImg = new ImageIcon("assets/Default Skin/other/dot.png").getImage();
-        appleImg = new ImageIcon("assets/Default Skin/other/apple.png").getImage();
-        durianImg = new ImageIcon("assets/New Fruit/Durian.png").getImage();
+        dotImg = new ImageIcon("src/assets/Default Skin/other/dot.png").getImage();
+        appleImg = new ImageIcon("src/assets/Default Skin/other/apple.png").getImage();
+        durianImg = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
         ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
@@ -187,9 +187,9 @@ public class Map extends JPanel implements ActionListener {
                     int fruitType = rand.nextInt(3); 
                     switch (fruitType) {
                         case 0 -> collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
-                        case 1 -> collectable.add(new Kiwi(randomC * 32, randomR * 32, "Kiwi"));
+                        case 1 -> collectable.add(new Apple(randomC * 32, randomR * 32, "Apple"));}
                         //tạo class fruit mới rồi thêm case vô đây copy y chang durian là đc
-                    int fruitType = rand.nextInt(2); // 0 = Durian, 1 = Apple
+                    fruitType = rand.nextInt(2); // 0 = Durian, 1 = Apple
                     if (fruitType == 0) {
                         collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
                     } else {
