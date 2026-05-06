@@ -3,7 +3,8 @@ public class Ghost extends MoveSystem{
     private String ghostType;
     private boolean isFrighted = false; //con ma có trong trạng thái có thể ăn được hay không
     private int frightenedDuration = 0;
-   
+    private boolean eaten = false;
+
     
     public Ghost(int x, int y, int speed, String ghostType){
         super(x,y, speed);
@@ -49,7 +50,7 @@ public class Ghost extends MoveSystem{
                     else if (remainder > 0) y = y - remainder;
                 }
                 generateRandomDirection(map);
-            }}
+            }
         }
     public void generateRandomDirection(Map map){
         int[] directions = {-1, 0, 1}; 
@@ -120,5 +121,16 @@ public boolean isFrozen() {
                 positioned = true;
             }
         }
+    }
+
+
+    // Kiểm tra xem quả ớt đã bị ăn chưa
+    public boolean isEaten() {
+        return eaten;
+    }
+
+    // Thiết lập trạng thái khi Pac-Man chạm vào
+    public void setEaten(boolean eaten) {
+        this.eaten = eaten;
     }
 }

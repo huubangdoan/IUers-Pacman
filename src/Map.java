@@ -13,9 +13,9 @@ public class Map extends JPanel implements ActionListener {
     private Image lightPointImg, wallImg;
     private Image[] pacmanRightImgs, pacmanLeftImgs, pacmanUpImgs, pacmanDownImgs;
     private Image ghostImg, dotImg;
-    private Image appleImg, durianImg, watermelonImg;
+    private Image appleImg, durianImg,watermelonImg, chilliImg;
     private Image blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
-
+    private List<Seed> activeSeeds = new ArrayList<>();
     public Map() {
         grid = new short[][] {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -64,6 +64,8 @@ public class Map extends JPanel implements ActionListener {
         appleImg = new ImageIcon("src/assets/Default Skin/other/apple.png").getImage();
         durianImg = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
         watermelonImg = new ImageIcon("src/assets/New Fruit/Watermelon.png").getImage();
+        chilliImg = new ImageIcon("src/assets/New Fruit/Chilli.png").getImage();
+
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
         ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
@@ -147,6 +149,26 @@ public class Map extends JPanel implements ActionListener {
             
         }
     }
+     // Chilli
+for (Ghost g : ghosts) {
+    // Kiểm tra va chạm giữa Pac-Man và quả ớt (khoảng cách < 16 pixel)
+    if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
+        if (!player.isEaten()) {
+            System.out.println("Pac-Man đã ăn ớt! Tăng tốc cực nhanh!");
+            
+            // Thiết lập trạng thái tăng tốc cho player
+            player.setSpeed(player.getSpeed() * 2); // Gấp đôi tốc độ hiện tại
+            
+            // Đánh dấu quả ớt đã bị ăn để biến mất khỏi bản đồ
+            g.setEaten(true); 
+            
+            // (Tùy chọn) Thêm logic để reset tốc độ sau một khoảng thời gian
+            // timer.start(); 
+        }
+    }
+}
+
+
         //durian
         ghosts.removeIf(g -> {
             if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
