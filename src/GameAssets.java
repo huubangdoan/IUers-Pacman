@@ -30,7 +30,7 @@ public class GameAssets {
         appleImg = new ImageIcon(path + "/other/apple.png").getImage();
         durianImg = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
         watermelonImg = new ImageIcon("src/assets/New Fruit/watermelon.png").getImage();
-        chilliImg = new ImageIcon("src/assets/New Fruit/Chilli.png").getImage();
+        chilliImg = new ImageIcon("src/assets/New Fruit/chilli.png").getImage();
         kiwiImg = new ImageIcon("src/assets/New Fruit/Kiwi.png").getImage();
         dragonFruitImg = new ImageIcon("src/assets/New Fruit/DragonFruit.png").getImage();
     }
