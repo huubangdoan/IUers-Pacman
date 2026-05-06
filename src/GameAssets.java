@@ -1,6 +1,6 @@
-import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import javax.swing.*;
 
 public class GameAssets {
     public Image dotImg, appleImg, durianImg, watermelonImg, chilliImg, kiwiImg, dragonFruitImg;
@@ -29,7 +29,7 @@ public class GameAssets {
         dotImg = new ImageIcon(path + "/other/dot.png").getImage();
         appleImg = new ImageIcon(path + "/other/apple.png").getImage();
         durianImg = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
-        watermelonImg = new ImageIcon("src/assets/New Fruit/Watermelon.png").getImage();
+        watermelonImg = new ImageIcon("src/assets/New Fruit/watermelon.png").getImage();
         chilliImg = new ImageIcon("src/assets/New Fruit/Chilli.png").getImage();
         kiwiImg = new ImageIcon("src/assets/New Fruit/Kiwi.png").getImage();
         dragonFruitImg = new ImageIcon("src/assets/New Fruit/DragonFruit.png").getImage();

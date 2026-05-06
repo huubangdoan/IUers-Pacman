@@ -165,12 +165,13 @@ public class Map extends JPanel implements ActionListener {
             int randomR = rand.nextInt(grid.length);
             int randomC = rand.nextInt(grid[0].length);
             if (grid[randomR][randomC] == 0) {
-                int type = rand.nextInt(4);
+                int type = rand.nextInt(6);
                 if (type == 0) collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
                 else if (type == 1) collectable.add(new Apple(randomC * 32, randomR * 32, "Apple"));
                 else if (type == 2) collectable.add(new Kiwi(randomC * 32, randomR * 32, "Kiwi"));
                 else if (type == 3) collectable.add(new DragonFruit(randomC * 32, randomR * 32, "Dragon Fruit"));
-                else collectable.add(new Watermelon(randomC * 32, randomR * 32, "Watermelon"));
+                else if (type == 4) collectable.add(new Watermelon(randomC * 32, randomR * 32, "Watermelon"));
+                else collectable.add(new Chilli(randomC * 32, randomR * 32, "Chilli"));
                 fruitPlaced = true;
             }
         }
