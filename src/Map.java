@@ -223,7 +223,8 @@ for (Ghost g : ghosts) {
                     int fruitType = rand.nextInt(3); 
                     switch (fruitType) {
                         case 0 -> collectable.add(new Durian(randomC * 32, randomR * 32, "Durian"));
-                        case 1 -> collectable.add(new Apple(randomC * 32, randomR * 32, "Apple"));}
+                        case 1 -> collectable.add(new Apple(randomC * 32, randomR * 32, "Apple"));
+                        case 2 -> collectable.add(new Watermelon(randomC * 32, randomR * 32, "Apple"));}
                         //tạo class fruit mới rồi thêm case vô đây copy y chang durian là đc
                     fruitType = rand.nextInt(2); // 0 = Durian, 1 = Apple
                     if (fruitType == 0) {
@@ -283,6 +284,12 @@ for (Ghost g : ghosts) {
                     g2d.setColor(Color.green);
                     g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);
                 }
+             if (f instanceof Watermelon) {
+                if (durianImg != null) {
+                    g2d.drawImage(watermelonImg, f.getX(), f.getY(), 32, 32, this);
+                } else {
+                    g2d.setColor(Color.green);
+                    g2d.fillOval(f.getX() + 8, f.getY() + 8, 16, 16);  
             }
         }
 
@@ -321,7 +328,7 @@ for (Ghost g : ghosts) {
         g2d.setColor(Color.WHITE);
         g2d.drawString("Score: " + player.getScore(), 10, 20);
         g2d.drawString("Lives: " + player.getLives(), 10, 40);
-    }
+    
     public PacMan getPlayer() {return player;}
     public void setPlayer(PacMan player) {this.player = player;}
     public short[][] getGrid() {return grid;}
