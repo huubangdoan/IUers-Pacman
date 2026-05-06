@@ -49,7 +49,7 @@ public class Ghost extends MoveSystem{
                     else if (remainder > 0) y = y - remainder;
                 }
                 generateRandomDirection(map);
-            }
+            }}
         }
     public void generateRandomDirection(Map map){
         int[] directions = {-1, 0, 1}; 

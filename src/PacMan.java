@@ -18,8 +18,7 @@ public class PacMan {
     private final int SIZE = 28;
     private boolean isDisguised = false;
     private long disguiseEndTime = 0;
-    private boolean canShoot = false;
-    private int seedAmmo = 0;
+    
     
     
     private final int TILE_SIZE = 32;

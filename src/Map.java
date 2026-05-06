@@ -13,9 +13,9 @@ public class Map extends JPanel implements ActionListener {
     private Image lightPointImg, wallImg;
     private Image[] pacmanRightImgs, pacmanLeftImgs, pacmanUpImgs, pacmanDownImgs;
     private Image ghostImg, dotImg;
-    private Image appleImg, durianImg;
+    private Image appleImg, durianImg, watermelonImg;
     private Image blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
-    private List<Seed> activeSeeds = new ArrayList<>();
+
     public Map() {
         grid = new short[][] {
             {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
@@ -63,7 +63,7 @@ public class Map extends JPanel implements ActionListener {
         dotImg = new ImageIcon("src/assets/Default Skin/other/dot.png").getImage();
         appleImg = new ImageIcon("src/assets/Default Skin/other/apple.png").getImage();
         durianImg = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
-        watermelon = new ImageIcon("src/assets/New Fruit/Watermelon.png").getImage();
+        watermelonImg = new ImageIcon("src/assets/New Fruit/Watermelon.png").getImage();
         ghosts.add(new Ghost(32 * 10, 32 * 10, 2, "blinky"));
         ghosts.add(new Ghost(32 * 12, 32 * 12, 2, "pinky"));
         ghosts.add(new Ghost(32 * 19, 32 * 1, 2, "inky"));
