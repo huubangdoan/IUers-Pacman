@@ -177,7 +177,7 @@ public boolean hasWatermelon() {
 //kiwi
     public void activateKiwiDisguise(){
         this.isDisguised = true;
-        this.disguiseEndTime = System.currentTimeMillis() + 15000;
+        this.disguiseEndTime = System.currentTimeMillis() + 180;
     }
     public boolean isDisguised(){
         return this.isDisguised;
