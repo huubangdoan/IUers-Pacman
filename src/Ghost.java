@@ -14,66 +14,83 @@ public class Ghost extends MoveSystem{
     }
     @Override
     public void move(Map map){
-            if (x % 32 == 0 && y % 32 == 0) {
-                if (isFrozen) {
-        freezeTimer--;
+        if (isFrozen) {
+            freezeTimer--;
         if (freezeTimer <= 0) {
             isFrozen = false;
         }
-        return; 
-    }
-
-
+        return; }
+    PacMan player = map.getPlayer();
     if (x % 32 == 0 && y % 32 == 0) {
-                if (map.isWall(x + dx * 32, y + dy * 32)) {
-                    generateRandomDirection(map);
-                } else {
-                    if (new Random().nextInt(100) < 5) { 
-                        generateRandomDirection(map);
-                    }
-                }
+        calculateBestDirection(map, player);
             }
-            // Try to move in current direction
             if (!map.isWall(x + dx * speed, y + dy * speed)) {
                 x += dx * speed;
                 y += dy * speed;
             } else {
-                // Stuck: snap to grid and try new direction
-                if (dx != 0) {
-                    int remainder = x % 32;
-                    if (remainder > 16) x = x + (32 - remainder);
-                    else if (remainder > 0) x = x - remainder;
-                }
-                if (dy != 0) {
-                    int remainder = y % 32;
-                    if (remainder > 16) y = y + (32 - remainder);
-                    else if (remainder > 0) y = y - remainder;
-                }
-                generateRandomDirection(map);
+                calculateBestDirection(map, player);
             }
         }
-    public void generateRandomDirection(Map map){
-        int[] directions = {-1, 0, 1}; 
-        java.util.Random rand = new java.util.Random();
-        int attempts = 0;
-        while (attempts < 10) {
-            int newDx = directions[rand.nextInt(3)]; 
-            int newDy = (newDx == 0) ? directions[rand.nextInt(3)] : 0; 
-            if ((newDx != 0 || newDy != 0) && !map.isWall(x + newDx * speed, y + newDy * speed)) {
-                this.dx = newDx;
-                this.dy = newDy;
+        private void calculateBestDirection(Map map, PacMan player) {
+            int[] dirsX = {0, 0, -1, 1}; // Lên, Xuống, Trái, Phải
+            int[] dirsY = {-1, 1, 0, 0};
+            
+            double minDistance = Double.MAX_VALUE;
+            int bestDx = dx;
+            int bestDy = dy;
+            
+            java.util.List<Integer> validDirs = new java.util.ArrayList<>();
+        
+            // Tìm các hướng không phải là tường và không phải hướng ngược lại
+            for (int i = 0; i < 4; i++) {
+                int nextX = x + dirsX[i] * 32;
+                int nextY = y + dirsY[i] * 32;
+        
+                if (!map.isWall(nextX, nextY)) {
+                    // Cản Ma quay đầu 180 độ trừ khi vào đường cụt
+                    if (!(dirsX[i] == -dx && dirsY[i] == -dy)) {
+                        validDirs.add(i);
+                    }
+                }
+            }
+        
+            if (validDirs.isEmpty()) {
+                this.dx = -dx;
+                this.dy = -dy;
                 return;
             }
-            attempts++;
+        
+            java.util.Random rand = new java.util.Random();
+            // 60% Ma sẽ đi thông minh hướng về Pacman
+            boolean beSmart = rand.nextInt(100) < 30;
+            
+            if (beSmart && !isFrighted) {
+                for (int dirIdx : validDirs) {
+                    // Tính khoảng cách từ ô tiếp theo tới Pacman
+                    double dist = Math.hypot(
+                        (x + dirsX[dirIdx] * 32) - player.getX(),
+                        (y + dirsY[dirIdx] * 32) - player.getY()
+                    );
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                        bestDx = dirsX[dirIdx];
+                        bestDy = dirsY[dirIdx];
+                    }
+                }
+            } else {
+                // 70% còn lại cho Ma đi ngẫu nhiên để game không quá khó
+                int randomIdx = validDirs.get(rand.nextInt(validDirs.size()));
+                bestDx = dirsX[randomIdx];
+                bestDy = dirsY[randomIdx];
+            }
+        
+            this.dx = bestDx;
+            this.dy = bestDy;
         }
-        // If no valid direction found, reverse direction
-        this.dx = -this.dx;
-        this.dy = -this.dy;
-    }
+
     public String getGhostType(){return ghostType;}
-    
     public Boolean getIsFrighted(){return isFrighted;}
-    
+
     public void setFrightened(boolean frightened, int duration) {
         this.isFrighted = frightened;
         this.frightenedDuration = duration;
@@ -94,18 +111,15 @@ public class Ghost extends MoveSystem{
     }
     
     private boolean isFrozen = false;
-private int freezeTimer = 0;
-
-public void setFrozen(boolean status, int duration) {
+    private int freezeTimer = 0;
+    public void setFrozen(boolean status, int duration) {
     this.isFrozen = status;
     this.freezeTimer = duration;if (status) {
-        System.out.println("Ma đã bị đóng băng!");
+        }
     }
 
-}
-
-public boolean isFrozen() {
-    return isFrozen;
+    public boolean isFrozen() {
+        return isFrozen;
 }
     public void respawnAtRandomLocation(short[][] grid) {
         java.util.Random rand = new java.util.Random();

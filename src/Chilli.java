@@ -5,8 +5,8 @@ public class Chilli extends Fruit{
     
     @Override
     public void onCollected(PacMan player){
-                player.setChilliMode(true);
-                player.addScore(50);
-                player.activateChilliPower(5000);
+        //player.setChilliMode(true);
+        player.addScore(50);
+        //player.activateChilliPower(5000);
             }
         }
