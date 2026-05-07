@@ -226,6 +226,8 @@ public boolean hasWatermelon() {
             }
         }
     }
+    
+    //DragonFruit
     public void setDragonMode(boolean value){
         this.dragonMode = value;
     }

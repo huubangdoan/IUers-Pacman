@@ -149,6 +149,16 @@ public class Map extends JPanel implements ActionListener {
             }
         }
         //Dragon Fruit
+        for (Ghost g: ghosts) {
+            if (Math.hypot(player.getX()- g.getX(), player.getY() - g.getY()) <16 ) {
+                if(player.isDragonMode()) {
+                    g.knockbackFrom(player);
+                    g.stun(60); // stun 1s
+                    player.setDragonMode(false);
+                    break;
+                }
+            }
+        }
     }
     public void spawnRandomEvent() {
         for (int r = 0; r < grid.length; r++) {

@@ -4,14 +4,14 @@ public class Ghost extends MoveSystem{
     private boolean isFrighted = false; //con ma có trong trạng thái có thể ăn được hay không
     private int frightenedDuration = 0;
     private boolean eaten = false;
-
-    
+   
     public Ghost(int x, int y, int speed, String ghostType){
         super(x,y, speed);
         this.ghostType=ghostType;
         this.dx = 1;
         this.dy = 0;
     }
+
     @Override
     public void move(Map map){
         if (isFrozen) {
@@ -20,6 +20,14 @@ public class Ghost extends MoveSystem{
             isFrozen = false;
         }
         return; }
+
+        if (stunned) {
+            stunTimer--;
+            if(stunTimer <= 0) {
+                stunned = false;
+            }
+            return; }
+        }
     PacMan player = map.getPlayer();
     if (x % 32 == 0 && y % 32 == 0) {
         calculateBestDirection(map, player);
@@ -121,6 +129,28 @@ public class Ghost extends MoveSystem{
     public boolean isFrozen() {
         return isFrozen;
 }
+    private boolean stunned = false;
+    private int stunTimer = 0;
+    public void setStunned(boolean status, int duration) {
+        this.isStunned = status;
+        this.stunTimer = duration;
+    }
+
+    public void knockbackFrom(Pacman player) {
+        int pushDistance = 32;
+        if (x < player.getX()) {
+            x -= pushDistance;
+        } else {
+            x += pushDistance;
+        }
+        if (y < player.getY()) {
+            y -= pushDistance;
+        } else {
+            y += pushDistance;
+        }
+    }
+
+
     public void respawnAtRandomLocation(short[][] grid) {
         java.util.Random rand = new java.util.Random();
         boolean positioned = false;
