@@ -3,7 +3,6 @@ public class Ghost extends MoveSystem{
     private String ghostType;
     private boolean isFrighted = false; //con ma có trong trạng thái có thể ăn được hay không
     private int frightenedDuration = 0;
-    private boolean eaten = false;
 
     
     public Ghost(int x, int y, int speed, String ghostType){
@@ -138,13 +137,5 @@ public class Ghost extends MoveSystem{
     }
 
 
-    // Kiểm tra xem quả ớt đã bị ăn chưa
-    public boolean isEaten() {
-        return eaten;
-    }
-
-    // Thiết lập trạng thái khi Pac-Man chạm vào
-    public void setEaten(boolean eaten) {
-        this.eaten = eaten;
-    }
+    
 }
