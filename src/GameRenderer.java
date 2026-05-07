@@ -109,6 +109,13 @@ public class GameRenderer {
             g2d.drawOval(px - 5, py - 5, 42, 42);
             drawSkillText(g2d, "THORNS ACTIVE", px, py - 20);
         }
+        // 2. Effect Thanh long (Dragonfruit)
+        if (player.isDragonMode()) {
+        g2d.setColor(new Color(255, 0, 255, 100)); // tím
+        g2d.setStroke(new BasicStroke(3));
+        g2d.drawOval(px - 8, py - 8, 48, 48);
+        drawSkillText(g2d, "DRAGON MODE", px, py - 35);
+        }
     }
 
     //vẽ chữ lên đầu con pacman
