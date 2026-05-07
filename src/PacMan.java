@@ -1,6 +1,6 @@
+import java.util.Timer;
 import java.util.TimerTask;
 
-import java.util.TimerTask;
 
 public class PacMan {
     private int x, y; 
