@@ -168,13 +168,5 @@ public class Ghost extends MoveSystem{
     }
 
 
-    // Kiểm tra xem quả ớt đã bị ăn chưa
-    public boolean isEaten() {
-        return eaten;
-    }
-
-    // Thiết lập trạng thái khi Pac-Man chạm vào
-    public void setEaten(boolean eaten) {
-        this.eaten = eaten;
-    }
+    
 }
