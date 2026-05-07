@@ -234,6 +234,7 @@ public boolean hasWatermelon() {
             }
         }
     }
+    
     public boolean getChilliMode(){
         return chilliMode;
     }
