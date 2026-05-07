@@ -44,6 +44,7 @@ public class GameRenderer {
             else if (f instanceof Watermelon) img = assets.watermelonImg;
             else if (f instanceof Kiwi) img = assets.kiwiImg;
             else if (f instanceof DragonFruit) img = assets.dragonFruitImg;
+            else if (f instanceof Chilli) img = assets.chilliImg;
             if (img != null) {
                 g2d.drawImage(img, f.getX(), f.getY(), 32, 32, null);
             }
