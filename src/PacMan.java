@@ -1,3 +1,7 @@
+import java.util.TimerTask;
+
+import java.util.TimerTask;
+
 public class PacMan {
     private int x, y; 
     private int direction = 1; //hướng hiện tại
@@ -17,9 +21,10 @@ public class PacMan {
     private final int SIZE = 28;
     private boolean isDisguised = false;
     private long disguiseEndTime = 0;
+    private boolean canShoot = false;
+    private int seedAmmo = 0;
+    private boolean chilliMode = false;
     private boolean eaten = false;
-    private int watermelonTimer = 0;
-    private int durianTimer = 0;
     
     private final int TILE_SIZE = 32;
 
@@ -28,32 +33,7 @@ public class PacMan {
         this.y = y;
         this.speed = speed;
     }
-    public void activateWatermelon(int duration) {
-        this.hasWatermelon = true;
-        this.watermelonTimer = duration;
-    }
-    
-    public void activateThorns(int duration) {
-        this.hasThorns = true;
-        this.durianTimer = duration;
-    }
-    public void updateSkills() {
-        if (watermelonTimer > 0) {
-            watermelonTimer--;
-            if (watermelonTimer <= 0) {
-                hasWatermelon = false;
-            }
-        }
-        if (durianTimer > 0) {
-            durianTimer--;
-            if (durianTimer <= 0) {
-                hasThorns = false;
-            }
-        }
-        updatePowerup(); 
-        updateDragon();
-    }
-    
+
     public int getX() {
         return x; 
     }
@@ -88,15 +68,20 @@ public class PacMan {
         }
     }
     public void move(Map map) {
+        // 1. Kiểm tra thời gian hiệu lực của cải trang (Kiwi)
         if (isDisguised) {
             if (System.currentTimeMillis() > disguiseEndTime) {
                 isDisguised = false;
             }
         }
+    
+        // 2. Chỉ thay đổi hướng hoặc xử lý di chuyển khi PacMan nằm gọn trong 1 ô (ô 32x32)
         if (x % 32 == 0 && y % 32 == 0) {
+            // Quay đầu 180 độ ngay lập tức
             if (nextDirection == (direction + 2) % 4) {
                 direction = nextDirection;
             } else {
+                // Kiểm tra xem hướng mới (nextDirection) có đi được không
                 int ndx = getDx(nextDirection);
                 int ndy = getDy(nextDirection);
                 if (!map.isWall(x + ndx * speed, y + ndy * speed)) {
@@ -104,6 +89,8 @@ public class PacMan {
                 }
             }
         }
+    
+        // 3. Thực hiện di chuyển theo hướng hiện tại
         int dx = getDx(direction);
         int dy = getDy(direction);
     
@@ -113,6 +100,7 @@ public class PacMan {
             moving = true;
             wasStuck = false;
         } else {
+            // Xử lý khi đâm vào tường (Alignment - căn chỉnh vào ô)
             moving = false;
             if (!wasStuck) {
                 if (dx != 0) {
@@ -162,7 +150,6 @@ public class PacMan {
     public void addScore(int point) {
         score += point;
     }
-
 //watermelon
     private boolean hasWatermelon = false;
 
@@ -177,7 +164,7 @@ public boolean hasWatermelon() {
 //kiwi
     public void activateKiwiDisguise(){
         this.isDisguised = true;
-        this.disguiseEndTime = System.currentTimeMillis() + 180;
+        this.disguiseEndTime = System.currentTimeMillis() + 15000;
     }
     public boolean isDisguised(){
         return this.isDisguised;
@@ -226,8 +213,6 @@ public boolean hasWatermelon() {
             }
         }
     }
-    
-    //DragonFruit
     public void setDragonMode(boolean value){
         this.dragonMode = value;
     }
@@ -249,7 +234,25 @@ public boolean hasWatermelon() {
             }
         }
     }
+    public boolean getChilliMode(){
+        return chilliMode;
+    }
     
+    public void setChilliMode(boolean chilliMode){
+        this.chilliMode = chilliMode;
+
+    }
+    public void activateChilliPower(long duration) {
+        this.setChilliMode(true);
+        System.out.println("Chilli Power Activated!");
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                setChilliMode(false);
+                System.out.println("Chilli Power Expired.");
+            }
+        }, duration);
+    }
     // Kiểm tra xem quả ớt đã bị ăn chưa
     public boolean isEaten() {
         return eaten;
@@ -259,5 +262,26 @@ public boolean hasWatermelon() {
     public void setEaten(boolean eaten) {
         this.eaten = eaten;
     }
+
+    // Lấy tốc độ hiện tại
+    public int getSpeed() {
+        return speed;
+    }
+
+    // Thay đổi tốc độ (dùng khi ăn ớt hoặc khi hết hiệu ứng)
+    public void setSpeed(int newSpeed) {
+        this.speed = newSpeed;
+    }
+
+    public void update() {
+        // x += speed; (tùy vào hướng di chuyển)
+    }
+
+
+
+    
+
+
+
 }
 
