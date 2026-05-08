@@ -119,9 +119,9 @@ public class Map extends JPanel implements ActionListener {
         //chili
         for (Ghost g : ghosts) {
             if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
-                if (!player.isEaten()) {
-                    //player.setSpeed(player.getSpeed() * 2);
-                    //coi lại dòng nay nha ko work
+                if (player.hasChilli()) {
+                    player.setSpeed(player.getSpeed() * 2);
+                    
             }
         }
     }
@@ -153,7 +153,7 @@ public class Map extends JPanel implements ActionListener {
             if (Math.hypot(player.getX()- g.getX(), player.getY() - g.getY()) <16 ) {
                 if(player.isDragonMode()) {
                     g.knockbackFrom(player);
-                    g.stun(60); // stun 1s
+                    g.setStunned(true, 60); // stun 1s
                     player.setDragonMode(false);
                     break;
                 }

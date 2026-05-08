@@ -4,7 +4,8 @@ public class Ghost extends MoveSystem{
     private boolean isFrighted = false; //con ma có trong trạng thái có thể ăn được hay không
     private int frightenedDuration = 0;
     private boolean eaten = false;
-   
+    private boolean stunned = false;
+    private int stunTimer = 0;
     public Ghost(int x, int y, int speed, String ghostType){
         super(x,y, speed);
         this.ghostType=ghostType;
@@ -26,7 +27,7 @@ public class Ghost extends MoveSystem{
             if(stunTimer <= 0) {
                 stunned = false;
             }
-            return; }
+            return; 
         }
     PacMan player = map.getPlayer();
     if (x % 32 == 0 && y % 32 == 0) {
@@ -39,7 +40,8 @@ public class Ghost extends MoveSystem{
                 calculateBestDirection(map, player);
             }
         }
-        private void calculateBestDirection(Map map, PacMan player) {
+
+    private void calculateBestDirection(Map map, PacMan player) {
             int[] dirsX = {0, 0, -1, 1}; // Lên, Xuống, Trái, Phải
             int[] dirsY = {-1, 1, 0, 0};
             
@@ -129,14 +131,12 @@ public class Ghost extends MoveSystem{
     public boolean isFrozen() {
         return isFrozen;
 }
-    private boolean stunned = false;
-    private int stunTimer = 0;
     public void setStunned(boolean status, int duration) {
-        this.isStunned = status;
+        this.stunned = status;
         this.stunTimer = duration;
     }
 
-    public void knockbackFrom(Pacman player) {
+    public void knockbackFrom(PacMan player) {
         int pushDistance = 32;
         if (x < player.getX()) {
             x -= pushDistance;

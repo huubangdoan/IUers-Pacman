@@ -24,8 +24,7 @@ public class PacMan {
     private boolean canShoot = false;
     private int seedAmmo = 0;
     private boolean chilliMode = false;
-    private boolean eaten = false;
-    
+    private boolean hasChilli = false;
     private final int TILE_SIZE = 32;
 
     public PacMan(int x, int y, int speed) {
@@ -244,25 +243,17 @@ public boolean hasWatermelon() {
     }
     public void activateChilliPower(long duration) {
         this.setChilliMode(true);
-        System.out.println("Chilli Power Activated!");
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
                 setChilliMode(false);
-                System.out.println("Chilli Power Expired.");
+
             }
         }, duration);
     }
-    // Kiểm tra xem quả ớt đã bị ăn chưa
-    public boolean isEaten() {
-        return eaten;
+    public boolean hasChilli() {
+        return hasChilli;
     }
-
-    // Thiết lập trạng thái khi Pac-Man chạm vào
-    public void setEaten(boolean eaten) {
-        this.eaten = eaten;
-    }
-
     // Lấy tốc độ hiện tại
     public int getSpeed() {
         return speed;

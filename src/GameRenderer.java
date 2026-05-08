@@ -44,6 +44,7 @@ public class GameRenderer {
             else if (f instanceof Watermelon) img = assets.watermelonImg;
             else if (f instanceof Kiwi) img = assets.kiwiImg;
             else if (f instanceof DragonFruit) img = assets.dragonFruitImg;
+            else if (f instanceof Chilli) img = assets.chilliImg;
             if (img != null) {
                 g2d.drawImage(img, f.getX(), f.getY(), 32, 32, null);
             }
@@ -107,6 +108,12 @@ public class GameRenderer {
             g2d.setStroke(new BasicStroke(2, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND, 0, new float[]{5}, 0));
             g2d.drawOval(px - 5, py - 5, 42, 42);
             drawSkillText(g2d, "THORNS ACTIVE", px, py - 20);
+        }
+        if (player.isDragonMode()) {
+            g2d.setColor(new Color(255, 0, 255, 100)); // tím
+            g2d.setStroke(new BasicStroke(3));
+            g2d.drawOval(px - 8, py - 8, 48, 48);
+            drawSkillText(g2d, "DRAGON MODE", px, py - 35);
         }
     }
 
