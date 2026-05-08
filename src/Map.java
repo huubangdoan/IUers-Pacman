@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
@@ -40,7 +39,7 @@ public class Map extends JPanel implements ActionListener {
         };
         player = new PacMan(32, 32, 2);
         collectable = new ArrayList<>();
-        ghosts = new ArrayList<>();                                                                                                         
+        ghosts = new ArrayList<>();                                                                                                             
 
         File assetsBaseFile = new File(System.getProperty("user.dir"), "assets/Default Skin");
         if (!assetsBaseFile.exists()) {
