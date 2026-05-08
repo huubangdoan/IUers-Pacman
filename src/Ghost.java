@@ -19,15 +19,17 @@ public class Ghost extends MoveSystem{
         if (freezeTimer <= 0) {
             isFrozen = false;
         }
-        return; }
+        return; 
+        }
 
         if (stunned) {
             stunTimer--;
             if(stunTimer <= 0) {
                 stunned = false;
             }
-            return; }
+            return; 
         }
+        
     PacMan player = map.getPlayer();
     if (x % 32 == 0 && y % 32 == 0) {
         calculateBestDirection(map, player);
@@ -131,12 +133,20 @@ public class Ghost extends MoveSystem{
 }
     private boolean stunned = false;
     private int stunTimer = 0;
+
     public void setStunned(boolean status, int duration) {
-        this.isStunned = status;
+        this.stunned = status;
         this.stunTimer = duration;
     }
+    public void stun(int duration) {
+        this.stunned = true;
+        this.stunTimer = duration;
+    }
+    public boolean isStunned() {
+        return stunned;
+    }
 
-    public void knockbackFrom(Pacman player) {
+    public void knockbackFrom(PacMan player) {
         int pushDistance = 32;
         if (x < player.getX()) {
             x -= pushDistance;
@@ -166,7 +176,7 @@ public class Ghost extends MoveSystem{
             }
         }
     }
+}
 
 
     
-}
