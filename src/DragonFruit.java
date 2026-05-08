@@ -6,6 +6,6 @@ public class DragonFruit extends Fruit{
     public void onCollected (PacMan player){
     player.addScore(200);
     player.setDragonMode(true);
-    player.setDragonTimer(300); //tgian hiệu lực là 5s
+    player.setDragonTimer(300);
     }
 }

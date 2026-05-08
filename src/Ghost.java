@@ -1,11 +1,11 @@
-import java.util.Random;
 public class Ghost extends MoveSystem{
     private String ghostType;
     private boolean isFrighted = false; //con ma có trong trạng thái có thể ăn được hay không
     private int frightenedDuration = 0;
-    private boolean eaten = false;
     private boolean stunned = false;
     private int stunTimer = 0;
+    private boolean isFrozen = false;
+    private int freezeTimer = 0;
     public Ghost(int x, int y, int speed, String ghostType){
         super(x,y, speed);
         this.ghostType=ghostType;
@@ -20,8 +20,8 @@ public class Ghost extends MoveSystem{
         if (freezeTimer <= 0) {
             isFrozen = false;
         }
-        return; }
-
+        return; 
+    }
         if (stunned) {
             stunTimer--;
             if(stunTimer <= 0) {
@@ -119,13 +119,10 @@ public class Ghost extends MoveSystem{
     public int getFrightenedDuration() {
         return frightenedDuration;
     }
-    
-    private boolean isFrozen = false;
-    private int freezeTimer = 0;
+
     public void setFrozen(boolean status, int duration) {
     this.isFrozen = status;
-    this.freezeTimer = duration;if (status) {
-        }
+    this.freezeTimer = duration;
     }
 
     public boolean isFrozen() {
@@ -138,18 +135,17 @@ public class Ghost extends MoveSystem{
 
     public void knockbackFrom(PacMan player) {
         int pushDistance = 32;
-        if (x < player.getX()) {
-            x -= pushDistance;
-        } else {
-            x += pushDistance;
-        }
-        if (y < player.getY()) {
-            y -= pushDistance;
-        } else {
-            y += pushDistance;
-        }
-    }
-
+                    if (x < player.getX()) {
+                        x -= pushDistance;
+                    } else {
+                        x += pushDistance;
+                    }
+                    if (y < player.getY()) {
+                        y -= pushDistance;
+                    } else {
+                        y += pushDistance;
+                    }
+                }
 
     public void respawnAtRandomLocation(short[][] grid) {
         java.util.Random rand = new java.util.Random();
@@ -166,7 +162,7 @@ public class Ghost extends MoveSystem{
             }
         }
     }
-
+    public int getSpeed(){return speed;}
 
     
 }

@@ -5,7 +5,7 @@ public class Watermelon extends Fruit{
     
     @Override
     public void onCollected(PacMan player){
-               player.setHasWatermelon(true); 
-    this.hide(); 
-    System.out.println("Pac-Man đã có sức mạnh Dưa hấu!");
-}}
+        player.setHasWatermelon(true); 
+        this.hide(); 
+    }
+}

@@ -79,7 +79,11 @@ public class GameRenderer {
             case 0 -> assets.pacmanUp;
             default -> assets.pacmanRight;
         };
-        g2d.drawImage(frames[player.getAnimIndex()], player.getX(), player.getY(), 32, 32, null);
+        if (player.isDisguised()){
+            g2d.drawImage(assets.frightenedImg, player.getX(), player.getY(), 32, 32, null);
+        }else{
+            g2d.drawImage(frames[player.getAnimIndex()], player.getX(), player.getY(), 32, 32, null);
+        }
     }
 
     private void drawUI(Graphics2D g2d, Map map) {

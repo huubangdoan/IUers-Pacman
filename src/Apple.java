@@ -4,7 +4,7 @@ public class Apple extends Fruit{
     }
     @Override
     public void onCollected(PacMan player){
-        player.activatePowerup(300); // 300 frames = ~5 seconds at 60 fps
+        player.activatePowerup(300); 
         player.addScore(200);
     }
 }

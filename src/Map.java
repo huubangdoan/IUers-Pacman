@@ -13,10 +13,7 @@ public class Map extends JPanel implements ActionListener {
     private GameRenderer renderer;
     public static final int FRUIT_DURATION = 300;
     private long startTime;
-    private int currentElapsedSeconds = 0;
     private ScoreManager scoreManager;
-    private boolean isGameOverProcessed = false;
-
     public Map() {
         this.scoreManager = new ScoreManager();
         this.grid = MapData.GRID;
@@ -49,6 +46,7 @@ public class Map extends JPanel implements ActionListener {
         player.move(this);
         player.updateAnimation();
         player.updatePowerup();
+        player.updateDragon(); 
         for (Ghost g : ghosts) {
             g.move(this);
             g.updateFrightened();
@@ -85,12 +83,21 @@ public class Map extends JPanel implements ActionListener {
 
     private void checkEntityCollisions() {
         boolean[] fruitEaten = {false};
+
         collectable.removeIf(f -> {
             if (Math.hypot(player.getX() - f.getX(), player.getY() - f.getY()) < 16) {
                 f.onCollected(player);
                 //apple
                 if (f instanceof Apple) {
-                    for (Ghost g : ghosts) g.setFrightened(true, 300);
+                    for (Ghost g : ghosts){ 
+                        g.setFrightened(true, 300);
+                    }
+                }
+                if (f instanceof Chilli) {
+                    player.activateChilliPower(9000);
+                }
+                if (f instanceof Kiwi) {
+                    player.activateKiwiDisguise();
                 }
                 if (!(f instanceof LightPoint)) {
                     fruitEaten[0] = true;
@@ -99,67 +106,57 @@ public class Map extends JPanel implements ActionListener {
             }
             return false;
         });
+        handleFruitLogic();
+        checkLive();
         if (fruitEaten[0]) {
             spawnOneFruit();
         }
-        handleFruitLogic();
     }
-
+    private void checkLive(){
+        for (Ghost g : ghosts){
+            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16){
+                if (!player.hasThorns() && !g.getIsFrighted() && !player.isDisguised()) {
+                    handlePlayerDeath(); 
+                    return;}
+            }
+        }
+    }
     private void handleFruitLogic() {
-        // Watermelon
         if (player.hasWatermelon()) {
             for (Ghost g : ghosts) {
-                if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 64){
+                if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 96) {
                     g.setFrozen(true, 180);
-                    player.setHasWatermelon(false); 
-                    break; 
-                }
-            }
-        }
-        //chili
-        for (Ghost g : ghosts) {
-            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
-                if (player.hasChilli()) {
-                    player.setSpeed(player.getSpeed() * 2);
-                    
-            }
-        }
-    }
-        //durian
-        for (Ghost g : ghosts) {
-            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
-                if (player.hasThorns() || (player.hasPowerup() && g.getIsFrighted())) {
-                    player.addScore(200);
-                    g.respawnAtRandomLocation(grid);
-                    g.setFrightened(false, 0);
-                    player.setHasThorns(false);// chỉ có hiệu ứng 1 lần
+                    player.setHasWatermelon(false);
                     break;
-                } else if (!player.hasThorns() && !g.getIsFrighted() && !player.isDisguised()) {
-                    handlePlayerDeath(); 
-                    return; 
                 }
             }
         }
-        //kiwi
-        for (Ghost g : ghosts) {
-            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
-                if (player.isDisguised()) {
-                    player.activateKiwiDisguise();
+    
+        // Durian // apple
+            for (Ghost g : ghosts) {
+                if (player.hasThorns()|| g.getIsFrighted()) {
+                if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
+                    g.respawnAtRandomLocation(MapData.GRID);
+                    g.setFrightened(false, 0);
+                    player.setHasThorns(false);
+                    break;
                 }
             }
         }
-        //Dragon Fruit
-        for (Ghost g: ghosts) {
-            if (Math.hypot(player.getX()- g.getX(), player.getY() - g.getY()) <16 ) {
-                if(player.isDragonMode()) {
+    
+        // DragonFruit 
+        if (player.isDragonMode()) {
+            for (Ghost g : ghosts) {
+                if ((Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 64)){
                     g.knockbackFrom(player);
-                    g.setStunned(true, 60); // stun 1s
+                    g.setStunned(true, 90);
                     player.setDragonMode(false);
                     break;
                 }
             }
         }
     }
+
     public void spawnRandomEvent() {
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
@@ -168,6 +165,7 @@ public class Map extends JPanel implements ActionListener {
         }
         spawnOneFruit();
     }
+
     private void spawnOneFruit() {
         java.util.Random rand = new java.util.Random();
         boolean fruitPlaced = false;

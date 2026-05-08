@@ -11,6 +11,8 @@ public class PacMan {
     private int lives = 3;
     private boolean hasThorns = false;
     private boolean hasPowerup = false;
+    private boolean hasWatermelon = false;
+    private boolean hasChilli = false;
     private int powerupDuration = 0;
     private boolean dragonMode = false;
     private int dragonTimer = 0;
@@ -24,7 +26,6 @@ public class PacMan {
     private boolean canShoot = false;
     private int seedAmmo = 0;
     private boolean chilliMode = false;
-    private boolean hasChilli = false;
     private final int TILE_SIZE = 32;
 
     public PacMan(int x, int y, int speed) {
@@ -149,21 +150,19 @@ public class PacMan {
     public void addScore(int point) {
         score += point;
     }
-//watermelon
-    private boolean hasWatermelon = false;
+    //watermelon
+    public void setHasWatermelon(boolean status) {
+        this.hasWatermelon = status;
+    }
 
-public void setHasWatermelon(boolean status) {
-    this.hasWatermelon = status;
-}
+    public boolean hasWatermelon() {
+        return hasWatermelon;
+    }
 
-public boolean hasWatermelon() {
-    return hasWatermelon;
-}
-
-//kiwi
+    //kiwi
     public void activateKiwiDisguise(){
         this.isDisguised = true;
-        this.disguiseEndTime = System.currentTimeMillis() + 15000;
+        this.disguiseEndTime = System.currentTimeMillis() + 4500;
     }
     public boolean isDisguised(){
         return this.isDisguised;
@@ -236,37 +235,29 @@ public boolean hasWatermelon() {
     public boolean getChilliMode(){
         return chilliMode;
     }
-    
-    public void setChilliMode(boolean chilliMode){
-        this.chilliMode = chilliMode;
-
-    }
-    public void activateChilliPower(long duration) {
-        this.setChilliMode(true);
-        new Timer().schedule(new TimerTask() {
-            @Override
-            public void run() {
-                setChilliMode(false);
-
-            }
-        }, duration);
+    public void activateChilliPower( int duration) {
+        this.hasChilli = true;
+        this.speed = 4; 
+        javax.swing.Timer chilliTimer = new javax.swing.Timer(duration, e -> {
+        this.hasChilli = false;
+        this.speed = 2; 
+    });
+    chilliTimer.setRepeats(false);
+    chilliTimer.start();
     }
     public boolean hasChilli() {
         return hasChilli;
     }
-    // Lấy tốc độ hiện tại
+    public void setHasChilli(boolean status){
+        this.hasChilli=status;
+    }
     public int getSpeed() {
         return speed;
     }
-
-    // Thay đổi tốc độ (dùng khi ăn ớt hoặc khi hết hiệu ứng)
     public void setSpeed(int newSpeed) {
         this.speed = newSpeed;
     }
-
-    public void update() {
-        // x += speed; (tùy vào hướng di chuyển)
-    }
+}
 
 
 
@@ -274,5 +265,5 @@ public boolean hasWatermelon() {
 
 
 
-}
+
 
