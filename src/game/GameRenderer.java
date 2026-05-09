@@ -72,7 +72,7 @@ public class GameRenderer {
         }
     }
 
-    private void drawPlayer(Graphics2D g2d, PacMan player) {
+    public void drawPlayer(Graphics2D g2d, PacMan player) {
         Image[] frames = switch(player.getDirection()) {
             case 3 -> assets.pacmanLeft;
             case 2 -> assets.pacmanDown;

@@ -81,7 +81,7 @@ public class Map extends JPanel implements ActionListener {
         return false;
     }
 
-    private void checkEntityCollisions() {
+    protected void checkEntityCollisions() {
         boolean[] fruitEaten = {false};
 
         collectable.removeIf(f -> {
@@ -121,7 +121,7 @@ public class Map extends JPanel implements ActionListener {
             }
         }
     }
-    private void handleFruitLogic() {
+    protected void handleFruitLogic() {
         if (player.hasWatermelon()) {
             for (Ghost g : ghosts) {
                 if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 96) {
@@ -166,7 +166,7 @@ public class Map extends JPanel implements ActionListener {
         spawnOneFruit();
     }
 
-    private void spawnOneFruit() {
+    protected void spawnOneFruit() {
         java.util.Random rand = new java.util.Random();
         boolean fruitPlaced = false;
         while (!fruitPlaced) {
@@ -184,7 +184,7 @@ public class Map extends JPanel implements ActionListener {
             }
         }
     }
-    private void handlePlayerDeath() {
+    protected void handlePlayerDeath() {
         player.loseLife();
         if (player.getLives() <= 0) {
             scoreManager.saveData(player.getScore());
@@ -205,6 +205,8 @@ public class Map extends JPanel implements ActionListener {
     public Timer getTimer() { return timer; }
     public short[][] getGrid() { return grid; }
     public List<Ghost> getGhosts() { return ghosts; }
+    public GameRenderer getRenderer() { return renderer; }
+    public GameAssets getAssets() { return assets; }
     public ArrayList<Collectable> getCollectable() { return collectable; }
     public int getElapsedSeconds(){
         long now = System.currentTimeMillis();

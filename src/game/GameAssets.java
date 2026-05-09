@@ -42,5 +42,4 @@ public class GameAssets {
         }
         return imgs;
     }
-    
 }
