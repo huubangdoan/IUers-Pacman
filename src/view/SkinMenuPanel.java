@@ -1,14 +1,14 @@
 package view;
 import controller.*;
-import utils.UIUtils;
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import utils.UIUtils;
 
 public class SkinMenuPanel extends JPanel {
     public SkinMenuPanel(SkinMenuController skincontroller) {
         setLayout(null);
 
-        ImageIcon originalStart = new ImageIcon("assets/Menu Graphics/start.png");
+        ImageIcon originalStart = new ImageIcon("src/assets/Menu Graphics/start.png");
         Image scaledStartImg = originalStart.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon startIcon = new ImageIcon(scaledStartImg);
         JButton start = new JButton(startIcon);
@@ -18,7 +18,7 @@ public class SkinMenuPanel extends JPanel {
         start.setActionCommand("Start");
         start.addActionListener(skincontroller);
 
-        ImageIcon originalBack = new ImageIcon("assets/Menu Graphics/back.png");
+        ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
         ImageIcon backIcon = new ImageIcon(scaledBackImg);
         JButton back = new JButton(backIcon);
@@ -31,7 +31,7 @@ public class SkinMenuPanel extends JPanel {
         add(start);
         add(back);
 
-        ImageIcon bgIcon = new ImageIcon("assets/Menu Graphics/bgr.png");
+        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);

@@ -1,14 +1,14 @@
 package view;
 import controller.*;
-import utils.UIUtils;
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import utils.UIUtils;
 
 public class EndlessPanel extends JPanel {
     public EndlessPanel(EndlessController endlesscontroller) {
         setLayout(null);
 
-        ImageIcon originalBack = new ImageIcon("assets/Menu Graphics/back.png");
+        ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
         ImageIcon backIcon = new ImageIcon(scaledBackImg);
         JButton back = new JButton(backIcon);

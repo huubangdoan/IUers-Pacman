@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.file.Paths;
 public class ScoreManager {
     private static final String FILE_NAME = "iuers_pacman_data.txt";
     private int highscore = 0;
@@ -41,7 +40,6 @@ public class ScoreManager {
             System.err.println("Lỗi ghi file: " + e.getMessage());
         }
     }
-
     public int getHighscore() { return highscore; }
     public long getCumulativeScore() { return totalAccumulatedScore; }
 }

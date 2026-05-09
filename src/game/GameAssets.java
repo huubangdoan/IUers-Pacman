@@ -6,11 +6,11 @@ public class GameAssets {
     public Image dotImg, appleImg, durianImg, watermelonImg, chilliImg, kiwiImg, dragonFruitImg;
     public Image ghostImg, blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
     public Image[] pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
+    public static String SELECTED_SKIN_FOLDER = "Default Skin";
 
     public GameAssets() {
-        File assetsBase = new File(System.getProperty("user.dir"), "src/assets/Default Skin");
+        File assetsBase = new File(System.getProperty("user.dir"), "src/assets/" + SELECTED_SKIN_FOLDER);
         String path = assetsBase.getAbsolutePath();
-
         // Load Pacman
         pacmanRight = loadFrames(assetsBase, "pacman-right");
         pacmanLeft = loadFrames(assetsBase, "pacman-left");

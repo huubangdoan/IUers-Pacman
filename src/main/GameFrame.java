@@ -23,7 +23,6 @@ public class GameFrame extends JFrame{
 
         cardLayout = new CardLayout();
         mainContainer = new JPanel(cardLayout);
-
         controller = new MainMenuController(cardLayout, mainContainer);
         mapcontroller = new MapMenuController(cardLayout, mainContainer);
         gachacontroller = new GachaMenuController(cardLayout, mainContainer);
@@ -41,7 +40,6 @@ public class GameFrame extends JFrame{
         mainContainer.add(new Map2Panel(map2controller), "Map2");
         mainContainer.add(new Map3Panel(map3controller), "Map3");
         mainContainer.add(new EndlessPanel(endlesscontroller), "Endless");
-
         add(mainContainer);
         cardLayout.show(mainContainer, "MainMenu");
     }
