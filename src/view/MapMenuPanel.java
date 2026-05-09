@@ -8,7 +8,7 @@ public class MapMenuPanel extends JPanel {
     public MapMenuPanel(MapMenuController mapcontroller) {
         setLayout(null);
 
-        ImageIcon originalMap1 = new ImageIcon("assets/Menu Graphics/map1.png");
+        ImageIcon originalMap1 = new ImageIcon("src/assets/Menu Graphics/map1.png");
         Image scaledMap1Img = originalMap1.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon map1Icon = new ImageIcon(scaledMap1Img);
         JButton map1 = new JButton(map1Icon);
@@ -18,7 +18,7 @@ public class MapMenuPanel extends JPanel {
         map1.setActionCommand("Map 1");
         map1.addActionListener(mapcontroller);
 
-        ImageIcon originalMap2 = new ImageIcon("assets/Menu Graphics/map2.png");
+        ImageIcon originalMap2 = new ImageIcon("src/assets/Menu Graphics/map2.png");
         Image scaledMap2Img = originalMap2.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon map2Icon = new ImageIcon(scaledMap2Img);
         JButton map2 = new JButton(map2Icon);
@@ -28,7 +28,7 @@ public class MapMenuPanel extends JPanel {
         map2.setActionCommand("Map 2");
         map2.addActionListener(mapcontroller);
 
-        ImageIcon originalMap3 = new ImageIcon("assets/Menu Graphics/map3.png");
+        ImageIcon originalMap3 = new ImageIcon("src/assets/Menu Graphics/map3.png");
         Image scaledMap3Img = originalMap3.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon map3Icon = new ImageIcon(scaledMap3Img);
         JButton map3 = new JButton(map3Icon);
@@ -38,7 +38,7 @@ public class MapMenuPanel extends JPanel {
         map3.setActionCommand("Map 3");
         map3.addActionListener(mapcontroller);
 
-        ImageIcon originalEndless = new ImageIcon("assets/Menu Graphics/endless.png");
+        ImageIcon originalEndless = new ImageIcon("src/assets/Menu Graphics/endless.png");
         Image scaledEndlessImg = originalEndless.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon endlessIcon = new ImageIcon(scaledEndlessImg);
         JButton endless = new JButton(endlessIcon);
@@ -48,7 +48,7 @@ public class MapMenuPanel extends JPanel {
         endless.setActionCommand("Endless");
         endless.addActionListener(mapcontroller);
 
-        ImageIcon originalBack = new ImageIcon("assets/Menu Graphics/back.png");
+        ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
         ImageIcon backIcon = new ImageIcon(scaledBackImg);
         JButton back = new JButton(backIcon);
@@ -64,7 +64,7 @@ public class MapMenuPanel extends JPanel {
         add(endless);
         add(back);
 
-        ImageIcon bgIcon = new ImageIcon("assets/Menu Graphics/bgr.png");
+        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);

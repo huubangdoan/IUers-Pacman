@@ -8,7 +8,7 @@ public class MainMenuPanel extends JPanel {
     public MainMenuPanel(MainMenuController controller) {
         setLayout(null);
         
-        ImageIcon originalStart = new ImageIcon("assets/Menu Graphics/start.png");
+        ImageIcon originalStart = new ImageIcon("src/assets/Menu Graphics/start.png");
         Image scaledStartImg = originalStart.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon startIcon = new ImageIcon(scaledStartImg);
         JButton start = new JButton(startIcon);
@@ -18,7 +18,7 @@ public class MainMenuPanel extends JPanel {
         start.setActionCommand("Start");
         start.addActionListener(controller);
 
-        ImageIcon originalGacha = new ImageIcon("assets/Menu Graphics/gacha.png");
+        ImageIcon originalGacha = new ImageIcon("src/assets/Menu Graphics/gacha.png");
         Image scaledGachaImg = originalGacha.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon gachaIcon = new ImageIcon(scaledGachaImg);
         JButton gacha = new JButton(gachaIcon);
@@ -28,7 +28,7 @@ public class MainMenuPanel extends JPanel {
         gacha.setActionCommand("Gacha");
         gacha.addActionListener(controller);
         
-        ImageIcon originalSkin = new ImageIcon("assets/Menu Graphics/skin.png");
+        ImageIcon originalSkin = new ImageIcon("src/assets/Menu Graphics/skin.png");
         Image scaledSkinImg = originalSkin.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon skinIcon = new ImageIcon(scaledSkinImg);
         JButton skin = new JButton(skinIcon);
@@ -38,7 +38,7 @@ public class MainMenuPanel extends JPanel {
         skin.setActionCommand("Skin");
         skin.addActionListener(controller);
         
-        ImageIcon originalQuit = new ImageIcon("assets/Menu Graphics/quit.png");
+        ImageIcon originalQuit = new ImageIcon("src/assets/Menu Graphics/quit.png");
         Image scaledQuitImg = originalQuit.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon quitIcon = new ImageIcon(scaledQuitImg);
         JButton quit = new JButton(quitIcon);
@@ -53,7 +53,7 @@ public class MainMenuPanel extends JPanel {
         add(skin);
         add(quit);
 
-        ImageIcon bgIcon = new ImageIcon("assets/Menu Graphics/bgr1.png");
+        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr1.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
