@@ -1,8 +1,14 @@
-import java.awt.*;
-import java.awt.event.*;
+import game.FogOfWar;
+import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.*;
+import javax.swing.JPanel;
+import javax.swing.Timer;
 public class Map extends JPanel implements ActionListener {
     private PacMan player;
     protected short[][] grid;
@@ -14,6 +20,7 @@ public class Map extends JPanel implements ActionListener {
     public static final int FRUIT_DURATION = 300;
     private long startTime;
     private ScoreManager scoreManager;
+    private FogOfWar fogEffect;
     public Map() {
         this.scoreManager = new ScoreManager();
         this.grid = MapData.GRID;
@@ -22,6 +29,7 @@ public class Map extends JPanel implements ActionListener {
         this.collectable = new ArrayList<>();
         this.ghosts = new ArrayList<>();
         this.startTime = System.currentTimeMillis();
+        this.fogEffect = new FogOfWar(120);
 
         List<Point> occupiedPositions = new ArrayList<>();
         java.util.Random rand = new java.util.Random();
@@ -196,7 +204,11 @@ public class Map extends JPanel implements ActionListener {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Graphics2D g2d = (Graphics2D) g;
         renderer.render((Graphics2D) g, this);
+        if (fogEffect != null) {
+        fogEffect.draw(g2d, player.getX() + 16, player.getY() + 16, getWidth(), getHeight());
+    }
     }
 
     @Override 
