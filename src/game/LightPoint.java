@@ -1,3 +1,4 @@
+package game;
 public class LightPoint implements Collectable{
     private int x;
     private int y;

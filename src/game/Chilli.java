@@ -1,3 +1,4 @@
+package game;
 public class Chilli extends Fruit{
     public Chilli(int x, int y, String name){
         super(x, y, "Chilli");
