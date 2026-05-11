@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
+import utils.SoundManager;
+
 public class SettingsController implements ActionListener {
     private CardLayout cardLayout;
     private JPanel settingsContainer;
@@ -36,10 +38,12 @@ public class SettingsController implements ActionListener {
             case "Sound":
                 utils.GameConfig.isSoundOn = !utils.GameConfig.isSoundOn; 
                 if (utils.GameConfig.isSoundOn) {
+                    SoundManager.playBGM("src/assets/sounds/bgm.wav");
                     System.out.println("Trang thai: DA MO AM THANH");
                 // Ghi chú: thêm lệnh đổi hình cái nút thành 'Loa đang phát' ở đây
                 } else {
-                System.out.println("Trang thai: DA TAT AM THANH");
+                    SoundManager.stopBGM();
+                    System.out.println("Trang thai: DA TAT AM THANH");
                 // Ghi chú: thêm lệnh đổi hình cái nút thành 'Loa bị gạch chéo' ở đây
             }
                 break;
