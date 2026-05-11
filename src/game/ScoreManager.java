@@ -1,3 +1,4 @@
+package game;
 import java.io.*;
 public class ScoreManager {
     private static final String FILE_NAME = "iuers_pacman_data.txt";

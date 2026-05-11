@@ -20,7 +20,7 @@ public class EndlessPanel extends JPanel {
 
         add(back);
 
-        ImageIcon bgIcon = new ImageIcon("assets/Menu Graphics/bgr.png");
+        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
