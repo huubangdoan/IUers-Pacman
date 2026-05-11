@@ -1,4 +1,6 @@
 package game;
+
+import gacha.SkinManager;
 import java.awt.*;
 import java.io.File;
 import javax.swing.*;
@@ -7,41 +9,56 @@ public class GameAssets {
     public Image dotImg, appleImg, durianImg, watermelonImg, chilliImg, kiwiImg, dragonFruitImg;
     public Image ghostImg, blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
     public Image[] pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
-    public static String SELECTED_SKIN_FOLDER = "Default Skin";
-
+    public GameAssets(SkinManager skinManager) {
+        String skinFolder = (skinManager != null)
+                ? skinManager.getSelectedSkinFolder()
+                : SkinManager.DEFAULT_SKIN_FOLDER;
+        load(skinFolder);
+    }
     public GameAssets() {
-        File assetsBase = new File(System.getProperty("user.dir"), "src/assets/" + SELECTED_SKIN_FOLDER);
-        String path = assetsBase.getAbsolutePath();
-        // Load Pacman
-        pacmanRight = loadFrames(assetsBase, "pacman-right");
-        pacmanLeft = loadFrames(assetsBase, "pacman-left");
-        pacmanUp = loadFrames(assetsBase, "pacman-up");
-        pacmanDown = loadFrames(assetsBase, "pacman-down");
+        load(SkinManager.DEFAULT_SKIN_FOLDER);
+    }
 
-        // Load Ghosts
-        ghostImg = new ImageIcon(path + "/ghosts/blue_ghost.png").getImage();
-        blinkyImg = new ImageIcon(path + "/ghosts/blinky.png").getImage();
-        pinkyImg = new ImageIcon(path + "/ghosts/pinky.png").getImage();
-        inkyImg = new ImageIcon(path + "/ghosts/inky.png").getImage();
-        clydeImg = new ImageIcon(path + "/ghosts/clyde.png").getImage();
+    private void load(String skinFolder) {
+        File assetsBase = resolveBase(skinFolder);
+        pacmanRight = loadFrames(assetsBase, "right");
+        pacmanLeft  = loadFrames(assetsBase, "left");
+        pacmanUp    = loadFrames(assetsBase, "up");
+        pacmanDown  = loadFrames(assetsBase, "down");
+
+        ghostImg     = new ImageIcon("src/assets/Default Skin/ghosts/blue_ghost.png").getImage();
+        blinkyImg    = new ImageIcon("src/assets/Default Skin/ghosts/blinky.png").getImage();
+        pinkyImg     = new ImageIcon("src/assets/Default Skin/ghosts/pinky.png").getImage();
+        inkyImg      = new ImageIcon("src/assets/Default Skin/ghosts/inky.png").getImage();
+        clydeImg     = new ImageIcon("src/assets/Default Skin/ghosts/clyde.png").getImage();
         frightenedImg = ghostImg;
 
-        // Load Items
-        dotImg = new ImageIcon(path + "/other/dot.png").getImage();
-        appleImg = new ImageIcon(path + "/other/apple.png").getImage();
-        durianImg = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
-        watermelonImg = new ImageIcon("src/assets/New Fruit/watermelon.png").getImage();
-        chilliImg = new ImageIcon("src/assets/New Fruit/chilli.png").getImage();
-        kiwiImg = new ImageIcon("src/assets/New Fruit/Kiwi.png").getImage();
+        dotImg         = new ImageIcon("src/assets/Default Skin/other/dot.png").getImage();
+        appleImg       = new ImageIcon("src/assets/Default Skin/other/apple.png").getImage();
+        durianImg      = new ImageIcon("src/assets/New Fruit/Durian.png").getImage();
+        watermelonImg  = new ImageIcon("src/assets/New Fruit/watermelon.png").getImage();
+        chilliImg      = new ImageIcon("src/assets/New Fruit/chilli.png").getImage();
+        kiwiImg        = new ImageIcon("src/assets/New Fruit/Kiwi.png").getImage();
         dragonFruitImg = new ImageIcon("src/assets/New Fruit/DragonFruit.png").getImage();
+    }
+    private File resolveBase(String skinFolder) {
+        if (SkinManager.DEFAULT_SKIN_FOLDER.equals(skinFolder)) {
+            return new File("src/assets/" + skinFolder);
+        }
+        String[] rarityFolders = {"Rare Skin", "Epic Skin", "Common Skin"};
+        for (String rarity : rarityFolders) {
+            File candidate = new File("src/assets/Gacha Skin/" + rarity + "/" + skinFolder);
+            if (candidate.exists()) return candidate;
+        }
+        return new File("src/assets/Default Skin");
     }
 
     private Image[] loadFrames(File base, String folder) {
         Image[] imgs = new Image[3];
         for (int i = 0; i < 3; i++) {
-            imgs[i] = new ImageIcon(new File(new File(base, folder), (i + 1) + ".png").getAbsolutePath()).getImage();
+            File f = new File(new File(base, folder), (i + 1) + ".png");
+            imgs[i] = new ImageIcon(f.getAbsolutePath()).getImage();
         }
         return imgs;
     }
-    
 }

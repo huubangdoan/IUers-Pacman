@@ -1,19 +1,23 @@
 package view;
-import game.*;
+
+import controller.Map1Controller;
+import gacha.SkinManager;
+import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import controller.*;
-import utils.UIUtils;
 import javax.swing.*;
-import java.awt.*;
+import utils.UIUtils;
 
 public class Map1Panel extends JPanel {
-    public Map1Panel(Map1Controller map1controller) {
+
+    private SkinManager skinManager;
+    private Map1Controller map1controller;
+    private game.Map currentMap;
+
+    public Map1Panel(Map1Controller map1controller, SkinManager skinManager) {
+        this.map1controller = map1controller;
+        this.skinManager    = skinManager;
         setLayout(null);
-
-        game.Map gameMap1 = new game.Map();
-        gameMap1.setBounds(0, 0, 672, 672);
-
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
         ImageIcon backIcon = new ImageIcon(scaledBackImg);
@@ -23,25 +27,31 @@ public class Map1Panel extends JPanel {
         UIUtils.setupZoomEffect(back, backIcon, 105, 60);
         back.setActionCommand("Back");
         back.addActionListener(map1controller);
-
         add(back);
-        add(gameMap1);
-
         setComponentZOrder(back, 0);
-        setComponentZOrder(gameMap1, 1);
-
-        this.addComponentListener(new ComponentAdapter(){
-            @Override
-            public void componentShown(ComponentEvent e){
-                gameMap1.requestFocusInWindow();
-            
-            }
-        });
-
         ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
-        return;
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                reloadMap();
+            }
+        });
+    }
+
+    private void reloadMap() {
+        if (currentMap != null) {
+            currentMap.getTimer().stop();
+            remove(currentMap);
+        }
+        currentMap = new game.Map(skinManager);
+        currentMap.setBounds(0, 0, 672, 672);
+        add(currentMap);
+        setComponentZOrder(currentMap, getComponentCount() - 1);
+        revalidate();
+        repaint();
+        currentMap.requestFocusInWindow();
     }
 }

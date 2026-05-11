@@ -1,6 +1,5 @@
 package game;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 public class GameRenderer {
     private GameAssets assets;
 
@@ -130,8 +129,8 @@ public class GameRenderer {
     }
     private void drawShadowText(Graphics2D g2d, String text, int x, int y, Color mainColor) {
         g2d.setColor(Color.BLACK);
-        g2d.drawString(text, x + 1, y + 1); // Vẽ bóng đen lệch 1px
+        g2d.drawString(text, x + 1, y + 1); 
         g2d.setColor(mainColor);
-        g2d.drawString(text, x, y); // Vẽ chữ chính
+        g2d.drawString(text, x, y); 
     }
 }

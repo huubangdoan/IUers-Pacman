@@ -1,45 +1,82 @@
 import controller.*;
-import view.*; 
+import game.ScoreManager;
+import gacha.SkinManager;
+import view.*;
+
 import javax.swing.*;
 import java.awt.*;
-public class GameFrame extends JFrame{
+
+public class GameFrame extends JFrame {
+
     private CardLayout cardLayout;
     private JPanel mainContainer;
-    private MainMenuController controller;
-    private MapMenuController mapcontroller;
-    private GachaMenuController gachacontroller;
-    private SkinMenuController skincontroller;
-    private Map1Controller map1controller;
-    private Map2Controller map2controller;
-    private Map3Controller map3controller;
-    private EndlessController endlesscontroller;
 
-    public GameFrame(){
+    private MainMenuController    mainCtrl;
+    private MapMenuController     mapCtrl;
+    private GachaMenuController   gachaCtrl;
+    private GachaResultController gachaResultCtrl;
+    private SkinMenuController    skinCtrl;
+    private Map1Controller        map1Ctrl;
+    private Map2Controller        map2Ctrl;
+    private Map3Controller        map3Ctrl;
+    //private EndlessController     endlessCtrl;
+
+    public GameFrame() {
         setTitle("Pac-Man: Multiverse");
         getContentPane().setPreferredSize(new Dimension(672, 672));
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
-        cardLayout = new CardLayout();
+        cardLayout    = new CardLayout();
         mainContainer = new JPanel(cardLayout);
-        controller = new MainMenuController(cardLayout, mainContainer);
-        mapcontroller = new MapMenuController(cardLayout, mainContainer);
-        gachacontroller = new GachaMenuController(cardLayout, mainContainer);
-        skincontroller = new SkinMenuController(cardLayout, mainContainer);
-        map1controller = new Map1Controller(cardLayout, mainContainer);
-        map2controller = new Map2Controller(cardLayout, mainContainer);
-        map3controller = new Map3Controller(cardLayout, mainContainer);
-        endlesscontroller = new EndlessController(cardLayout, mainContainer);
 
-        mainContainer.add(new MainMenuPanel(controller), "MainMenu");
-        mainContainer.add(new GachaMenuPanel(gachacontroller), "GachaMenu");
-        mainContainer.add(new SkinMenuPanel(skincontroller), "SkinMenu");
-        mainContainer.add(new MapMenuPanel(mapcontroller), "MapMenu");
-        mainContainer.add(new Map1Panel(map1controller), "Map1");
-        mainContainer.add(new Map2Panel(map2controller), "Map2");
-        mainContainer.add(new Map3Panel(map3controller), "Map3");
-        mainContainer.add(new EndlessPanel(endlesscontroller), "Endless");
+        // ── ScoreManager dùng chung (highscore + điểm tích lũy gacha) ───────
+        ScoreManager scoreManager = new ScoreManager();
+
+        // ── SkinManager nhận ScoreManager để gacha trừ/cộng điểm ────────────
+        SkinManager skinManager = new SkinManager(scoreManager);
+
+        // ── Controllers ──────────────────────────────────────────────────────
+        mainCtrl    = new MainMenuController(cardLayout, mainContainer);
+        mapCtrl     = new MapMenuController(cardLayout, mainContainer);
+        skinCtrl    = new SkinMenuController(cardLayout, mainContainer);
+        map1Ctrl    = new Map1Controller(cardLayout, mainContainer);
+        map2Ctrl    = new Map2Controller(cardLayout, mainContainer);
+        map3Ctrl    = new Map3Controller(cardLayout, mainContainer);
+        //endlessCtrl = new EndlessController(cardLayout, mainContainer);
+
+        // ── SkinMenuPanel tạo trước (GachaResultController cần nó) ──────────
+        SkinMenuPanel skinMenuPanel = new SkinMenuPanel(skinCtrl, skinManager);
+        skinCtrl.setSkinMenuPanel(skinMenuPanel);
+        mainCtrl.setSkinMenuPanel(skinMenuPanel);
+
+        // ── GachaResult ──────────────────────────────────────────────────────
+        gachaResultCtrl = new GachaResultController(cardLayout, mainContainer, skinMenuPanel);
+        GachaResultPanel gachaResultPanel = new GachaResultPanel(gachaResultCtrl);
+
+        // ── GachaMenu ────────────────────────────────────────────────────────
+        gachaCtrl = new GachaMenuController(cardLayout, mainContainer, skinManager, gachaResultPanel);
+        GachaMenuPanel gachaMenuPanel = new GachaMenuPanel(gachaCtrl, skinManager);
+        gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
+
+        // ── Map Panels (truyền skinManager để load đúng skin đã chọn) ────────
+        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager);
+        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager);
+        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager);
+        //EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager);
+
+        // ── Thêm tất cả vào CardLayout ───────────────────────────────────────
+        mainContainer.add(new MainMenuPanel(mainCtrl), "MainMenu");
+        mainContainer.add(gachaMenuPanel,              "GachaMenu");
+        mainContainer.add(gachaResultPanel,            "GachaResult");
+        mainContainer.add(skinMenuPanel,               "SkinMenu");
+        mainContainer.add(new MapMenuPanel(mapCtrl),   "MapMenu");
+        mainContainer.add(map1Panel,                   "Map1");
+        mainContainer.add(map2Panel,                   "Map2");
+        mainContainer.add(map3Panel,                   "Map3");
+        //mainContainer.add(endlessPanel,                "Endless");
+
         add(mainContainer);
         cardLayout.show(mainContainer, "MainMenu");
     }

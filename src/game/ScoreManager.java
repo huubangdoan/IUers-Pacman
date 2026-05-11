@@ -4,9 +4,11 @@ public class ScoreManager {
     private static final String FILE_NAME = "iuers_pacman_data.txt";
     private int highscore = 0;
     private long totalAccumulatedScore = 0;
+
     public ScoreManager() {
         loadData();
     }
+
     private void loadData() {
         File file = new File(FILE_NAME);
         if (!file.exists()) {
@@ -18,7 +20,6 @@ public class ScoreManager {
             if (line1 != null && !line1.isEmpty()) {
                 this.highscore = Integer.parseInt(line1.trim());
             }
-            
             String line2 = br.readLine();
             if (line2 != null && !line2.isEmpty()) {
                 this.totalAccumulatedScore = Long.parseLong(line2.trim());
@@ -28,19 +29,39 @@ public class ScoreManager {
             System.err.println("Lỗi khi load file: " + e.getMessage());
         }
     }
+
     public void saveData(int currentScore) {
         if (currentScore > highscore) {
             highscore = currentScore;
         }
         totalAccumulatedScore += currentScore;
+        persist();
+    }
+
+    /** Trừ điểm tích lũy (dùng cho Gacha). Trả về false nếu không đủ điểm. */
+    public boolean deductCumulativeScore(long amount) {
+        if (totalAccumulatedScore < amount) return false;
+        totalAccumulatedScore -= amount;
+        persist();
+        return true;
+    }
+
+    /** Cộng điểm tích lũy (hoàn điểm khi trùng skin). */
+    public void addCumulativeScore(long amount) {
+        totalAccumulatedScore += amount;
+        persist();
+    }
+
+    private void persist() {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(FILE_NAME)))) {
             pw.println(highscore);
             pw.println(totalAccumulatedScore);
-            pw.flush(); 
+            pw.flush();
         } catch (IOException e) {
             System.err.println("Lỗi ghi file: " + e.getMessage());
         }
     }
+
     public int getHighscore() { return highscore; }
     public long getCumulativeScore() { return totalAccumulatedScore; }
 }

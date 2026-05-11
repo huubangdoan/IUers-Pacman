@@ -1,11 +1,22 @@
 package view;
-import controller.*;
+
+import controller.Map2Controller;
+import gacha.SkinManager;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import utils.UIUtils;
 
 public class Map2Panel extends JPanel {
-    public Map2Panel(Map2Controller map2controller) {
+
+    private SkinManager skinManager;
+    private Map2Controller map2controller;
+    private game.Map currentMap;
+
+    public Map2Panel(Map2Controller map2controller, SkinManager skinManager) {
+        this.map2controller = map2controller;
+        this.skinManager    = skinManager;
         setLayout(null);
 
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
@@ -17,13 +28,33 @@ public class Map2Panel extends JPanel {
         UIUtils.setupZoomEffect(back, backIcon, 105, 60);
         back.setActionCommand("Back");
         back.addActionListener(map2controller);
-
         add(back);
+        setComponentZOrder(back, 0);
 
         ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
-        return;
+
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                reloadMap();
+            }
+        });
+    }
+
+    private void reloadMap() {
+        if (currentMap != null) {
+            currentMap.getTimer().stop();
+            remove(currentMap);
+        }
+        currentMap = new game.Map(skinManager);
+        currentMap.setBounds(0, 0, 672, 672);
+        add(currentMap);
+        setComponentZOrder(currentMap, getComponentCount() - 1);
+        revalidate();
+        repaint();
+        currentMap.requestFocusInWindow();
     }
 }

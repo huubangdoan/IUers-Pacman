@@ -1,36 +1,37 @@
 package controller;
-import view.*;
+
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
+import view.SkinMenuPanel;
 
-public class MainMenuController implements ActionListener{
+public class MainMenuController implements ActionListener {
     private CardLayout cardLayout;
     private JPanel mainContainer;
-    public MainMenuController( CardLayout cardLayout, JPanel mainContainer){
-        this.cardLayout = cardLayout;
+    private SkinMenuPanel skinMenuPanel;
+
+    public MainMenuController(CardLayout cardLayout, JPanel mainContainer) {
+        this.cardLayout    = cardLayout;
         this.mainContainer = mainContainer;
     }
+
+    public void setSkinMenuPanel(SkinMenuPanel panel) {
+        this.skinMenuPanel = panel;
+    }
+
     @Override
     public void actionPerformed(ActionEvent click) {
         String command = click.getActionCommand();
-        switch (command){
-            case "Start":
-                cardLayout.show(mainContainer, "MapMenu");
-                break;
-            case "Gacha":
-                cardLayout.show(mainContainer, "GachaMenu");
-                break;
-            case "Skin":
+        switch (command) {
+            case "Start" -> cardLayout.show(mainContainer, "MapMenu");
+            case "Gacha" -> cardLayout.show(mainContainer, "GachaMenu");
+            case "Skin"  -> {
+                if (skinMenuPanel != null) skinMenuPanel.refresh();
                 cardLayout.show(mainContainer, "SkinMenu");
-                break;
-            case "Quit":
-                System.exit(0);
-                break;
-            default:
-                System.out.println("chua set tinh nang cho nut nay");
-                break;
+            }
+            case "Quit"  -> System.exit(0);
+            default      -> System.out.println("chua set tinh nang cho nut nay: " + command);
         }
     }
 }
