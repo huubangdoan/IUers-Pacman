@@ -1,28 +1,16 @@
 package game;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
-public class InvisibleMap extends Map {
-    private FogOfWar fogEffect;
-
-    public InvisibleMap() {
-        super();
-        
-        this.grid = InvisibleMazeData.GRID; 
-        this.fogEffect = new FogOfWar(InvisibleMazeData.INITIAL_VISION_RADIUS);
-    }
-
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        
-        Graphics2D g2d = (Graphics2D) g; 
-
-        if (fogEffect != null && getPlayer() != null) {
-            int px = getPlayer().getX() + 16;
-            int py = getPlayer().getY() + 16;
-            fogEffect.draw(g2d, px, py, getWidth(), getHeight());
-        }
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+public class InvisibleRunner {
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> {
+            JFrame frame = new JFrame("IUers-s-Pacman");
+            frame.setDefaultCloseOperation(3);
+            frame.add(new InvisibleMap());
+            frame.pack();
+            frame.setResizable(false);
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+        });
     }
 }

@@ -1,3 +1,4 @@
+package game;
 public class Ghost extends MoveSystem{
     private String ghostType;
     private boolean isFrighted = false; //con ma có trong trạng thái có thể ăn được hay không

@@ -1,3 +1,4 @@
+package game;
 import java.io.*;
 import java.nio.file.Paths;
 public class ScoreManager {
