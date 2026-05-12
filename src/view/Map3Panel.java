@@ -49,7 +49,7 @@ public class Map3Panel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = new game.InvisibleMap(skinManager);
+        currentMap = new game.ChaoTilesMap(skinManager);
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);

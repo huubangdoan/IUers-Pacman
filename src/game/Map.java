@@ -18,43 +18,62 @@ public class Map extends JPanel implements ActionListener {
     public static final int FRUIT_DURATION = 300;
     private long startTime;
     private ScoreManager scoreManager;
+    protected final java.util.Random rand = new java.util.Random();
+    protected int gridRows, gridCols;
+    protected int playerX, playerY;
 
-    /** Khởi tạo map với SkinManager để load đúng skin đã chọn */
     public Map(SkinManager skinManager) {
-        this.scoreManager = skinManager != null
-                ? skinManager.getScoreManager()
-                : new ScoreManager();
-        this.grid      = MapData.GRID;
-        this.assets    = new GameAssets(skinManager);   // <-- truyền skinManager vào
-        this.renderer  = new GameRenderer(this.assets);
+        this.scoreManager = skinManager != null ? skinManager.getScoreManager() : new ScoreManager();
+        this.grid        = MapData.GRID;
+        this.assets      = new GameAssets(skinManager);
+        this.renderer    = new GameRenderer(this.assets);
         this.collectable = new ArrayList<>();
         this.ghosts      = new ArrayList<>();
         this.startTime   = System.currentTimeMillis();
 
-        List<Point> occupiedPositions = new ArrayList<>();
-        java.util.Random rand = new java.util.Random();
-        Point pacmanSpot = findRandomEmptySpot(rand, occupiedPositions);
-        this.player = new PacMan(pacmanSpot.x * 32, pacmanSpot.y * 32, 2);
-        occupiedPositions.add(pacmanSpot);
-
-        String[] ghostTypes = {"blinky", "pinky", "inky", "clyde"};
-        for (String type : ghostTypes) {
-            Point ghostSpot = findRandomEmptySpot(rand, occupiedPositions);
-            ghosts.add(new Ghost(ghostSpot.x * 32, ghostSpot.y * 32, 2, type));
-            occupiedPositions.add(ghostSpot);
-        }
+        updateGridCache();
+        initEntities();
 
         addKeyListener(new PacmanInput(player));
         setFocusable(true);
         setPreferredSize(new Dimension(672, 672));
         spawnRandomEvent();
+
         timer = new Timer(16, this);
         timer.start();
     }
 
-    /** Constructor không tham số (dùng Default Skin) */
-    public Map() {
-        this(null);
+    public Map() { this(null); }
+    protected void updateGridCache() {
+        gridRows = grid.length;
+        gridCols = grid[0].length;
+    }
+
+    protected void initEntities() {
+        List<Point> occupied = new ArrayList<>();
+        Point pacmanSpot = findRandomEmptySpot(rand, occupied);
+        this.player = new PacMan(pacmanSpot.x * 32, pacmanSpot.y * 32, 2);
+        occupied.add(pacmanSpot);
+        String[] ghostTypes = {"blinky", "pinky", "inky", "clyde"};
+        for (String type : ghostTypes) {
+            Point spot = findRandomEmptySpot(rand, occupied);
+            ghosts.add(new Ghost(spot.x * 32, spot.y * 32, 2, type));
+            occupied.add(spot);
+        }
+    }
+
+    protected void respawnEntitiesForGrid() {
+        List<Point> occupied = new ArrayList<>();
+        Point pacmanSpot = findRandomEmptySpot(rand, occupied);
+        player.setPosition(pacmanSpot.x * 32, pacmanSpot.y * 32);
+        occupied.add(pacmanSpot);
+        ghosts.clear();
+        String[] ghostTypes = {"blinky", "pinky", "inky", "clyde"};
+        for (String type : ghostTypes) {
+            Point spot = findRandomEmptySpot(rand, occupied);
+            ghosts.add(new Ghost(spot.x * 32, spot.y * 32, 2, type));
+            occupied.add(spot);
+        }
     }
 
     public void update() {
@@ -62,6 +81,9 @@ public class Map extends JPanel implements ActionListener {
         player.updateAnimation();
         player.updatePowerup();
         player.updateDragon();
+        playerX = player.getX();
+        playerY = player.getY();
+
         for (Ghost g : ghosts) {
             g.move(this);
             g.updateFrightened();
@@ -70,22 +92,21 @@ public class Map extends JPanel implements ActionListener {
         repaint();
     }
 
-    public Point findRandomEmptySpot(java.util.Random rand, List<Point> occupied) {
+    public Point findRandomEmptySpot(java.util.Random r, List<Point> occupied) {
         while (true) {
-            int r = rand.nextInt(grid.length);
-            int c = rand.nextInt(grid[0].length);
-            Point spot = new Point(c, r);
-            if (grid[r][c] == 0 && !occupied.contains(spot)) return spot;
+            int row = r.nextInt(gridRows);
+            int col = r.nextInt(gridCols);
+            Point spot = new Point(col, row);
+            if (grid[row][col] == 0 && !occupied.contains(spot)) return spot;
         }
     }
 
     public boolean isWall(int x, int y) {
-        final int size = 32;
-        int startCol = x / 32, endCol = (x + size - 1) / 32;
-        int startRow = y / 32, endRow = (y + size - 1) / 32;
+        int startCol = x >> 5,      endCol = (x + 31) >> 5;
+        int startRow = y >> 5,      endRow = (y + 31) >> 5;
         for (int r = startRow; r <= endRow; r++) {
             for (int c = startCol; c <= endCol; c++) {
-                if (r < 0 || r >= grid.length || c < 0 || c >= grid[0].length || grid[r][c] == 1)
+                if (r < 0 || r >= gridRows || c < 0 || c >= gridCols || grid[r][c] == 1)
                     return true;
             }
         }
@@ -93,13 +114,16 @@ public class Map extends JPanel implements ActionListener {
     }
 
     public void checkEntityCollisions() {
+        final int px = playerX, py = playerY;
         boolean[] fruitEaten = {false};
+
         collectable.removeIf(f -> {
-            if (Math.hypot(player.getX() - f.getX(), player.getY() - f.getY()) < 16) {
+            int dx = px - f.getX(), dy = py - f.getY();
+            if (dx * dx + dy * dy < 256) { 
                 f.onCollected(player);
-                if (f instanceof Apple)   { for (Ghost g : ghosts) g.setFrightened(true, 300); }
-                if (f instanceof Chilli)  { player.activateChilliPower(9000); }
-                if (f instanceof Kiwi)    { player.activateKiwiDisguise(); }
+                if (f instanceof Apple)  { for (Ghost g : ghosts) g.setFrightened(true, 300); }
+                if (f instanceof Chilli) { player.activateChilliPower(9000); }
+                if (f instanceof Kiwi)   { player.activateKiwiDisguise(); }
                 if (!(f instanceof LightPoint)) fruitEaten[0] = true;
                 return true;
             }
@@ -111,8 +135,10 @@ public class Map extends JPanel implements ActionListener {
     }
 
     public void checkLive() {
+        final int px = playerX, py = playerY;
         for (Ghost g : ghosts) {
-            if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
+            int dx = px - g.getX(), dy = py - g.getY();
+            if (dx * dx + dy * dy < 256) { 
                 if (!player.hasThorns() && !g.getIsFrighted() && !player.isDisguised()) {
                     handlePlayerDeath();
                     return;
@@ -122,9 +148,11 @@ public class Map extends JPanel implements ActionListener {
     }
 
     public void handleFruitLogic() {
+        final int px = playerX, py = playerY;
         if (player.hasWatermelon()) {
             for (Ghost g : ghosts) {
-                if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 96) {
+                int dx = px - g.getX(), dy = py - g.getY();
+                if (dx * dx + dy * dy < 9216) { // 96²
                     g.setFrozen(true, 180);
                     player.setHasWatermelon(false);
                     break;
@@ -133,7 +161,8 @@ public class Map extends JPanel implements ActionListener {
         }
         for (Ghost g : ghosts) {
             if (player.hasThorns() || g.getIsFrighted()) {
-                if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16) {
+                int dx = px - g.getX(), dy = py - g.getY();
+                if (dx * dx + dy * dy < 256) { // 16²
                     g.respawnAtRandomLocation(MapData.GRID);
                     g.setFrightened(false, 0);
                     player.setHasThorns(false);
@@ -143,7 +172,8 @@ public class Map extends JPanel implements ActionListener {
         }
         if (player.isDragonMode()) {
             for (Ghost g : ghosts) {
-                if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 64) {
+                int dx = px - g.getX(), dy = py - g.getY();
+                if (dx * dx + dy * dy < 4096) { 
                     g.knockbackFrom(player);
                     g.setStunned(true, 90);
                     player.setDragonMode(false);
@@ -154,17 +184,15 @@ public class Map extends JPanel implements ActionListener {
     }
 
     public void spawnRandomEvent() {
-        for (int r = 0; r < grid.length; r++)
-            for (int c = 0; c < grid[0].length; c++)
+        for (int r = 0; r < gridRows; r++)
+            for (int c = 0; c < gridCols; c++)
                 if (grid[r][c] == 0) collectable.add(new LightPoint(c * 32, r * 32));
         spawnOneFruit();
     }
 
     public void spawnOneFruit() {
-        java.util.Random rand = new java.util.Random();
-        boolean placed = false;
-        while (!placed) {
-            int r = rand.nextInt(grid.length), c = rand.nextInt(grid[0].length);
+        while (true) {
+            int r = rand.nextInt(gridRows), c = rand.nextInt(gridCols);
             if (grid[r][c] == 0) {
                 int type = rand.nextInt(6);
                 if      (type == 0) collectable.add(new Durian(c*32, r*32, "Durian"));
@@ -173,7 +201,7 @@ public class Map extends JPanel implements ActionListener {
                 else if (type == 3) collectable.add(new DragonFruit(c*32, r*32, "Dragon Fruit"));
                 else if (type == 4) collectable.add(new Watermelon(c*32, r*32, "Watermelon"));
                 else                collectable.add(new Chilli(c*32, r*32, "Chilli"));
-                placed = true;
+                return;
             }
         }
     }
@@ -195,15 +223,15 @@ public class Map extends JPanel implements ActionListener {
     }
 
     @Override
-    public void actionPerformed(ActionEvent e) { update(); repaint(); }
-    public GameRenderer getRenderer(){return renderer;}
-    public PacMan getPlayer()               { return player; }
-    public Timer getTimer()                 { return timer; }
-    public short[][] getGrid()              { return grid; }
-    public List<Ghost> getGhosts()          { return ghosts; }
+    public void actionPerformed(ActionEvent e) { update(); }
+    public GameRenderer getRenderer()              { return renderer; }
+    public PacMan getPlayer()                      { return player; }
+    public Timer getTimer()                        { return timer; }
+    public short[][] getGrid()                     { return grid; }
+    public List<Ghost> getGhosts()                 { return ghosts; }
     public ArrayList<Collectable> getCollectable() { return collectable; }
     public int getElapsedSeconds() {
         return (int) ((System.currentTimeMillis() - startTime) / 1000);
     }
-    public ScoreManager getScoreManager()   { return scoreManager; }
+    public ScoreManager getScoreManager()          { return scoreManager; }
 }
