@@ -70,7 +70,7 @@ public class GameFrame extends JFrame {
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────
         mainContainer.add(new MainMenuPanel(mainCtrl), "MainMenu");
-        mainContainer.add(new SettingsPanel(settingsCtrl), "Setting");
+        mainContainer.add(new SettingsPanel(settingsCtrl), "Settings");
         mainContainer.add(gachaMenuPanel,              "GachaMenu");
         mainContainer.add(gachaResultPanel,            "GachaResult");
         mainContainer.add(skinMenuPanel,               "SkinMenu");

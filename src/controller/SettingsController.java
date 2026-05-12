@@ -1,39 +1,38 @@
 package controller;
 import view.*;
+import utils.SoundManager;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
-import utils.SoundManager;
-
 public class SettingsController implements ActionListener {
     private CardLayout cardLayout;
-    private JPanel settingsContainer;
+    private JPanel mainContainer;
 
-    public SettingsController(CardLayout cardLayout, JPanel settingsContainer) {
+    public SettingsController(CardLayout cardLayout, JPanel mainContainer) {
         this.cardLayout = cardLayout;
-        this.settingsContainer = settingsContainer;
+        this.mainContainer = mainContainer;
     }
 
     @Override
     public void actionPerformed(ActionEvent click) {
         String command = click.getActionCommand();
          switch (command){
-            case "Back":
-                cardLayout.show(settingsContainer, "MainMenu"); 
-                break;
-            case "Easy":
-                System.out.println("Da chon che do: Easy");
+            case "Slow":
+                System.out.println("Da chon che do: Slow");
                 utils.GameConfig.difficulty = 1;
                 break;
             case "Normal":
                 System.out.println("Da chon che do: Normal");
                 utils.GameConfig.difficulty = 2;
                 break;
-            case "Hard":
-                System.out.println("Da chon che do: Hard");
+            case "Fast":
+                System.out.println("Da chon che do: Fast");
                 utils.GameConfig.difficulty = 3;
+                break;
+            case "Back":
+                cardLayout.show(mainContainer, "MainMenu"); 
                 break;
             case "Sound":
                 utils.GameConfig.isSoundOn = !utils.GameConfig.isSoundOn; 

@@ -48,10 +48,21 @@ public class MainMenuPanel extends JPanel {
         quit.setActionCommand("Quit");
         quit.addActionListener(controller);
 
+        ImageIcon originalSettings = new ImageIcon("src/assets/Menu Graphics/settings.png");
+        Image scaledSettingsImg = originalSettings.getImage().getScaledInstance(95, 50, Image.SCALE_SMOOTH);
+        ImageIcon settingsIcon = new ImageIcon(scaledSettingsImg);
+        JButton settings = new JButton(settingsIcon);
+        settings.setBounds(580, 15, 95, 50);
+        UIUtils.makeButtonTransparent(settings);
+        UIUtils.setupZoomEffect(settings, settingsIcon, 95, 50);
+        settings.setActionCommand("Settings");
+        settings.addActionListener(controller);
+
         add(start);
         add(gacha);
         add(skin);
         add(quit);
+        add(settings);
 
         ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr1.png");
         JLabel background = new JLabel(bgIcon);

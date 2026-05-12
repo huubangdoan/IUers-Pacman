@@ -31,6 +31,7 @@ public class MainMenuController implements ActionListener {
                 cardLayout.show(mainContainer, "SkinMenu");
             }
             case "Quit"  -> System.exit(0);
+            case "Settings" -> cardLayout.show(mainContainer, "Settings");
             default      -> System.out.println("chua set tinh nang cho nut nay: " + command);
         }
     }
