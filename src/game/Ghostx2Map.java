@@ -11,7 +11,6 @@ public class Ghostx2Map extends Map {
         // Khởi tạo một vài Ghost mẫu
         ghosts.add(new Ghostx2Data("Blinky", 10, 10, 1.5));
         ghosts.add(new Ghostx2Data("Pinky", 15, 15, 1.5));
-        score.get
     }
 
     // Kiểm tra điểm số để cập nhật tốc độ Ghost
