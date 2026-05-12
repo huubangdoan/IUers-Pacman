@@ -189,6 +189,10 @@ public class PacMan {
     public int getDirection() {
         return direction;
     }
+    public void setDirection(int direct) {
+        direction=direct;
+    }
+    
 
     public void activatePowerup(int duration) {
         this.hasPowerup = true;
@@ -258,6 +262,7 @@ public class PacMan {
     public void setSpeed(int newSpeed) {
         this.speed = newSpeed;
     }
+    public void setLives(int lives){this.lives= lives;}
 }
 
 
