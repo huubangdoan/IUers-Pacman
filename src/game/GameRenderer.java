@@ -12,7 +12,6 @@ public class GameRenderer {
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         drawBackground(g2d, map);
         drawWalls(g2d, map.getGrid());
-        drawChaosTiles(g2d, map.getChaosTiles());
         drawCollectables(g2d, map.getCollectable());
         drawGhosts(g2d, map.getGhosts());
         drawPlayer(g2d, map.getPlayer());
@@ -30,34 +29,12 @@ public class GameRenderer {
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 if (grid[r][c] == 1) {
-                    g2d.setColor(new Color(0, 50, 200));
                     g2d.fillRoundRect(c * 32, r * 32, 30, 30, 8, 8);
                 }
             }
         }
     }
 
-    private void drawChaosTiles(Graphics2D g2d,
-                            java.util.ArrayList<ChaosTileData> chaosTiles) {
-
-    for (ChaosTileData tile : chaosTiles) {
-
-        int x = tile.getCol() * 32;
-        int y = tile.getRow() * 32;
-
-        if (tile.getType() == ChaosTile.REVERSE) {
-
-            g2d.setColor(Color.GREEN);
-        }
-
-        else if (tile.getType() == ChaosTile.TRAP) {
-
-            g2d.setColor(Color.MAGENTA);
-        }
-        
-        g2d.fillRect(x, y, 32, 32);
-    }
-}
     private void drawCollectables(Graphics2D g2d, java.util.List<Collectable> collectables) {
         for (Collectable f : collectables) {
             Image img = null;
