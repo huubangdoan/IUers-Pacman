@@ -1,5 +1,5 @@
+package game;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 public class GameRenderer {
     private GameAssets assets;
 
@@ -32,7 +32,7 @@ public class GameRenderer {
                     g2d.fillRoundRect(c * 32, r * 32, 30, 30, 8, 8);
                 }
             }
-        }
+        }   
     }
 
     private void drawCollectables(Graphics2D g2d, java.util.List<Collectable> collectables) {

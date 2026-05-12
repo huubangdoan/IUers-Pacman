@@ -1,3 +1,4 @@
+package game;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -54,7 +55,7 @@ public class Map extends JPanel implements ActionListener {
         checkEntityCollisions();
         repaint();
     }
-    private Point findRandomEmptySpot(java.util.Random rand, List<Point> occupied) {
+    public Point findRandomEmptySpot(java.util.Random rand, List<Point> occupied) {
         while (true) {
             int r = rand.nextInt(grid.length);
             int c = rand.nextInt(grid[0].length);
@@ -81,7 +82,7 @@ public class Map extends JPanel implements ActionListener {
         return false;
     }
 
-    private void checkEntityCollisions() {
+    public void checkEntityCollisions() {
         boolean[] fruitEaten = {false};
 
         collectable.removeIf(f -> {
@@ -112,7 +113,7 @@ public class Map extends JPanel implements ActionListener {
             spawnOneFruit();
         }
     }
-    private void checkLive(){
+    public void checkLive(){
         for (Ghost g : ghosts){
             if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16){
                 if (!player.hasThorns() && !g.getIsFrighted() && !player.isDisguised()) {
@@ -121,7 +122,7 @@ public class Map extends JPanel implements ActionListener {
             }
         }
     }
-    private void handleFruitLogic() {
+    public void handleFruitLogic() {
         if (player.hasWatermelon()) {
             for (Ghost g : ghosts) {
                 if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 96) {
@@ -166,7 +167,7 @@ public class Map extends JPanel implements ActionListener {
         spawnOneFruit();
     }
 
-    private void spawnOneFruit() {
+    public void spawnOneFruit() {
         java.util.Random rand = new java.util.Random();
         boolean fruitPlaced = false;
         while (!fruitPlaced) {
@@ -184,7 +185,7 @@ public class Map extends JPanel implements ActionListener {
             }
         }
     }
-    private void handlePlayerDeath() {
+    public void handlePlayerDeath() {
         player.loseLife();
         if (player.getLives() <= 0) {
             scoreManager.saveData(player.getScore());
@@ -205,6 +206,7 @@ public class Map extends JPanel implements ActionListener {
     public Timer getTimer() { return timer; }
     public short[][] getGrid() { return grid; }
     public List<Ghost> getGhosts() { return ghosts; }
+    public GameRenderer getRenderer(){return renderer;}
     public ArrayList<Collectable> getCollectable() { return collectable; }
     public int getElapsedSeconds(){
         long now = System.currentTimeMillis();

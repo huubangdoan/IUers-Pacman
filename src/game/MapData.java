@@ -1,3 +1,4 @@
+package game;
 public class MapData {
     public static final short[][] GRID = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, // 0
