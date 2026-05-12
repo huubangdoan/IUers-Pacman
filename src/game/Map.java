@@ -46,7 +46,10 @@ public class Map extends JPanel implements ActionListener {
         player.move(this);
         player.updateAnimation();
         player.updatePowerup();
-        player.updateDragon(); 
+        player.updateDragon();
+        
+        checkChaosTiles();
+        
         for (Ghost g : ghosts) {
             g.move(this);
             g.updateFrightened();
@@ -112,6 +115,45 @@ public class Map extends JPanel implements ActionListener {
             spawnOneFruit();
         }
     }
+
+    private void checkChaosTiles() {
+
+    int row = player.getY() / 32;
+    int col = player.getX() / 32;
+
+    if (row < 0 || row >= grid.length ||
+        col < 0 || col >= grid[0].length) {
+        return;
+    }
+
+    short tile = grid[row][col];
+
+    // TILE 7 = reverse
+    if (tile == 7) {
+
+        player.reverseDirection();
+
+        grid[row][col] = 0;
+    }
+
+    // TILE 8 = trap
+    else if (tile == 8) {
+
+        player.loseLife();
+        player.setPosition(32, 32);
+
+        grid[row][col] = 0;
+    }
+
+    // TILE 9 = xuyên tường
+    else if (tile == 9) {
+
+        player.activateWallHack();
+
+        grid[row][col] = 0;
+    }
+}
+
     private void checkLive(){
         for (Ghost g : ghosts){
             if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16){
@@ -131,7 +173,6 @@ public class Map extends JPanel implements ActionListener {
                 }
             }
         }
-    
         // Durian // apple
             for (Ghost g : ghosts) {
                 if (player.hasThorns()|| g.getIsFrighted()) {
@@ -156,7 +197,6 @@ public class Map extends JPanel implements ActionListener {
             }
         }
     }
-
     public void spawnRandomEvent() {
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {

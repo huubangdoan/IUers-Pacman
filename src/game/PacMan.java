@@ -26,6 +26,7 @@ public class PacMan {
     private boolean canShoot = false;
     private int seedAmmo = 0;
     private boolean chilliMode = false;
+    private boolean wallHack = false;
     private final int TILE_SIZE = 32;
 
     public PacMan(int x, int y, int speed) {
@@ -84,7 +85,7 @@ public class PacMan {
                 // Kiểm tra xem hướng mới (nextDirection) có đi được không
                 int ndx = getDx(nextDirection);
                 int ndy = getDy(nextDirection);
-                if (!map.isWall(x + ndx * speed, y + ndy * speed)) {
+                if (wallHack || !map.isWall(x + ndx * speed, y + ndy * speed)) {
                     direction = nextDirection;
                 }
             }
@@ -94,7 +95,7 @@ public class PacMan {
         int dx = getDx(direction);
         int dy = getDy(direction);
     
-        if (!map.isWall(x + dx * speed, y + dy * speed)) {
+        if (wallHack || !map.isWall(x + dx * speed, y + dy * speed)) {
             x += dx * speed;
             y += dy * speed;
             moving = true;
@@ -184,7 +185,11 @@ public class PacMan {
         this.x = x;
         this.y = y;
     }
+    public void reverseDirection() {
 
+    direction = (direction + 2) % 4;
+    nextDirection = direction;
+    }
     public int getDirection() {
         return direction;
     }
@@ -245,6 +250,21 @@ public class PacMan {
     chilliTimer.setRepeats(false);
     chilliTimer.start();
     }
+    public void activateWallHack() {
+
+        wallHack = true;
+
+        javax.swing.Timer timer = new javax.swing.Timer(5000, e -> {
+            wallHack = false;
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+}
+
+public boolean hasWallHack() {
+    return wallHack;
+}
     public boolean hasChilli() {
         return hasChilli;
     }

@@ -29,7 +29,22 @@ public class GameRenderer {
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 if (grid[r][c] == 1) {
+                    g2d.setColor(new Color(0, 50, 200));
                     g2d.fillRoundRect(c * 32, r * 32, 30, 30, 8, 8);
+                }
+                else if (grid[r][c] == 7) {
+                    g2d.setColor(Color.GREEN);
+                    g2d.fillRect(c * 32, r * 32, 32, 32);
+                }
+
+                else if (grid[r][c] == 8) {
+                    g2d.setColor(Color.MAGENTA);
+                    g2d.fillRect(c * 32, r * 32, 32, 32);
+                }
+
+                else if (grid[r][c] == 9) {
+                g2d.setColor(Color.RED);
+                g2d.fillRect(c * 32, r * 32, 32, 32);
                 }
             }
         }
