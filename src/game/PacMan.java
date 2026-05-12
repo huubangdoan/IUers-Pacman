@@ -163,7 +163,7 @@ public class PacMan {
     //kiwi
     public void activateKiwiDisguise(){
         this.isDisguised = true;
-        this.disguiseEndTime = System.currentTimeMillis() + 4500;
+        this.disguiseEndTime = System.currentTimeMillis() + 10000;
     }
     public boolean isDisguised(){
         return this.isDisguised;
