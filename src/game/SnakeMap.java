@@ -84,7 +84,7 @@ public class SnakeMap extends Map {
         if (lastDirection != -1) {
             boolean isOpposite = (lastDirection == 0 && nextDir == 2) || (lastDirection == 2 && nextDir == 0) || 
                                  (lastDirection == 1 && nextDir == 3) || (lastDirection == 3 && nextDir == 1);
-            if (isOpposite) getPlayer().setDirection(lastDirection); 
+            if (isOpposite) getPlayer().setNextDirection(lastDirection); 
         }
 
         int oldX = getPlayer().getX();

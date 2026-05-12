@@ -174,7 +174,9 @@ public class PacMan {
     public int getLives() {
         return lives;
     }
-
+    public void setLives(int lives){
+        this.lives=lives;
+    }
     public void loseLife() {
         lives--;
     }
@@ -272,8 +274,7 @@ public class PacMan {
 
     public boolean hasWallHack() {
         return wallHack;
-    }
-    
+    }   
 }
 
 
