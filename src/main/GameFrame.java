@@ -20,6 +20,7 @@ public class GameFrame extends JFrame {
     private Map2Controller        map2Ctrl;
     private Map3Controller        map3Ctrl;
     //private EndlessController     endlessCtrl;
+    private SettingsController settingsCtrl;
 
     public GameFrame() {
         setTitle("Pac-Man: Multiverse");
@@ -45,6 +46,7 @@ public class GameFrame extends JFrame {
         map2Ctrl    = new Map2Controller(cardLayout, mainContainer);
         map3Ctrl    = new Map3Controller(cardLayout, mainContainer);
         //endlessCtrl = new EndlessController(cardLayout, mainContainer);
+        settingsCtrl= new SettingsController(cardLayout, mainContainer);
 
         // ── SkinMenuPanel tạo trước (GachaResultController cần nó) ──────────
         SkinMenuPanel skinMenuPanel = new SkinMenuPanel(skinCtrl, skinManager);
@@ -68,6 +70,7 @@ public class GameFrame extends JFrame {
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────
         mainContainer.add(new MainMenuPanel(mainCtrl), "MainMenu");
+        mainContainer.add(new SettingsPanel(settingsCtrl), "Setting");
         mainContainer.add(gachaMenuPanel,              "GachaMenu");
         mainContainer.add(gachaResultPanel,            "GachaResult");
         mainContainer.add(skinMenuPanel,               "SkinMenu");
