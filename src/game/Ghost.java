@@ -100,6 +100,7 @@ public class Ghost extends MoveSystem{
 
     public String getGhostType(){return ghostType;}
     public Boolean getIsFrighted(){return isFrighted;}
+    public void doubleSpeed(){this.speed=speed*4;}
 
     public void setFrightened(boolean frightened, int duration) {
         this.isFrighted = frightened;
