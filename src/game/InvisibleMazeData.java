@@ -1,9 +1,7 @@
 package game;
-
 import java.awt.Color;
 
 public class InvisibleMazeData {
-
     public static final short[][] GRID = {
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         {1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1},
@@ -27,7 +25,6 @@ public class InvisibleMazeData {
         {1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1},
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
     };
-
     public static final int INITIAL_VISION_RADIUS = 130;
     public static final int MIN_VISION_RADIUS = 60;
     public static final int MAX_VISION_RADIUS = 250;

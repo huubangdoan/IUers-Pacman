@@ -1,4 +1,5 @@
 package game;
+import gacha.*;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -6,7 +7,7 @@ import java.awt.Graphics2D;
 
 public class InvisibleMap extends Map {
     private FogOfWar fogEffect;
-    public InvisibleMap() {
+    public InvisibleMap(SkinManager d) {
         super(); 
         this.grid = InvisibleMazeData.GRID;
         getCollectable().clear(); 
@@ -15,7 +16,7 @@ public class InvisibleMap extends Map {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         if (fogEffect != null && getPlayer() != null) {
