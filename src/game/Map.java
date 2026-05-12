@@ -8,6 +8,8 @@ public class Map extends JPanel implements ActionListener {
     protected short[][] grid;
     private ArrayList<Collectable> collectable;
     private List<Ghost> ghosts;
+    private ArrayList<ChaosTileData> chaosTiles;
+    private java.util.Random rand = new java.util.Random();
     private Timer timer;
     private GameAssets assets; 
     private GameRenderer renderer;
@@ -20,6 +22,7 @@ public class Map extends JPanel implements ActionListener {
         this.assets = new GameAssets();
         this.renderer = new GameRenderer(this.assets);
         this.collectable = new ArrayList<>();
+        this.chaosTiles = new ArrayList<>();
         this.ghosts = new ArrayList<>();
         this.startTime = System.currentTimeMillis();
 
@@ -46,7 +49,11 @@ public class Map extends JPanel implements ActionListener {
         player.move(this);
         player.updateAnimation();
         player.updatePowerup();
-        player.updateDragon(); 
+        player.updateDragon();
+        if (rand.nextInt(600) == 0) {
+        spawnChaosTile();
+        }
+        checkChaosTiles(); 
         for (Ghost g : ghosts) {
             g.move(this);
             g.updateFrightened();
@@ -112,6 +119,38 @@ public class Map extends JPanel implements ActionListener {
             spawnOneFruit();
         }
     }
+    private void checkChaosTiles() {
+
+    chaosTiles.removeIf(tile -> {
+
+        int tileX = tile.getCol() * 32;
+        int tileY = tile.getRow() * 32;
+
+        boolean touched =
+            Math.hypot(player.getX() - tileX,
+                       player.getY() - tileY) < 16;
+
+        if (touched) {
+
+            // REVERSE
+            if (tile.getType() == ChaosTile.REVERSE) {
+
+                player.activateReverseMode();
+            }
+
+            // TRAP
+            else if (tile.getType() == ChaosTile.TRAP) {
+
+                player.loseLife();
+                player.setPosition(32, 32);
+            }
+
+            return true;
+        }
+
+        return false;
+        });
+}
     private void checkLive(){
         for (Ghost g : ghosts){
             if (Math.hypot(player.getX() - g.getX(), player.getY() - g.getY()) < 16){
@@ -165,7 +204,22 @@ public class Map extends JPanel implements ActionListener {
         }
         spawnOneFruit();
     }
+    private void spawnChaosTile() {
 
+        int row;
+        int col;
+
+        do {
+
+            row = rand.nextInt(grid.length);
+            col = rand.nextInt(grid[0].length);
+
+        } while (grid[row][col] != 0);
+
+        int type = 7 + rand.nextInt(3);
+
+        chaosTiles.add(new ChaosTileData(row, col, type));
+    }
     private void spawnOneFruit() {
         java.util.Random rand = new java.util.Random();
         boolean fruitPlaced = false;
@@ -206,6 +260,7 @@ public class Map extends JPanel implements ActionListener {
     public short[][] getGrid() { return grid; }
     public List<Ghost> getGhosts() { return ghosts; }
     public ArrayList<Collectable> getCollectable() { return collectable; }
+    public ArrayList<ChaosTileData> getChaosTiles() { return chaosTiles;}
     public int getElapsedSeconds(){
         long now = System.currentTimeMillis();
         return (int) ((now - this.startTime) / 1000);}
