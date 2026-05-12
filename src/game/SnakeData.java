@@ -1,3 +1,4 @@
+package game;
 public class SnakeData {
     public static final short[][] GRID = {
     {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}, // 0

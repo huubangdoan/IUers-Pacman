@@ -1,3 +1,4 @@
+package game;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -157,7 +158,7 @@ public class SnakeMap extends Map {
     }
 
     @Override
-    protected void paintComponent(Graphics g) {
+    public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

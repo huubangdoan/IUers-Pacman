@@ -1,5 +1,5 @@
 package view;
-
+import game;
 import controller.Map2Controller;
 import gacha.SkinManager;
 import java.awt.*;
@@ -12,7 +12,7 @@ public class Map2Panel extends JPanel {
 
     private SkinManager skinManager;
     private Map2Controller map2controller;
-    private game.Map currentMap;
+    private game.SnakeMap currentMap;
 
     public Map2Panel(Map2Controller map2controller, SkinManager skinManager) {
         this.map2controller = map2controller;
@@ -49,7 +49,7 @@ public class Map2Panel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = new game.Map(skinManager);
+        currentMap = new game.SnakeMap();
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);
