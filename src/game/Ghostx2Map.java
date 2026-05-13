@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Ghostx2Map extends Map {
+public class Ghostx2Map {
     private List<Ghostx2Data> ghosts;
     private int scoreThreshold = 100; // Cứ mỗi 100 điểm thì tăng độ khó
     private int lastDifficultyLevel = 0;
@@ -28,4 +28,7 @@ public class Ghostx2Map extends Map {
         }
     }
 
+    public List<Ghostx2Data> getGhosts() {
+        return ghosts;
+    }
 }
