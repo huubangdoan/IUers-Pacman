@@ -1,7 +1,5 @@
-import java.util.Timer;
-import java.util.TimerTask;
 
-
+package game;
 public class PacMan {
     private int x, y; 
     private int direction = 1; //hướng hiện tại
@@ -27,7 +25,8 @@ public class PacMan {
     private int seedAmmo = 0;
     private boolean chilliMode = false;
     private final int TILE_SIZE = 32;
-
+    private boolean wallHack = false;
+    
     public PacMan(int x, int y, int speed) {
         this.x = x;
         this.y = y;
@@ -84,7 +83,7 @@ public class PacMan {
                 // Kiểm tra xem hướng mới (nextDirection) có đi được không
                 int ndx = getDx(nextDirection);
                 int ndy = getDy(nextDirection);
-                if (!map.isWall(x + ndx * speed, y + ndy * speed)) {
+                if (wallHack||!map.isWall(x + ndx * speed, y + ndy * speed)) {
                     direction = nextDirection;
                 }
             }
@@ -94,7 +93,7 @@ public class PacMan {
         int dx = getDx(direction);
         int dy = getDy(direction);
     
-        if (!map.isWall(x + dx * speed, y + dy * speed)) {
+        if (wallHack||!map.isWall(x + dx * speed, y + dy * speed)) {
             x += dx * speed;
             y += dy * speed;
             moving = true;
@@ -175,7 +174,9 @@ public class PacMan {
     public int getLives() {
         return lives;
     }
-
+    public void setLives(int lives){
+        this.lives=lives;
+    }
     public void loseLife() {
         lives--;
     }
@@ -257,6 +258,23 @@ public class PacMan {
     public void setSpeed(int newSpeed) {
         this.speed = newSpeed;
     }
+    public void reverseDirection() {
+        direction = (direction + 2) % 4;
+        nextDirection = direction;
+    }
+    public void activateWallHack() {
+        wallHack = true;
+        javax.swing.Timer timer = new javax.swing.Timer(5000, e -> {
+            wallHack = false;
+        });
+
+        timer.setRepeats(false);
+        timer.start();
+    }
+
+    public boolean hasWallHack() {
+        return wallHack;
+    }   
 }
 
 

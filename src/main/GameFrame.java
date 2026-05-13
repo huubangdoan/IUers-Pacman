@@ -1,0 +1,86 @@
+import controller.*;
+import game.ScoreManager;
+import gacha.SkinManager;
+import view.*;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class GameFrame extends JFrame {
+
+    private CardLayout cardLayout;
+    private JPanel mainContainer;
+
+    private MainMenuController    mainCtrl;
+    private MapMenuController     mapCtrl;
+    private GachaMenuController   gachaCtrl;
+    private GachaResultController gachaResultCtrl;
+    private SkinMenuController    skinCtrl;
+    private Map1Controller        map1Ctrl;
+    private Map2Controller        map2Ctrl;
+    private Map3Controller        map3Ctrl;
+    //private EndlessController     endlessCtrl;
+    private SettingsController settingsCtrl;
+
+    public GameFrame() {
+        setTitle("Pac-Man: Multiverse");
+        getContentPane().setPreferredSize(new Dimension(672, 672));
+        pack();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+
+        cardLayout    = new CardLayout();
+        mainContainer = new JPanel(cardLayout);
+
+        // ── ScoreManager dùng chung (highscore + điểm tích lũy gacha) ───────
+        ScoreManager scoreManager = new ScoreManager();
+
+        // ── SkinManager nhận ScoreManager để gacha trừ/cộng điểm ────────────
+        SkinManager skinManager = new SkinManager(scoreManager);
+
+        // ── Controllers ──────────────────────────────────────────────────────
+        mainCtrl    = new MainMenuController(cardLayout, mainContainer);
+        mapCtrl     = new MapMenuController(cardLayout, mainContainer);
+        skinCtrl    = new SkinMenuController(cardLayout, mainContainer);
+        map1Ctrl    = new Map1Controller(cardLayout, mainContainer);
+        map2Ctrl    = new Map2Controller(cardLayout, mainContainer);
+        map3Ctrl    = new Map3Controller(cardLayout, mainContainer);
+        //endlessCtrl = new EndlessController(cardLayout, mainContainer);
+        settingsCtrl= new SettingsController(cardLayout, mainContainer);
+
+        // ── SkinMenuPanel tạo trước (GachaResultController cần nó) ──────────
+        SkinMenuPanel skinMenuPanel = new SkinMenuPanel(skinCtrl, skinManager);
+        skinCtrl.setSkinMenuPanel(skinMenuPanel);
+        mainCtrl.setSkinMenuPanel(skinMenuPanel);
+
+        // ── GachaResult ──────────────────────────────────────────────────────
+        gachaResultCtrl = new GachaResultController(cardLayout, mainContainer, skinMenuPanel);
+        GachaResultPanel gachaResultPanel = new GachaResultPanel(gachaResultCtrl);
+
+        // ── GachaMenu ────────────────────────────────────────────────────────
+        gachaCtrl = new GachaMenuController(cardLayout, mainContainer, skinManager, gachaResultPanel);
+        GachaMenuPanel gachaMenuPanel = new GachaMenuPanel(gachaCtrl, skinManager);
+        gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
+
+        // ── Map Panels (truyền skinManager để load đúng skin đã chọn) ────────
+        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager);
+        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager);
+        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager);
+        //EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager);
+
+        // ── Thêm tất cả vào CardLayout ───────────────────────────────────────
+        mainContainer.add(new MainMenuPanel(mainCtrl), "MainMenu");
+        mainContainer.add(new SettingsPanel(settingsCtrl), "Settings");
+        mainContainer.add(gachaMenuPanel,              "GachaMenu");
+        mainContainer.add(gachaResultPanel,            "GachaResult");
+        mainContainer.add(skinMenuPanel,               "SkinMenu");
+        mainContainer.add(new MapMenuPanel(mapCtrl),   "MapMenu");
+        mainContainer.add(map1Panel,                   "Map1");
+        mainContainer.add(map2Panel,                   "Map2");
+        mainContainer.add(map3Panel,                   "Map3");
+        //mainContainer.add(endlessPanel,                "Endless");
+
+        add(mainContainer);
+        cardLayout.show(mainContainer, "MainMenu");
+    }
+}

@@ -1,5 +1,5 @@
+package game;
 import java.awt.*;
-import java.awt.geom.RoundRectangle2D;
 public class GameRenderer {
     private GameAssets assets;
 
@@ -32,7 +32,7 @@ public class GameRenderer {
                     g2d.fillRoundRect(c * 32, r * 32, 30, 30, 8, 8);
                 }
             }
-        }
+        }   
     }
 
     private void drawCollectables(Graphics2D g2d, java.util.List<Collectable> collectables) {
@@ -72,7 +72,7 @@ public class GameRenderer {
         }
     }
 
-    private void drawPlayer(Graphics2D g2d, PacMan player) {
+    public void drawPlayer(Graphics2D g2d, PacMan player) {
         Image[] frames = switch(player.getDirection()) {
             case 3 -> assets.pacmanLeft;
             case 2 -> assets.pacmanDown;
@@ -129,8 +129,8 @@ public class GameRenderer {
     }
     private void drawShadowText(Graphics2D g2d, String text, int x, int y, Color mainColor) {
         g2d.setColor(Color.BLACK);
-        g2d.drawString(text, x + 1, y + 1); // Vẽ bóng đen lệch 1px
+        g2d.drawString(text, x + 1, y + 1); 
         g2d.setColor(mainColor);
-        g2d.drawString(text, x, y); // Vẽ chữ chính
+        g2d.drawString(text, x, y); 
     }
 }

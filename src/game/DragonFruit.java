@@ -1,3 +1,4 @@
+package game;
 public class DragonFruit extends Fruit{
     public DragonFruit(int x, int y, String name){
         super(x, y, "DragonFruit");

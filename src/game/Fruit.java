@@ -1,3 +1,4 @@
+package game;
 public abstract class Fruit implements Collectable{
     private int x;
     private int y;
