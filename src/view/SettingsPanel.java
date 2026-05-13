@@ -81,7 +81,7 @@ public class SettingsPanel extends JPanel {
         add(back);
         add(tutorial);
 
-        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/setbgr.png");
+        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/setbgr1.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
