@@ -3,15 +3,14 @@ import java.util.List;
 
 public class Ghostx2Map extends Map {
     private List<Ghostx2Data> ghosts;
-    private int scoreThreshold = 1000; // Cứ mỗi 100 điểm thì tăng độ khó
+    private int scoreThreshold = 100; // Cứ mỗi 100 điểm thì tăng độ khó
     private int lastDifficultyLevel = 0;
-    private ScoreManager score;
+
     public Ghostx2Map() {
         ghosts = new ArrayList<>();
         // Khởi tạo một vài Ghost mẫu
         ghosts.add(new Ghostx2Data("Blinky", 10, 10, 1.5));
         ghosts.add(new Ghostx2Data("Pinky", 15, 15, 1.5));
-        score.get
     }
 
     // Kiểm tra điểm số để cập nhật tốc độ Ghost
