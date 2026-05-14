@@ -8,16 +8,6 @@ public class WinPanel extends JPanel {
     public WinPanel(WinController wincontroller) {
         setLayout(null);
 
-        ImageIcon originalNext = new ImageIcon("src/assets/Menu Graphics/map1.png");
-        Image scaledNextImg = originalNext.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
-        ImageIcon nextIcon = new ImageIcon(scaledNextImg);
-        JButton next = new JButton(nextIcon);
-        next.setBounds(231, 148, 210, 120);
-        UIUtils.makeButtonTransparent(next);
-        UIUtils.setupZoomEffect(next, nextIcon, 210, 120);
-        next.setActionCommand("Next chapter");
-        next.addActionListener(wincontroller);
-
         ImageIcon originalMainmenu = new ImageIcon("src/assets/Menu Graphics/map2.png");
         Image scaledMainmenuImg = originalMainmenu.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon mainmenuIcon = new ImageIcon(scaledMainmenuImg);
@@ -38,7 +28,6 @@ public class WinPanel extends JPanel {
         back.setActionCommand("Back");
         back.addActionListener(wincontroller);
 
-        add(next);
         add(mainmenu);
         add(back);
 

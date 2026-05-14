@@ -21,15 +21,15 @@ public class SettingsController implements ActionListener {
          switch (command){
             case "Slow":
                 System.out.println("Da chon che do: Slow");
-                utils.GameConfig.difficulty = 1;
+                utils.GameConfig.pacmanSpeed = 2;
                 break;
             case "Normal":
                 System.out.println("Da chon che do: Normal");
-                utils.GameConfig.difficulty = 2;
+                utils.GameConfig.pacmanSpeed = 4;
                 break;
             case "Fast":
                 System.out.println("Da chon che do: Fast");
-                utils.GameConfig.difficulty = 3;
+                utils.GameConfig.pacmanSpeed = 8;
                 break;
             case "Back":
                 cardLayout.show(mainContainer, "MainMenu"); 

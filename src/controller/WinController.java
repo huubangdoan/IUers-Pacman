@@ -16,9 +16,6 @@ public class WinController implements ActionListener{
     public void actionPerformed(ActionEvent click){
         String command = click.getActionCommand();
         switch (command){
-            case "Next chapter":
-                cardLayout.show(mapContainer, "MapMenu");
-                break;
             case "Main menu":
                 cardLayout.show(mapContainer, "MainMenu");
                 break;

@@ -70,10 +70,12 @@ public class SettingsPanel extends JPanel {
             tutorialOverlay.setVisible(true);
         });
 
-       /*  ImageIcon canvaImg = new ImageIcon("src/assets/Menu Graphics/guide_canva.png");
-        tutorialOverlay = new TutorialOverlay(canvaImg);*/
+        ImageIcon canvaImg = new ImageIcon("src/assets/Menu Graphics/guide_canva.png");
+        tutorialOverlay = new TutorialOverlay(canvaImg);
+        tutorialOverlay.setBounds(86, 86, 500, 500); 
+        tutorialOverlay.setVisible(false);
         
-        //add(tutorialOverlay);
+        add(tutorialOverlay, 0);
         add(s);
         add(slow);
         add(normal);
