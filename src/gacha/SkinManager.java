@@ -26,6 +26,11 @@ public class SkinManager {
         ALL_SKINS.add(new Skin("Polar Bear", "Polar PacMan",      Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Brown Bear", "Brown PacMan",      Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Lime",      "Lime PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Saiyan",      "Saiyan PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Samurai",      "Samurai PacMan",      Skin.Rarity.RARE));
         // EPIC skins
         ALL_SKINS.add(new Skin("Thanos",   "Thanos PacMan",   Skin.Rarity.EPIC));
         ALL_SKINS.add(new Skin("Batman",   "Bat-Man PacMan",  Skin.Rarity.EPIC));
