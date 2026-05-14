@@ -2,6 +2,7 @@ Saiyan PacMan
 Samurai PacMan
 Thanos PacMan
 LGBT PacMan
+Ghost PacMan
 Polar PacMan
 Brown PacMan
 Iron-Man PacMan

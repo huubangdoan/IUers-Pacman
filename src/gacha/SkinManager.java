@@ -69,20 +69,20 @@ public class SkinManager {
         if (scoreManager.getCumulativeScore() < totalCost) return null;
 
         List<RollResult> results = new ArrayList<>();
-        boolean hasEpic = false;
+        boolean hasRare = false;
         Random rand = new Random();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             List<Skin> pool;
-            if (i == 100 && !hasEpic) {
-                pool = getSkinsByRarity(Skin.Rarity.EPIC);
+            if (i == 10 && !hasRare) {
+                pool = getSkinsByRarity(Skin.Rarity.RARE);
             } else {
                 pool = (rand.nextInt(100) < 2)
                         ? getSkinsByRarity(Skin.Rarity.EPIC)
                         : getSkinsByRarity(Skin.Rarity.RARE);
             }
             Skin skin = pool.get(rand.nextInt(pool.size()));
-            if (skin.getRarity() == Skin.Rarity.EPIC) hasEpic = true;
+            if (skin.getRarity() == Skin.Rarity.RARE) hasRare = true;
 
             boolean isDuplicate = unlockedFolderNames.contains(skin.getFolderName());
             if (isDuplicate) {
@@ -111,7 +111,7 @@ public class SkinManager {
             if (i == 99 && !hasEpic) {
                 pool = getSkinsByRarity(Skin.Rarity.EPIC);
             } else {
-                pool = (rand.nextInt(100) < 20)
+                pool = (rand.nextInt(100) < 2)
                         ? getSkinsByRarity(Skin.Rarity.EPIC)
                         : getSkinsByRarity(Skin.Rarity.RARE);
             }
