@@ -82,6 +82,8 @@ public class GameFrame extends JFrame {
         mainContainer.add(map1Panel,                   "Map1");
         mainContainer.add(map2Panel,                   "Map2");
         mainContainer.add(map3Panel,                   "Map3");
+        mainContainer.add(new WinPanel(winCtrl), "Win");
+        mainContainer.add(new LosePanel(loseCtrl), "Lose");
         //mainContainer.add(endlessPanel,                "Endless");
 
         add(mainContainer);
