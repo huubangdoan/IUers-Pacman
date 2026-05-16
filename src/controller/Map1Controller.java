@@ -20,4 +20,11 @@ public class Map1Controller implements ActionListener{
                 break;
          }
     }
+    public void showLoseScreen() {
+        cardLayout.show(mainContainer, "Lose");
+    }
+
+    public void showWinScreen() {
+        cardLayout.show(mainContainer, "Win");
+    }
 }

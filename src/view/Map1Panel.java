@@ -46,7 +46,20 @@ public class Map1Panel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = new game.Map(skinManager);
+        game.TrackableMap trackableMap = new game.TrackableMap(skinManager);
+        trackableMap.setGameStateListener(new game.GameStateListener() {
+            @Override
+            public void onGameOver(int finalScore) {
+                map1controller.showLoseScreen(); 
+            }
+
+            @Override
+            public void onGameWon(int finalScore) {
+                map1controller.showWinScreen(); 
+            }
+        });
+        
+        currentMap = trackableMap;
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);

@@ -8,11 +8,11 @@ public class WinPanel extends JPanel {
     public WinPanel(WinController wincontroller) {
         setLayout(null);
 
-        ImageIcon originalMainmenu = new ImageIcon("src/assets/Menu Graphics/map2.png");
+        ImageIcon originalMainmenu = new ImageIcon("src/assets/Menu Graphics/mainmenu.png");
         Image scaledMainmenuImg = originalMainmenu.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon mainmenuIcon = new ImageIcon(scaledMainmenuImg);
         JButton mainmenu = new JButton(mainmenuIcon);
-        mainmenu.setBounds(231, 233, 210, 120);
+        mainmenu.setBounds(231, 290, 210, 120);
         UIUtils.makeButtonTransparent(mainmenu);
         UIUtils.setupZoomEffect(mainmenu, mainmenuIcon, 210, 120);
         mainmenu.setActionCommand("Main menu");
