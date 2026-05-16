@@ -262,14 +262,32 @@ public class PacMan {
         direction = (direction + 2) % 4;
         nextDirection = direction;
     }
-    public void activateWallHack() {
+    public void activateWallHack(Map map) {
         wallHack = true;
         javax.swing.Timer timer = new javax.swing.Timer(5000, e -> {
             wallHack = false;
+            escapeFromWall(map);
         });
 
         timer.setRepeats(false);
         timer.start();
+    }
+    public void escapeFromWall(Map map) {
+        if (!map.isWall(x, y)) return;
+        for (int radius = 1; radius <= 10; radius++) {
+            for (int dr = -radius; dr <= radius; dr++) {
+                for (int dc = -radius; dc <= radius; dc++) {
+                    if (Math.abs(dr) != radius && Math.abs(dc) != radius) continue;
+                    int nx = (x / 32 + dc) * 32;
+                    int ny = (y / 32 + dr) * 32;
+                    if (!map.isWall(nx, ny)) {
+                        x = nx;
+                        y = ny;
+                        return;
+                    }
+                }
+            }
+        }
     }
 
     public boolean hasWallHack() {

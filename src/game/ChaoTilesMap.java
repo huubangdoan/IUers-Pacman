@@ -1,8 +1,7 @@
 package game;
+import gacha.SkinManager;
 import java.awt.*;
 import java.util.ArrayList;
-
-import gacha.SkinManager;
 
 public class ChaoTilesMap extends Map {
 
@@ -64,7 +63,7 @@ public class ChaoTilesMap extends Map {
             grid[row][col] = 0;
             specialTiles.removeIf(p -> p.x == col && p.y == row);
         } else if (tile == 9) {
-            getPlayer().activateWallHack();
+            getPlayer().activateWallHack(this);
             grid[row][col] = 0;
             specialTiles.removeIf(p -> p.x == col && p.y == row);
         }
