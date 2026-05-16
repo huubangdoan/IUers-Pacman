@@ -51,7 +51,7 @@ public class MapPanel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = new Map(skinManager, renderer, grid);
+        currentMap = setMap(skinManager, renderer, grid);
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);
@@ -59,6 +59,8 @@ public class MapPanel extends JPanel {
         repaint();
         currentMap.requestFocusInWindow();
     }
-    public void setMap(Map currentMap){this.currentMap= currentMap;}
+    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid){
+        return new Map(skinManager, renderer, grid);
+    }
     public Map getMap(){return currentMap;}
 }

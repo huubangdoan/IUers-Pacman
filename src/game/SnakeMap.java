@@ -33,9 +33,6 @@ public class SnakeMap extends Map {
         this.setDoubleBuffered(true);
         if (getGhosts() != null) getGhosts().clear();
         if (getPlayer() != null) getPlayer().setLives(1);
-        this.grid = grid;
-        updateGridCache();                
-        if (getCollectable() != null) getCollectable().clear();
         spawnOneFruit();
         spawnOneFruit();
     }

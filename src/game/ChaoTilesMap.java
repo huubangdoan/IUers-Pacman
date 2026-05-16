@@ -8,7 +8,6 @@ public class ChaoTilesMap extends Map {
     private final ArrayList<Point> specialTiles = new ArrayList<>();
     public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer, short[][] grid) {
         super(skinManager, renderer, grid);
-        this.grid = ChaoData.GRID;
         buildSpecialTileCache();  
     }
 
