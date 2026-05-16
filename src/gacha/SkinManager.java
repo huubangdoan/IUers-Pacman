@@ -26,6 +26,12 @@ public class SkinManager {
         ALL_SKINS.add(new Skin("Polar Bear", "Polar PacMan",      Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Brown Bear", "Brown PacMan",      Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Lime",      "Lime PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Saiyan",      "Saiyan PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Samurai",      "Samurai PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Ghost",      "Ghost PacMan",      Skin.Rarity.RARE));
         // EPIC skins
         ALL_SKINS.add(new Skin("Thanos",   "Thanos PacMan",   Skin.Rarity.EPIC));
         ALL_SKINS.add(new Skin("Batman",   "Bat-Man PacMan",  Skin.Rarity.EPIC));
@@ -63,20 +69,20 @@ public class SkinManager {
         if (scoreManager.getCumulativeScore() < totalCost) return null;
 
         List<RollResult> results = new ArrayList<>();
-        boolean hasEpic = false;
+        boolean hasRare = false;
         Random rand = new Random();
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             List<Skin> pool;
-            if (i == 100 && !hasEpic) {
-                pool = getSkinsByRarity(Skin.Rarity.EPIC);
+            if (i == 10 && !hasRare) {
+                pool = getSkinsByRarity(Skin.Rarity.RARE);
             } else {
                 pool = (rand.nextInt(100) < 2)
                         ? getSkinsByRarity(Skin.Rarity.EPIC)
                         : getSkinsByRarity(Skin.Rarity.RARE);
             }
             Skin skin = pool.get(rand.nextInt(pool.size()));
-            if (skin.getRarity() == Skin.Rarity.EPIC) hasEpic = true;
+            if (skin.getRarity() == Skin.Rarity.RARE) hasRare = true;
 
             boolean isDuplicate = unlockedFolderNames.contains(skin.getFolderName());
             if (isDuplicate) {
@@ -105,7 +111,7 @@ public class SkinManager {
             if (i == 99 && !hasEpic) {
                 pool = getSkinsByRarity(Skin.Rarity.EPIC);
             } else {
-                pool = (rand.nextInt(100) < 20)
+                pool = (rand.nextInt(100) < 2)
                         ? getSkinsByRarity(Skin.Rarity.EPIC)
                         : getSkinsByRarity(Skin.Rarity.RARE);
             }

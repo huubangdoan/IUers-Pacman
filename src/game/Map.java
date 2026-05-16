@@ -174,7 +174,7 @@ public class Map extends JPanel implements ActionListener {
             for (Ghost g : ghosts) {
                 int dx = px - g.getX(), dy = py - g.getY();
                 if (dx * dx + dy * dy < 4096) { 
-                    g.knockbackFrom(player);
+                    g.knockbackFrom(player, this);
                     g.setStunned(true, 90);
                     player.setDragonMode(false);
                     break;
