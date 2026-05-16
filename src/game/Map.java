@@ -58,19 +58,6 @@ public class Map extends JPanel implements ActionListener {
         }
     }
 
-    public void respawnEntitiesForGrid() {
-        List<Point> occupied = new ArrayList<>();
-        Point pacmanSpot = findRandomEmptySpot(rand, occupied);
-        player.setPosition(pacmanSpot.x * 32, pacmanSpot.y * 32);
-        occupied.add(pacmanSpot);
-        ghosts.clear();
-        String[] ghostTypes = {"blinky", "pinky", "inky", "clyde"};
-        for (String type : ghostTypes) {
-            Point spot = findRandomEmptySpot(rand, occupied);
-            ghosts.add(new Ghost(spot.x * 32, spot.y * 32, 2, type));
-            occupied.add(spot);
-        }
-    }
 
     public void update() {
         player.move(this);
