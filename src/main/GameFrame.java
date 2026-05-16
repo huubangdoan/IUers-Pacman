@@ -1,10 +1,10 @@
+package main;
 import controller.*;
-import game.ScoreManager;
 import gacha.SkinManager;
-import view.*;
-
-import javax.swing.*;
+import game.*;
 import java.awt.*;
+import javax.swing.*;
+import view.*;
 
 public class GameFrame extends JFrame {
 
@@ -37,6 +37,8 @@ public class GameFrame extends JFrame {
 
         // ── SkinManager nhận ScoreManager để gacha trừ/cộng điểm ────────────
         SkinManager skinManager = new SkinManager(scoreManager);
+        GameAssets assets=new GameAssets(skinManager);
+        GameRenderer renderer= new GameRenderer(assets);
 
         // ── Controllers ──────────────────────────────────────────────────────
         mainCtrl    = new MainMenuController(cardLayout, mainContainer);
@@ -63,9 +65,9 @@ public class GameFrame extends JFrame {
         gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
 
         // ── Map Panels (truyền skinManager để load đúng skin đã chọn) ────────
-        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager);
-        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager);
-        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager);
+        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager, renderer);
+        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer);
+        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer);
         //EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager);
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────

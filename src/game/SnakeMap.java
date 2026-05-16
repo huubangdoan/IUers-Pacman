@@ -1,4 +1,5 @@
 package game;
+import gacha.*;
 import java.awt.*;
 import java.awt.geom.GeneralPath;
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ public class SnakeMap extends Map {
         new BasicStroke(32f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     private final GeneralPath snakePath = new GeneralPath();
 
-    public SnakeMap() {
-        super();
+    public SnakeMap(SkinManager skinManager, GameRenderer renderer) {
+        super(skinManager, renderer);
         this.setDoubleBuffered(true);
         if (getGhosts() != null) getGhosts().clear();
         if (getPlayer() != null) getPlayer().setLives(1);

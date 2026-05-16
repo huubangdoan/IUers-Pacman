@@ -37,18 +37,8 @@ public class GameRenderer {
 
     private void drawCollectables(Graphics2D g2d, java.util.List<Collectable> collectables) {
         for (Collectable f : collectables) {
-            Image img = null;
-            if (f instanceof LightPoint) img = assets.dotImg;
-            else if (f instanceof Apple) img = assets.appleImg;
-            else if (f instanceof Durian) img = assets.durianImg;
-            else if (f instanceof Watermelon) img = assets.watermelonImg;
-            else if (f instanceof Kiwi) img = assets.kiwiImg;
-            else if (f instanceof DragonFruit) img = assets.dragonFruitImg;
-            else if (f instanceof Chilli) img = assets.chilliImg;
-            if (img != null) {
-                g2d.drawImage(img, f.getX(), f.getY(), 32, 32, null);
+            f.draw(g2d, assets);
             }
-        }
     }
 
     private void drawGhosts(Graphics2D g2d, java.util.List<Ghost> ghosts) {

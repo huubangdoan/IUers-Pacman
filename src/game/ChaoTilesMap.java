@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class ChaoTilesMap extends Map {
 
     private final ArrayList<Point> specialTiles = new ArrayList<>();
-    public ChaoTilesMap(SkinManager skinManager) {
-        super(skinManager);
+    public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer) {
+        super(skinManager, renderer);
         this.grid = ChaoData.GRID;
         updateGridCache();         
         respawnEntitiesForGrid();
