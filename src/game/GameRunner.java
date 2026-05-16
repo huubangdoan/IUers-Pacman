@@ -12,7 +12,7 @@ public class GameRunner {
             GameAssets assets= new GameAssets(skinManager);
             GameRenderer renderer = new GameRenderer(assets);
             frame.setDefaultCloseOperation(3);
-            frame.add(new Map(skinManager, assets, renderer));
+            frame.add(new Map(skinManager, renderer, SnakeData.GRID));
             frame.pack();
             frame.setResizable(false);
             frame.setLocationRelativeTo(null);

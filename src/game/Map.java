@@ -21,9 +21,9 @@ public class Map extends JPanel implements ActionListener {
     protected int gridRows, gridCols;
     protected int playerX, playerY;
 
-    public Map(SkinManager skinManager, GameRenderer renderer) {
+    public Map(SkinManager skinManager, GameRenderer renderer, short[][] grid) {
         this.scoreManager = skinManager != null ? skinManager.getScoreManager() : new ScoreManager();
-        this.grid        = MapData.GRID;
+        this.grid        = grid;
         this.renderer    = renderer;
         this.collectable = new ArrayList<>();
         this.ghosts      = new ArrayList<>();

@@ -15,11 +15,13 @@ public class Map1Panel extends JPanel {
     private Map1Controller map1controller;
     private Map currentMap;
     private GameRenderer renderer;
+    private short[][] grid;
 
-    public Map1Panel(Map1Controller map1controller, SkinManager skinManager, GameRenderer renderer) {
+    public Map1Panel(Map1Controller map1controller, SkinManager skinManager, GameRenderer renderer, short[][] grid) {
         this.map1controller = map1controller;
         this.skinManager    = skinManager;
         this.renderer    = renderer;
+        this.grid= grid;
         setLayout(null);
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
@@ -49,7 +51,7 @@ public class Map1Panel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = new game.Map(skinManager, renderer);
+        currentMap = new game.Map(skinManager, renderer, grid);
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);

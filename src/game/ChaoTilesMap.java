@@ -6,14 +6,10 @@ import java.util.ArrayList;
 public class ChaoTilesMap extends Map {
 
     private final ArrayList<Point> specialTiles = new ArrayList<>();
-    public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer) {
-        super(skinManager, renderer);
+    public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer, short[][] grid) {
+        super(skinManager, renderer, grid);
         this.grid = ChaoData.GRID;
-        updateGridCache();         
-        respawnEntitiesForGrid();
-        getCollectable().clear();
         buildSpecialTileCache();  
-        spawnRandomEvent();
     }
 
     private void buildSpecialTileCache() {
