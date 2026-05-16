@@ -2,6 +2,7 @@ package view;
 
 import controller.Map3Controller;
 import gacha.SkinManager;
+import game.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -12,11 +13,13 @@ public class Map3Panel extends JPanel {
 
     private SkinManager skinManager;
     private Map3Controller map3controller;
-    private game.Map currentMap;
+    private Map currentMap;
+    private GameRenderer renderer;
 
-    public Map3Panel(Map3Controller map3controller, SkinManager skinManager) {
+    public Map3Panel(Map3Controller map3controller, SkinManager skinManager, GameRenderer renderer) {
         this.map3controller = map3controller;
         this.skinManager    = skinManager;
+        this.renderer= renderer;
         setLayout(null);
 
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
@@ -49,7 +52,7 @@ public class Map3Panel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = new game.ChaoTilesMap(skinManager);
+        currentMap = new game.ChaoTilesMap(skinManager, renderer);
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);

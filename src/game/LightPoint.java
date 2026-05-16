@@ -1,4 +1,5 @@
 package game;
+import java.awt.*;
 public class LightPoint implements Collectable{
     private int x;
     private int y;
@@ -14,4 +15,8 @@ public class LightPoint implements Collectable{
     public int getX(){return x;}
     @Override
     public int getY(){return y;}
+    @Override
+    public void draw(Graphics2D g2d, GameAssets assets) {
+        g2d.drawImage(assets.dotImg, x, y, 32, 32, null);
+}
 }

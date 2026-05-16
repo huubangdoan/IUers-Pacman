@@ -1,6 +1,7 @@
 package view;
 
 import controller.Map1Controller;
+import game.*;
 import gacha.SkinManager;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -12,11 +13,13 @@ public class Map1Panel extends JPanel {
 
     private SkinManager skinManager;
     private Map1Controller map1controller;
-    private game.Map currentMap;
+    private Map currentMap;
+    private GameRenderer renderer;
 
-    public Map1Panel(Map1Controller map1controller, SkinManager skinManager) {
+    public Map1Panel(Map1Controller map1controller, SkinManager skinManager, GameRenderer renderer) {
         this.map1controller = map1controller;
         this.skinManager    = skinManager;
+        this.renderer    = renderer;
         setLayout(null);
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
@@ -46,7 +49,7 @@ public class Map1Panel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = new game.Map(skinManager);
+        currentMap = new game.Map(skinManager, renderer);
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);

@@ -13,7 +13,6 @@ public class Map extends JPanel implements ActionListener {
     private ArrayList<Collectable> collectable;
     private List<Ghost> ghosts;
     private Timer timer;
-    private GameAssets assets;
     private GameRenderer renderer;
     public static final int FRUIT_DURATION = 300;
     private long startTime;
@@ -22,11 +21,10 @@ public class Map extends JPanel implements ActionListener {
     protected int gridRows, gridCols;
     protected int playerX, playerY;
 
-    public Map(SkinManager skinManager) {
+    public Map(SkinManager skinManager, GameRenderer renderer) {
         this.scoreManager = skinManager != null ? skinManager.getScoreManager() : new ScoreManager();
         this.grid        = MapData.GRID;
-        this.assets      = new GameAssets(skinManager);
-        this.renderer    = new GameRenderer(this.assets);
+        this.renderer    = renderer;
         this.collectable = new ArrayList<>();
         this.ghosts      = new ArrayList<>();
         this.startTime   = System.currentTimeMillis();
@@ -42,14 +40,12 @@ public class Map extends JPanel implements ActionListener {
         timer = new Timer(16, this);
         timer.start();
     }
-
-    public Map() { this(null); }
     protected void updateGridCache() {
         gridRows = grid.length;
         gridCols = grid[0].length;
     }
 
-    protected void initEntities() {
+    public void initEntities() {
         List<Point> occupied = new ArrayList<>();
         Point pacmanSpot = findRandomEmptySpot(rand, occupied);
         this.player = new PacMan(pacmanSpot.x * 32, pacmanSpot.y * 32, 2);
@@ -62,7 +58,7 @@ public class Map extends JPanel implements ActionListener {
         }
     }
 
-    protected void respawnEntitiesForGrid() {
+    public void respawnEntitiesForGrid() {
         List<Point> occupied = new ArrayList<>();
         Point pacmanSpot = findRandomEmptySpot(rand, occupied);
         player.setPosition(pacmanSpot.x * 32, pacmanSpot.y * 32);
@@ -163,7 +159,7 @@ public class Map extends JPanel implements ActionListener {
             if (player.hasThorns() || g.getIsFrighted()) {
                 int dx = px - g.getX(), dy = py - g.getY();
                 if (dx * dx + dy * dy < 256) { // 16²
-                    g.respawnAtRandomLocation(MapData.GRID);
+                    g.respawnAtRandomLocation(grid);
                     g.setFrightened(false, 0);
                     player.setHasThorns(false);
                     break;
