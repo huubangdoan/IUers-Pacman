@@ -6,13 +6,8 @@ import java.awt.Graphics2D;
 public class InvisibleMap extends Map {
     private FogOfWar fogEffect;
 
-    public InvisibleMap(SkinManager skinManager, GameRenderer renderer, FogOfWar fogEffect) {
-        super(skinManager, renderer);
-        this.grid = InvisibleMazeData.GRID;
-        updateGridCache();        
-        respawnEntitiesForGrid();
-        getCollectable().clear();
-        spawnRandomEvent();
+    public InvisibleMap(SkinManager skinManager, GameRenderer renderer, FogOfWar fogEffect, short[][] grid) {
+        super(skinManager, renderer, grid);
         this.fogEffect = fogEffect;
     }
 

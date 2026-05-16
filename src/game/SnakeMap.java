@@ -28,14 +28,11 @@ public class SnakeMap extends Map {
         new BasicStroke(32f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     private final GeneralPath snakePath = new GeneralPath();
 
-    public SnakeMap(SkinManager skinManager, GameRenderer renderer) {
-        super(skinManager, renderer);
+    public SnakeMap(SkinManager skinManager, GameRenderer renderer, short[][] grid) {
+        super(skinManager, renderer, grid);
         this.setDoubleBuffered(true);
         if (getGhosts() != null) getGhosts().clear();
         if (getPlayer() != null) getPlayer().setLives(1);
-        this.grid = SnakeData.GRID;
-        updateGridCache();                
-        if (getCollectable() != null) getCollectable().clear();
         spawnOneFruit();
         spawnOneFruit();
     }

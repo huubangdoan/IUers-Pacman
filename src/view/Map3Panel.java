@@ -1,63 +1,14 @@
 package view;
 
-import controller.Map3Controller;
+import controller.*;
 import gacha.SkinManager;
 import game.*;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import javax.swing.*;
-import utils.UIUtils;
-
-public class Map3Panel extends JPanel {
-
-    private SkinManager skinManager;
-    private Map3Controller map3controller;
-    private Map currentMap;
-    private GameRenderer renderer;
-
-    public Map3Panel(Map3Controller map3controller, SkinManager skinManager, GameRenderer renderer) {
-        this.map3controller = map3controller;
-        this.skinManager    = skinManager;
-        this.renderer= renderer;
-        setLayout(null);
-
-        ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
-        Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
-        ImageIcon backIcon = new ImageIcon(scaledBackImg);
-        JButton back = new JButton(backIcon);
-        back.setBounds(25, 15, 105, 60);
-        UIUtils.makeButtonTransparent(back);
-        UIUtils.setupZoomEffect(back, backIcon, 105, 60);
-        back.setActionCommand("Back");
-        back.addActionListener(map3controller);
-        add(back);
-        setComponentZOrder(back, 0);
-
-        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr.png");
-        JLabel background = new JLabel(bgIcon);
-        background.setBounds(0, 0, 672, 672);
-        add(background);
-
-        this.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentShown(ComponentEvent e) {
-                reloadMap();
-            }
-        });
+public class Map3Panel extends MapPanel {
+    public Map3Panel(MapController map3controller, SkinManager skinManager, GameRenderer renderer, short[][] grid) {
+        super(map3controller, skinManager, renderer, grid);
     }
-
-    private void reloadMap() {
-        if (currentMap != null) {
-            currentMap.getTimer().stop();
-            remove(currentMap);
-        }
-        currentMap = new game.ChaoTilesMap(skinManager, renderer);
-        currentMap.setBounds(0, 0, 672, 672);
-        add(currentMap);
-        setComponentZOrder(currentMap, getComponentCount() - 1);
-        revalidate();
-        repaint();
-        currentMap.requestFocusInWindow();
+    @Override
+    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid){
+        return new ChaoTilesMap(skinManager, renderer, grid);
     }
 }
