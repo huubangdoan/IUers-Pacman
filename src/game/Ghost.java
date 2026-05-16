@@ -134,19 +134,25 @@ public class Ghost extends MoveSystem{
         this.stunTimer = duration;
     }
 
-    public void knockbackFrom(PacMan player) {
-        int pushDistance = 32;
-                    if (x < player.getX()) {
-                        x -= pushDistance;
-                    } else {
-                        x += pushDistance;
-                    }
-                    if (y < player.getY()) {
-                        y -= pushDistance;
-                    } else {
-                        y += pushDistance;
-                    }
-                }
+    public void knockbackFrom(PacMan player, Map map) {
+        int pushDistance = 64;
+        int pushDx = (x >= player.getX()) ? 1 : -1;
+        int pushDy = (y >= player.getY()) ? 1 : -1;
+        int newX = x + pushDx * pushDistance;
+        int newY = y + pushDy * pushDistance;
+        newX = (newX / 32) * 32;
+        newY = (newY / 32) * 32;
+        if (!map.isWall(newX, newY)) {
+            x = newX;
+            y = newY;
+        } else if (!map.isWall(newX, y)) {
+            x = newX;
+        } else if (!map.isWall(x, newY)) {
+            y = newY;
+        } else {
+            respawnAtRandomLocation(map.getGrid());
+        }
+    }
 
     public void respawnAtRandomLocation(short[][] grid) {
         java.util.Random rand = new java.util.Random();
