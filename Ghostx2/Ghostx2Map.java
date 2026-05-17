@@ -11,6 +11,7 @@ public class Ghostx2Map {
         // Khởi tạo một vài Ghost mẫu
         ghosts.add(new Ghostx2Data("Blinky", 10, 10, 1.5));
         ghosts.add(new Ghostx2Data("Pinky", 15, 15, 1.5));
+        ghosts.add(new Ghostx2Data("Inky", 20, 20, 1.5));
     }
 
     // Kiểm tra điểm số để cập nhật tốc độ Ghost
@@ -19,7 +20,7 @@ public class Ghostx2Map {
 
         if (currentLevel > lastDifficultyLevel) {
             lastDifficultyLevel = currentLevel;
-            System.out.println("--- ĐỘ KHÓ TĂNG! LEVEL: " + lastDifficultyLevel + " ---");
+            System.out.println("--- UP LEVEL: " + lastDifficultyLevel + " ---");
             
             // Duyệt danh sách và x2 tốc độ từng con ghost
             for (Ghostx2Data g : ghosts) {

@@ -10,6 +10,9 @@ public class GameRunner {
             frame.setResizable(false);
             frame.setLocationRelativeTo(null);
             frame.setVisible(true);
+            JFrame frame1 = new JFrame("IUers-s-Pacman - X2 Ghost Mode");
+            
+        
         });
     }
 }

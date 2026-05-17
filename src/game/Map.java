@@ -14,6 +14,8 @@ public class Map extends JPanel implements ActionListener {
     public static final int FRUIT_DURATION = 300;
     private long startTime;
     private ScoreManager scoreManager;
+    private int lastDifficultyMilestone = 0; // Mốc điểm tăng độ khó gần nhất
+    private int currentLevel = 1;
     public Map() {
         this.scoreManager = new ScoreManager();
         this.grid = MapData.GRID;
@@ -210,4 +212,69 @@ public class Map extends JPanel implements ActionListener {
         long now = System.currentTimeMillis();
         return (int) ((now - this.startTime) / 1000);}
     public ScoreManager getScoreManager() { return scoreManager; }
+    public int getCurrentLevel() { return currentLevel; }
+    
+
+    /**
+     * Hàm kiểm tra và cập nhật độ khó dựa trên điểm số thực tế của người chơi
+     */
+    public void checkAndUpgradeDifficulty(int currentScore) {
+        // Ví dụ: Cứ mỗi 200 điểm sẽ tăng 1 cấp độ khó (Tương tự log terminal của bạn)
+        if (currentScore > 0 && currentScore / 200 > lastDifficultyMilestone) {
+            lastDifficultyMilestone = currentScore / 200;
+            currentLevel++;
+            
+            System.out.println("--- ĐÃ LÊN LEVEL: " + currentLevel + " ---");
+            
+            // 1. Kích hoạt tính năng X2 số lượng Ghost
+            duplicateGhosts();
+            
+            // 2. Tăng tốc độ của tất cả Ghost hiện tại lên 1.2 lần (hoặc tùy chỉnh)
+            for (Ghost g : ghosts) {
+                g.updateSpeed(1.5);
+            }
+        }
+    }
+
+    /**
+     * Logic X2 số lượng Ghost: Sao chép các Ghost hiện tại và add thêm vào Map
+     */
+    private void duplicateGhosts() {
+        List<Ghost> newGhosts = new ArrayList<>();
+        for (Ghost existingGhost : ghosts) {
+            // Lấy vị trí hiện tại của ghost cũ để tạo ghost mới (hoặc hồi sinh tại Ghost House cố định)
+            int spawnX = existingGhost.getX(); 
+            int spawnY = existingGhost.getY();
+            String type = existingGhost.getGhostType();
+            int baseSpeed = existingGhost.getSpeed(); // Đảm bảo bạn có hàm getSpeed() trong Ghost
+            
+            // Tạo một bản sao Ghost mới cùng loại
+            Ghost twinGhost = new Ghost(spawnX, spawnY, baseSpeed, type);
+            newGhosts.add(twinGhost);
+            
+            System.out.println("Cảnh báo: " + type + " đã nhân bản! Tốc độ tăng lên.");
+        }
+        
+        // Thêm các ghost mới vào danh sách quản lý chính của Map
+        this.ghosts.addAll(newGhosts);
+    }
+    // Đoạn code này nằm trong vòng lặp chính (Game Loop) hoặc actionPerformed của Timer điều khiển Game
+    public void gameUpdate() {
+    // 1. Cập nhật di chuyển của Pacman
+        player.move(this);
+    
+    // 2. Cho các Ghost di chuyển
+        for (Ghost ghost : this.getGhosts()) {
+            ghost.move(this);
+    }
+    
+    // 3. Kiểm tra va chạm, ăn điểm
+        int score = player.getScore(); 
+    
+    // 4. LIÊN KẾT ĐỘ KHÓ: Gọi hàm check từ map để tự động X2 Ghost và tăng tốc
+        this.checkAndUpgradeDifficulty(score);
+    
+    // 5. Vẽ lại màn hình
+        repaint(); 
+}
 }

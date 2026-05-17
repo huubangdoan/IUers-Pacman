@@ -162,7 +162,16 @@ public class Ghost extends MoveSystem{
             }
         }
     }
-    public int getSpeed(){return speed;}
+    public int  getSpeed(){return speed;}
+
+    // Thêm vào trong class Ghost (Ghost.java)
+
+// Phương thức giúp tăng tốc độ của Ghost hiện tại lên x% hoặc theo một giá trị mới
+public void updateSpeed(double speedMultiplier) {
+    // Giả sử thuộc tính speed gốc nằm ở lớp cha hoặc lớp này
+    // Nếu speed là kiểu int, ta ép kiểu sau khi nhân, hoặc đổi speed sang double để mượt mà hơn
+    this.speed = (int)(this.speed * speedMultiplier); 
+}
 
     
 }
