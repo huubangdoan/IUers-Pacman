@@ -63,19 +63,11 @@ public class ChaoTilesMap extends Map {
             specialTiles.removeIf(p -> p.x == col && p.y == row);
         }
     }
-
+    public ArrayList<Point> getSpecialTiles(){return specialTiles;}
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
         getRenderer().render((Graphics2D) g, this, getWallImg(), getBackGroundImg());
-        for (Point p : specialTiles) {
-            short tile = grid[p.y][p.x];
-            if      (tile == 7) g2d.setColor(Color.GREEN);
-            else if (tile == 8) g2d.setColor(Color.MAGENTA);
-            else if (tile == 9) g2d.setColor(Color.RED);
-            else continue;
-            g2d.fillRect(p.x * 32, p.y * 32, 32, 32);
-        }
     }
 }

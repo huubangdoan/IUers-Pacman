@@ -6,7 +6,6 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
-import controller.*;
 
 public class Map extends JPanel implements ActionListener {
     private PacMan player;
@@ -93,7 +92,7 @@ public class Map extends JPanel implements ActionListener {
         }
         boolean noDotsLeft = true;
         for (Collectable c : collectable) {
-            if (c instanceof LightPoint) {
+            if (c instanceof LightPoint||c instanceof Fruit) {
                 noDotsLeft = false; 
                 break;
             }
