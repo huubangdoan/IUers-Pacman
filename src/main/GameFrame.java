@@ -41,8 +41,6 @@ public class GameFrame extends JFrame {
         SkinManager skinManager = new SkinManager(scoreManager);
         GameAssets assets=new GameAssets(skinManager);
         GameRenderer renderer= new GameRenderer(assets);
-
-
         // ── Controllers ──────────────────────────────────────────────────────
         mainCtrl    = new MainMenuController(cardLayout, mainContainer);
         mapCtrl     = new MapMenuController(cardLayout, mainContainer);
@@ -60,6 +58,10 @@ public class GameFrame extends JFrame {
         skinCtrl.setSkinMenuPanel(skinMenuPanel);
         mainCtrl.setSkinMenuPanel(skinMenuPanel);
 
+        GameStateListener gameStateListener1= new GameStateListener(map1Ctrl);
+        GameStateListener gameStateListener2= new GameStateListener(map2Ctrl);
+        GameStateListener gameStateListener3= new GameStateListener(map3Ctrl);
+
         // ── GachaResult ──────────────────────────────────────────────────────
         gachaResultCtrl = new GachaResultController(cardLayout, mainContainer, skinMenuPanel);
         GachaResultPanel gachaResultPanel = new GachaResultPanel(gachaResultCtrl);
@@ -70,9 +72,9 @@ public class GameFrame extends JFrame {
         gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
 
         // ── Map Panels (truyền skinManager để load đúng skin đã chọn) ────────
-        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager, renderer, MapData.GRID, GameAssets.wall2Img, GameAssets.backGround2Img);
-        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer, SnakeData.GRID, GameAssets.wall3Img, GameAssets.backGround1Img);
-        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer, ChaoData.GRID, GameAssets.wall1Img, GameAssets.backGround2Img);
+        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager, renderer, MapData.GRID, gameStateListener1,GameAssets.wall2Img, GameAssets.backGround2Img);
+        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer, SnakeData.GRID,  gameStateListener2,GameAssets.wall3Img, GameAssets.backGround1Img);
+        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer, ChaoData.GRID,  gameStateListener3, GameAssets.wall1Img, GameAssets.backGround2Img);
         //EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager);
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────

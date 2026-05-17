@@ -4,10 +4,9 @@ import java.awt.*;
 import java.util.ArrayList;
 
 public class ChaoTilesMap extends Map {
-
     private final ArrayList<Point> specialTiles = new ArrayList<>();
-    public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg) {
-        super(skinManager, renderer, grid, wallImg, backGroundImg);
+    public ChaoTilesMap( SkinManager skinManager, GameRenderer renderer, short[][] grid,GameStateListener gameStateListener, Image wallImg, Image backGroundImg) {
+        super(skinManager, renderer, grid,  gameStateListener, wallImg, backGroundImg);
         buildSpecialTileCache();  
     }
 

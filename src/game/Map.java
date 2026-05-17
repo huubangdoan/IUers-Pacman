@@ -6,6 +6,7 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.*;
+import controller.*;
 
 public class Map extends JPanel implements ActionListener {
     private PacMan player;
@@ -21,11 +22,13 @@ public class Map extends JPanel implements ActionListener {
     protected final java.util.Random rand = new java.util.Random();
     protected int gridRows, gridCols;
     protected int playerX, playerY;
+    private GameStateListener gameStateListener;
 
-    public Map(SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg) {
+    public Map( SkinManager skinManager, GameRenderer renderer, short[][] grid,GameStateListener gameStateListener, Image wallImg, Image backGroundImg) {
         this.scoreManager = skinManager != null ? skinManager.getScoreManager() : new ScoreManager();
         this.grid        = grid;
         this.renderer    = renderer;
+        this.gameStateListener= gameStateListener;
         this.wallImg= wallImg;
         this.backGroundImg= backGroundImg;
         this.collectable = new ArrayList<>();
@@ -77,9 +80,32 @@ public class Map extends JPanel implements ActionListener {
             g.updateFrightened();
         }
         checkEntityCollisions();
+        checkGameStatus();
         repaint();
     }
-
+    public void checkGameStatus() {
+        if (player.getLives() <= 0) {
+            if (timer.isRunning()) {
+                timer.stop(); 
+            }
+            if (gameStateListener != null) {
+                gameStateListener.onGameOver(player.getScore());
+            } return; 
+        }
+        boolean noDotsLeft = true;
+        for (Collectable c : collectable) {
+            if (c instanceof LightPoint) {
+                noDotsLeft = false; 
+                break;
+            }
+        }
+        if (noDotsLeft) {
+            timer.stop();
+            if (gameStateListener != null) {
+                gameStateListener.onGameWon(player.getScore());
+            }
+        }
+    }
     public Point findRandomEmptySpot(java.util.Random r, List<Point> occupied) {
         while (true) {
             int row = r.nextInt(gridRows);
@@ -225,4 +251,7 @@ public class Map extends JPanel implements ActionListener {
         return (int) ((System.currentTimeMillis() - startTime) / 1000);
     }
     public ScoreManager getScoreManager()          { return scoreManager; }
+    public void setGameStateListener(GameStateListener listener) {
+        this.gameStateListener = listener;
+    }
 }

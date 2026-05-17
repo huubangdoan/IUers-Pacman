@@ -5,8 +5,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
 public class MapController implements ActionListener{
-    private CardLayout cardLayout;
-    private JPanel mainContainer;
+    CardLayout cardLayout;
+    JPanel mainContainer;
     public MapController( CardLayout cardLayout, JPanel mapContainer){
         this.cardLayout = cardLayout;
         this.mainContainer = mapContainer;
@@ -14,5 +14,12 @@ public class MapController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent click) {
         
+    }
+    public void showLoseScreen() {
+        cardLayout.show(mainContainer, "Lose");
+    }
+
+    public void showWinScreen() {
+        cardLayout.show(mainContainer, "Win");
     }
 }

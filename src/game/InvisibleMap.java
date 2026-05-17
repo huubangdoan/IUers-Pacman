@@ -1,13 +1,13 @@
 package game;
 import gacha.*;
 import java.awt.*;
-import java.awt.Graphics2D;
 
 public class InvisibleMap extends Map {
     private FogOfWar fogEffect;
 
-    public InvisibleMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg, FogOfWar fogEffect) {
-        super(skinManager, renderer, grid, wallImg, backGroundImg);
+    public InvisibleMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, 
+        Image wallImg, Image backGroundImg, FogOfWar fogEffect) {
+        super(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
         this.fogEffect = fogEffect;
     }
 

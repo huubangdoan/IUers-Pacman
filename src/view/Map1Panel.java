@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class Map1Panel extends MapPanel {
 
-    public Map1Panel(MapController map1controller, SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg) {
-        super(map1controller, skinManager, renderer, grid, wallImg, backGroundImg);
+    public Map1Panel(MapController map1controller, SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, Image wallImg, Image backGroundImg) {
+        super(map1controller, skinManager, renderer, grid, gameStateListener,wallImg, backGroundImg);
     }
 }
