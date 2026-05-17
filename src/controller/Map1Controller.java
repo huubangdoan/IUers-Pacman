@@ -17,11 +17,4 @@ public class Map1Controller extends MapController {
                 break;
          }
     }
-    public void showLoseScreen() {
-        cardLayout.show(mainContainer, "Lose");
-    }
-
-    public void showWinScreen() {
-        cardLayout.show(mainContainer, "Win");
-    }
 }

@@ -9,7 +9,7 @@ public class Map2Panel extends MapPanel {
         
     }
     @Override
-    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid){
+    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, Image wallImg, Image backGroundImg){
         return new SnakeMap(skinManager, renderer, grid, getGameStateListener(),getWallImg(), getBackGroundImg());
     }
 }

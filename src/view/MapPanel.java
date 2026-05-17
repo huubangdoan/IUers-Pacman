@@ -57,7 +57,7 @@ public class MapPanel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = setMap(skinManager, renderer, grid);
+        currentMap = setMap(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
         currentMap.setGameStateListener(gameStateListener);
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
@@ -66,7 +66,7 @@ public class MapPanel extends JPanel {
         repaint();
         currentMap.requestFocusInWindow();
     }
-    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid){
+    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, Image wallImg, Image backGroundImg){
         return new Map(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
     }
     public Map getMap(){return currentMap;}

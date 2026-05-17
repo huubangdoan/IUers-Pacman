@@ -120,6 +120,7 @@ public class SnakeMap extends Map {
 
         checkSelfCollision();
         checkEntityCollisions();
+        checkGameStatus();
         repaint();
     }
 
@@ -135,7 +136,6 @@ public class SnakeMap extends Map {
             }
         }
     }
-
     @Override
     public void checkEntityCollisions() {
         ArrayList<Collectable> colls = getCollectable();

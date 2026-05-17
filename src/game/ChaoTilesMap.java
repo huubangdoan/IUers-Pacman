@@ -35,6 +35,7 @@ public class ChaoTilesMap extends Map {
             g.updateFrightened();
         }
         checkEntityCollisions();
+        checkGameStatus();
         repaint();
     }
 

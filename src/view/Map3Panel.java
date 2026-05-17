@@ -9,7 +9,7 @@ public class Map3Panel extends MapPanel {
         super(map3controller, skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
     }
     @Override
-    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid){
-        return new ChaoTilesMap(skinManager, renderer, grid, getGameStateListener(), getWallImg(), getBackGroundImg());
+    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, Image wallImg, Image backGroundImg){
+        return new ChaoTilesMap(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
     }
 }

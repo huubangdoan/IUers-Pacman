@@ -41,7 +41,6 @@ public class Map extends JPanel implements ActionListener {
         setFocusable(true);
         setPreferredSize(new Dimension(672, 672));
         spawnRandomEvent();
-
         timer = new Timer(16, this);
         timer.start();
     }
