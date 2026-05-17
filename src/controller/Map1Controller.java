@@ -10,6 +10,18 @@ public class Map1Controller extends MapController {
     }
     @Override
     public void actionPerformed(ActionEvent click) {
-        
+        String command = click.getActionCommand();
+         switch (command){
+            case "Back":
+                cardLayout.show(mainContainer, "MainMenu"); 
+                break;
+         }
+    }
+    public void showLoseScreen() {
+        cardLayout.show(mainContainer, "Lose");
+    }
+
+    public void showWinScreen() {
+        cardLayout.show(mainContainer, "Win");
     }
 }

@@ -10,6 +10,11 @@ public class Map3Controller extends MapController{
     }
     @Override
     public void actionPerformed(ActionEvent click) {
-       
+       String command = click.getActionCommand();
+         switch (command){
+            case "Back":
+                cardLayout.show(mainContainer, "MainMenu"); 
+                break;
+         }
     }
 }

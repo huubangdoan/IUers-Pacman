@@ -62,6 +62,9 @@ public class Map extends JPanel implements ActionListener {
 
 
     public void update() {
+        if (!player.hasChilli()) {
+            player.setSpeed(utils.GameConfig.pacmanSpeed);
+        }
         player.move(this);
         player.updateAnimation();
         player.updatePowerup();
