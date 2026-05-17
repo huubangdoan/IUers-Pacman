@@ -1,3 +1,4 @@
+package main;
 import controller.*;
 import game.ScoreManager;
 import gacha.SkinManager;
