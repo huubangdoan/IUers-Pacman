@@ -168,9 +168,9 @@ public class SnakeMap extends Map {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        getRenderer().render((Graphics2D) g, this, GameAssets.wall3Img);
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,    RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,  RenderingHints.VALUE_STROKE_PURE);
-
         int bodySize = snakeBody.size();
         if (bodySize > 1) {
             g2d.setStroke(SNAKE_STROKE);

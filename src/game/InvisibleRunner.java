@@ -13,7 +13,7 @@ public class InvisibleRunner {
             GameAssets assets= new GameAssets(skinManager);
             GameRenderer renderer = new GameRenderer(assets);
             FogOfWar fogEffect = new FogOfWar(InvisibleMazeData.INITIAL_VISION_RADIUS);
-            frame.add(new InvisibleMap(skinManager, renderer, fogEffect, SnakeData.GRID));
+            frame.add(new InvisibleMap(skinManager, renderer, fogEffect, InvisibleMazeData.GRID));
             frame.pack();
             frame.setResizable(false);
             frame.setLocationRelativeTo(null);

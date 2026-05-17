@@ -31,7 +31,6 @@ public class Map extends JPanel implements ActionListener {
 
         updateGridCache();
         initEntities();
-
         addKeyListener(new PacmanInput(player));
         setFocusable(true);
         setPreferredSize(new Dimension(672, 672));
@@ -202,7 +201,7 @@ public class Map extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        renderer.render((Graphics2D) g, this);
+        renderer.render((Graphics2D) g, this, GameAssets.wall1Img);
     }
 
     @Override
@@ -211,6 +210,7 @@ public class Map extends JPanel implements ActionListener {
     public PacMan getPlayer()                      { return player; }
     public Timer getTimer()                        { return timer; }
     public short[][] getGrid()                     { return grid; }
+    public void setGrid( short[][] grid)           {this.grid=grid;}
     public List<Ghost> getGhosts()                 { return ghosts; }
     public ArrayList<Collectable> getCollectable() { return collectable; }
     public int getElapsedSeconds() {

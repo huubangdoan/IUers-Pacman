@@ -7,11 +7,11 @@ public class GameRenderer {
         this.assets = assets;
     }
 
-    public void render(Graphics2D g2d, Map map) {
+    public void render(Graphics2D g2d, Map map, Image image) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         drawBackground(g2d, map);
-        drawWalls(g2d, map.getGrid());
+        drawWalls(g2d, map.getGrid(), image);
         drawCollectables(g2d, map.getCollectable());
         drawGhosts(g2d, map.getGhosts());
         drawPlayer(g2d, map.getPlayer());
@@ -24,12 +24,11 @@ public class GameRenderer {
         g2d.fillRect(0, 0, map.getWidth(), map.getHeight());
     }
 
-    private void drawWalls(Graphics2D g2d, short[][] grid) {
-        g2d.setColor(new Color(0, 50, 200));
+    public void drawWalls(Graphics2D g2d, short[][] grid, Image image) {
         for (int r = 0; r < grid.length; r++) {
             for (int c = 0; c < grid[0].length; c++) {
                 if (grid[r][c] == 1) {
-                    g2d.fillRoundRect(c * 32, r * 32, 30, 30, 8, 8);
+                    g2d.drawImage(image, c*32, r*32, null);
                 }
             }
         }   

@@ -14,6 +14,7 @@ public class InvisibleMap extends Map {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        getRenderer().render((Graphics2D) g, this, GameAssets.wall2Img);
         if (fogEffect != null && getPlayer() != null) {
             Graphics2D g2d = (Graphics2D) g;
             int px = getPlayer().getX() + 16;
