@@ -14,8 +14,7 @@ public class GameRenderer {
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         drawBackground(g2d, map, backGroundImg);
         drawWalls(g2d, map.getGrid(), wallImage);
-        if ( map instanceof ChaoTilesMap){
-        drawChaosTiles(g2d, (ChaoTilesMap) map);}
+        drawChaosTiles(g2d, map);
         drawCollectables(g2d, map.getCollectable());
         drawGhosts(g2d, map.getGhosts());
         drawPlayer(g2d, map.getPlayer());
@@ -36,7 +35,7 @@ public class GameRenderer {
             }
         }   
     }
-    public void drawChaosTiles(Graphics2D g2d, ChaoTilesMap chaoMap) {
+    public void drawChaosTiles(Graphics2D g2d, Map chaoMap) {
         short[][] grid = chaoMap.getGrid();
         for (Point p : chaoMap.getSpecialTiles()) {
             short tile = grid[p.y][p.x];

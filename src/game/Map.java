@@ -18,6 +18,7 @@ public class Map extends JPanel implements ActionListener {
     private long startTime;
     private ScoreManager scoreManager;
     private Image backGroundImg, wallImg;
+    private final ArrayList<Point> specialTiles = new ArrayList<>();
     protected final java.util.Random rand = new java.util.Random();
     protected int gridRows, gridCols;
     protected int playerX, playerY;
@@ -36,6 +37,7 @@ public class Map extends JPanel implements ActionListener {
 
         updateGridCache();
         initEntities();
+        buildSpecialTileCache();  
         addKeyListener(new PacmanInput(player));
         setFocusable(true);
         setPreferredSize(new Dimension(672, 672));
@@ -112,6 +114,13 @@ public class Map extends JPanel implements ActionListener {
             if (grid[row][col] == 0 && !occupied.contains(spot)) return spot;
         }
     }
+    public void buildSpecialTileCache() {
+        specialTiles.clear();
+        for (int r = 0; r < gridRows; r++)
+            for (int c = 0; c < gridCols; c++)
+                if (grid[r][c] == 7 || grid[r][c] == 8 || grid[r][c] == 9)
+                    specialTiles.add(new Point(c, r));
+    }
 
     public boolean isWall(int x, int y) {
         int startCol = x >> 5,      endCol = (x + 31) >> 5;
@@ -144,6 +153,27 @@ public class Map extends JPanel implements ActionListener {
         handleFruitLogic();
         checkLive();
         if (fruitEaten[0]) spawnOneFruit();
+    }
+    public void checkChaosTiles() {
+        int row = playerY >> 5;
+        int col = playerX >> 5;
+        if (row < 0 || row >= gridRows || col < 0 || col >= gridCols) return;
+        short tile = grid[row][col];
+        if (tile == 0 || tile == 1) return; 
+        if (tile == 7) {
+            getPlayer().reverseDirection();
+            grid[row][col] = 0;
+            specialTiles.removeIf(p -> p.x == col && p.y == row); // sync cache
+        } else if (tile == 8) {
+            getPlayer().loseLife();
+            getPlayer().setPosition(32, 32);
+            grid[row][col] = 0;
+            specialTiles.removeIf(p -> p.x == col && p.y == row);
+        } else if (tile == 9) {
+            getPlayer().activateWallHack(this);
+            grid[row][col] = 0;
+            specialTiles.removeIf(p -> p.x == col && p.y == row);
+        }
     }
 
     public void checkLive() {
@@ -248,6 +278,7 @@ public class Map extends JPanel implements ActionListener {
     public int getElapsedSeconds() {
         return (int) ((System.currentTimeMillis() - startTime) / 1000);
     }
+    public ArrayList<Point> getSpecialTiles()      {return specialTiles;}
     public ScoreManager getScoreManager()          { return scoreManager; }
     public void setGameStateListener(GameStateListener listener) {
         this.gameStateListener = listener;
