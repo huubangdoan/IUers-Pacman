@@ -9,36 +9,6 @@ public class SettingsPanel extends JPanel {
     public SettingsPanel(SettingsController settingscontroller) {
         setLayout(null); 
 
-        ImageIcon originalSlow = new ImageIcon("src/assets/Menu Graphics/slow.png");
-        Image scaledSlowImg = originalSlow.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
-        ImageIcon slowIcon = new ImageIcon(scaledSlowImg);
-        JButton slow = new JButton(slowIcon);
-        slow.setBounds(231, 245, 210, 120);
-        UIUtils.makeButtonTransparent(slow);
-        UIUtils.setupZoomEffect(slow, slowIcon, 210, 120);
-        slow.setActionCommand("Slow");
-        slow.addActionListener(settingscontroller);
-
-        ImageIcon originalNormal = new ImageIcon("src/assets/Menu Graphics/normal.png");
-        Image scaledNormalImg = originalNormal.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
-        ImageIcon normalIcon = new ImageIcon(scaledNormalImg);
-        JButton normal = new JButton(normalIcon);
-        normal.setBounds(231, 330, 210, 120);
-        UIUtils.makeButtonTransparent(normal);
-        UIUtils.setupZoomEffect(normal, normalIcon, 210, 120);
-        normal.setActionCommand("Normal");
-        normal.addActionListener(settingscontroller);
-
-        ImageIcon originalFast = new ImageIcon("src/assets/Menu Graphics/fast.png");
-        Image scaledFastImg = originalFast.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
-        ImageIcon fastIcon = new ImageIcon(scaledFastImg);
-        JButton fast = new JButton(fastIcon);
-        fast.setBounds(231, 415, 210, 120);
-        UIUtils.makeButtonTransparent(fast);
-        UIUtils.setupZoomEffect(fast, fastIcon, 210, 120);
-        fast.setActionCommand("Fast");
-        fast.addActionListener(settingscontroller);
-
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
         ImageIcon backIcon = new ImageIcon(scaledBackImg);
@@ -77,9 +47,6 @@ public class SettingsPanel extends JPanel {
         
         add(tutorialOverlay, 0);
         add(s);
-        add(slow);
-        add(normal);
-        add(fast);
         add(back);
         add(tutorial);
 

@@ -3,6 +3,7 @@ package view;
 import controller.GachaMenuController;
 import gacha.SkinManager;
 import java.awt.*;
+import java.io.File;
 import javax.swing.*;
 import utils.UIUtils;
 
@@ -15,71 +16,75 @@ public class GachaMenuPanel extends JPanel {
         this.skinManager = skinManager;
         setLayout(null);
 
-        // thiết kế lại cái title của cái gacha nhen
-        JLabel title = new JLabel("GACHA", SwingConstants.CENTER);
-        title.setFont(new Font("Consolas", Font.BOLD, 32));
-        title.setForeground(new Color(255, 215, 0));
-        title.setBounds(186, 30, 300, 45);
-        add(title);
-        // thiết kế lại cái sroce  tổng của gacha nhen
+        Font sciFiFont = new Font("Consolas", Font.BOLD, 18); 
+        Font sciFiFontSmall = new Font("Consolas", Font.PLAIN, 14); 
+
+        try {
+            File fontFile = new File("src/assets/Font/SquadaOne-Regular.ttf"); 
+            Font customFont = Font.createFont(Font.TRUETYPE_FONT, fontFile);
+            GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+            ge.registerFont(customFont);
+            
+            sciFiFont = customFont.deriveFont(26f); 
+            sciFiFontSmall = customFont.deriveFont(16f); 
+        } catch (Exception e) {
+            System.out.println("Không load được Font tùy chỉnh, xài đỡ Consolas nha!");
+        }
+
+        JLabel energyTitle = new JLabel("💠 TOTAL ENERGY:", SwingConstants.CENTER);
+        energyTitle.setFont(sciFiFontSmall); 
+        energyTitle.setForeground(new Color(200, 225, 255)); 
+        energyTitle.setBounds(350, 150, 260, 25);
+        add(energyTitle);
+
         scoreLabel = new JLabel("", SwingConstants.CENTER);
-        scoreLabel.setFont(new Font("Consolas", Font.BOLD, 16));
-        scoreLabel.setForeground(new Color(180, 255, 180));
-        scoreLabel.setBounds(136, 78, 400, 28);
+        scoreLabel.setFont(sciFiFont);
+        scoreLabel.setForeground(new Color(225, 220, 0)); 
+        scoreLabel.setBounds(350, 180, 260,35);
         add(scoreLabel);
         refreshScore(); 
 
-        //thiết kế lại cái mô tả score  của gacha nhen 
-        JLabel priceInfo = new JLabel(
-            "1 Roll = " + SkinManager.ROLL_COST + " pts  |  Trùng hoàn " + SkinManager.REFUND_COST + " pts",
-            SwingConstants.CENTER);
-        priceInfo.setFont(new Font("Consolas", Font.PLAIN, 12));
-        priceInfo.setForeground(new Color(200, 200, 200));
-        priceInfo.setBounds(136, 108, 400, 20);
-        add(priceInfo);
+        JLabel costLabel = new JLabel("⚡ Cost: " + String.format("%,d", SkinManager.ROLL_COST) + " pts/Roll", SwingConstants.CENTER);
+        costLabel.setFont(sciFiFontSmall);
+        costLabel.setForeground(new Color(200, 225, 255)); 
+        costLabel.setBounds(350, 220, 260, 25);
+        add(costLabel);
 
-        // thiết kế lại nút roll 1 luôn
+        JLabel refundLabel = new JLabel("🔄 Refund: +" + String.format("%,d", SkinManager.REFUND_COST) + " pts", SwingConstants.CENTER);
+        refundLabel.setFont(sciFiFontSmall);
+        refundLabel.setForeground(new Color(200, 225, 255));
+        refundLabel.setBounds(350, 250, 260, 25);
+        add(refundLabel);
+
         ImageIcon original1Roll = new ImageIcon("src/assets/Menu Graphics/roll1.png");
-        Image scaled1RollImg = original1Roll.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
+        Image scaled1RollImg = original1Roll.getImage().getScaledInstance(143, 80, Image.SCALE_SMOOTH);
         ImageIcon roll1Icon = new ImageIcon(scaled1RollImg);
         JButton roll1 = new JButton(roll1Icon);
-        roll1.setBounds(390, 185, 210, 120);
+        roll1.setBounds(408, 338, 143, 80);
         UIUtils.makeButtonTransparent(roll1);
-        UIUtils.setupZoomEffect(roll1, roll1Icon, 210, 120);
+        UIUtils.setupZoomEffect(roll1, roll1Icon, 143, 80);
         roll1.setActionCommand("1Roll");
         roll1.addActionListener(gachacontroller);
 
-        // thiết kế lại label giá dưới
-        JLabel price1 = makeGoldLabel(SkinManager.ROLL_COST + " pts", 390, 310, 210);
-        add(price1);
-
-        // thiết kế lại label giá dưới
         ImageIcon original10Rolls = new ImageIcon("src/assets/Menu Graphics/rolls10.png");
-        Image scaled10RollsImg = original10Rolls.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
+        Image scaled10RollsImg = original10Rolls.getImage().getScaledInstance(143, 80, Image.SCALE_SMOOTH);
         ImageIcon rolls10Icon = new ImageIcon(scaled10RollsImg);
         JButton rolls10 = new JButton(rolls10Icon);
-        rolls10.setBounds(390, 330, 210, 120);
+        rolls10.setBounds(408, 411, 143, 80);
         UIUtils.makeButtonTransparent(rolls10);
-        UIUtils.setupZoomEffect(rolls10, rolls10Icon, 210, 120);
+        UIUtils.setupZoomEffect(rolls10, rolls10Icon, 143, 80);
         rolls10.setActionCommand("10Rolls");
         rolls10.addActionListener(gachacontroller);
 
-        JLabel price10 = makeGoldLabel((SkinManager.ROLL_COST * 10) + " pts", 390, 455, 210);
-        add(price10);
-
-        // thiết kế lại nút 100
         ImageIcon original100Rolls = new ImageIcon("src/assets/Menu Graphics/rolls100.png");
-        Image scaled100RollsImg = original100Rolls.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
+        Image scaled100RollsImg = original100Rolls.getImage().getScaledInstance(143, 80, Image.SCALE_SMOOTH);
         ImageIcon rolls100Icon = new ImageIcon(scaled100RollsImg);
         JButton rolls100 = new JButton(rolls100Icon);
-        rolls100.setBounds(390, 475, 210, 120);
+        rolls100.setBounds(408, 484, 143, 80);
         UIUtils.makeButtonTransparent(rolls100);
-        UIUtils.setupZoomEffect(rolls100, rolls100Icon, 210, 120);
+        UIUtils.setupZoomEffect(rolls100, rolls100Icon, 143, 80);
         rolls100.setActionCommand("100Rolls");
         rolls100.addActionListener(gachacontroller);
-
-        JLabel price100 = makeGoldLabel((SkinManager.ROLL_COST * 100) + " pts", 390, 600, 210);
-        add(price100);
 
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
@@ -96,7 +101,7 @@ public class GachaMenuPanel extends JPanel {
         add(rolls100);
         add(back);
 
-        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr2.png");
+        ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr2.1.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
@@ -104,7 +109,7 @@ public class GachaMenuPanel extends JPanel {
 
     public void refreshScore() {
         long pts = skinManager.getScoreManager().getCumulativeScore();
-        scoreLabel.setText("💰 accumatited: " + String.format("%,d", pts) + " pts");
+        scoreLabel.setText(String.format("%,d", pts) + " pts");
     }
 
     private JLabel makeGoldLabel(String text, int x, int y, int w) {
