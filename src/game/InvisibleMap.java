@@ -1,20 +1,23 @@
 package game;
-import gacha.*;
+
+import gacha.SkinManager;
 import java.awt.*;
 
-public class InvisibleMap extends Map {
-    private FogOfWar fogEffect;
+public class InvisibleMap extends ClassicPacmanMap {
+    private final FogOfWar fogEffect;
 
-    public InvisibleMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, 
-        Image wallImg, Image backGroundImg, FogOfWar fogEffect) {
-        super(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
+    public InvisibleMap(SkinManager skinManager, GameRenderer renderer, GameStateListener gameStateListener, 
+                        Image wallImg, Image backGroundImg, FogOfWar fogEffect, GridManager gridManager,
+                        EntityManager entityManager, SpawnManager spawnManager,
+                        CollisionManager collisionManager, GameStateManager gameStateManager) {
+        super(skinManager, renderer, gameStateListener, wallImg, backGroundImg, gridManager, 
+              entityManager, spawnManager, collisionManager, gameStateManager);
         this.fogEffect = fogEffect;
     }
 
     @Override
     public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        getRenderer().render((Graphics2D) g, this, getWallImg(), getBackGroundImg());
+        super.paintComponent(g); // Vẽ map nền, Pacman và Ghost từ ClassicPacmanMap trước
         if (fogEffect != null && getPlayer() != null) {
             Graphics2D g2d = (Graphics2D) g;
             int px = getPlayer().getX() + 16;

@@ -19,15 +19,36 @@ public class MapPanel extends JPanel {
     private Image wallImg;
     private Image backGroundImg;
     private  GameStateListener gameStateListener;
+    private final GridManager gridManager;
+    private final EntityManager entityManager;
+    private final SpawnManager spawnManager;
+    private final CollisionManager collisionManager;
+    private final GameStateManager gameStateManager;
 
-    public MapPanel(MapController mapcontroller, SkinManager skinManager, GameRenderer renderer, short[][] grid,  GameStateListener gameStateListener, Image wallImg, Image backGroundImg) {
+    public MapPanel(MapController mapcontroller, 
+        SkinManager skinManager, 
+        GameRenderer renderer, 
+        GameStateListener gameStateListener, 
+        Image wallImg, 
+        Image backGroundImg,
+        GridManager gridManager,
+        EntityManager entityManager,
+        SpawnManager spawnManager,
+        CollisionManager collisionManager,
+        GameStateManager gameStateManager) {
         this.mapcontroller = mapcontroller;
         this.skinManager    = skinManager;
-        this.renderer    = renderer;
-        this.grid= grid;
-        this.wallImg= wallImg;
-        this.backGroundImg= backGroundImg;
-        this.gameStateListener= gameStateListener;
+        this.renderer = renderer;
+        this.gameStateListener = gameStateListener;
+        this.wallImg = wallImg;
+        this.backGroundImg = backGroundImg;
+
+        // Gán các Dependency thông qua Constructor Injection
+        this.gridManager = gridManager;
+        this.entityManager = entityManager;
+        this.spawnManager = spawnManager;
+        this.collisionManager = collisionManager;
+        this.gameStateManager = gameStateManager;
         setLayout(null);
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
@@ -57,7 +78,16 @@ public class MapPanel extends JPanel {
             currentMap.getTimer().stop();
             remove(currentMap);
         }
-        currentMap = setMap(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
+        currentMap = setMap(skinManager,
+            renderer,
+            gameStateListener,
+            wallImg,
+            backGroundImg,
+            gridManager,
+            entityManager,
+            spawnManager,
+            collisionManager,
+            gameStateManager);
         currentMap.setGameStateListener(gameStateListener);
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
@@ -66,8 +96,26 @@ public class MapPanel extends JPanel {
         repaint();
         currentMap.requestFocusInWindow();
     }
-    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, Image wallImg, Image backGroundImg){
-        return new Map(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
+    public Map setMap(SkinManager skinManager, 
+        GameRenderer renderer, 
+        GameStateListener gameStateListener, 
+        Image wallImg, 
+        Image backGroundImg,
+        GridManager gridManager,
+        EntityManager entityManager,
+        SpawnManager spawnManager,
+        CollisionManager collisionManager,
+        GameStateManager gameStateManager){
+        return new Map(skinManager,
+            renderer,
+            gameStateListener,
+            wallImg,
+            backGroundImg,
+            gridManager,
+            entityManager,
+            spawnManager,
+            collisionManager,
+            gameStateManager);
     }
     public Map getMap(){return currentMap;}
     public Image getWallImg(){return wallImg;}

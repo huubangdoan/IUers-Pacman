@@ -1,37 +1,15 @@
 package game;
+
 import gacha.SkinManager;
 import java.awt.*;
 
-public class ChaoTilesMap extends Map {
-    public ChaoTilesMap( SkinManager skinManager, GameRenderer renderer, short[][] grid,GameStateListener gameStateListener, Image wallImg, Image backGroundImg) {
-        super(skinManager, renderer, grid,  gameStateListener, wallImg, backGroundImg);
-
+public class ChaoTilesMap extends ClassicPacmanMap {
+    public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer, GameStateListener gameStateListener, 
+                        Image wallImg, Image backGroundImg, GridManager gridManager,
+                        EntityManager entityManager, SpawnManager spawnManager,
+                        CollisionManager collisionManager, GameStateManager gameStateManager) {
+        super(skinManager, renderer, gameStateListener, wallImg, backGroundImg, gridManager, 
+              entityManager, spawnManager, collisionManager, gameStateManager);
     }
-
-
-    @Override
-    public void update() {
-        getPlayer().move(this);
-        getPlayer().updateAnimation();
-        getPlayer().updatePowerup();
-        getPlayer().updateDragon();
-
-        playerX = getPlayer().getX();
-        playerY = getPlayer().getY();
-
-        checkChaosTiles();
-
-        for (Ghost g : getGhosts()) {
-            g.move(this);
-            g.updateFrightened();
-        }
-        checkEntityCollisions();
-        checkGameStatus();
-        repaint();
-    }
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        getRenderer().render((Graphics2D) g, this, getWallImg(), getBackGroundImg());
-    }
+    // Hoàn toàn không vi phạm LSP vì không sửa đổi hay phá hủy bất cứ hành vi nào của lớp cha!
 }

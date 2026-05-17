@@ -70,11 +70,25 @@ public class GameFrame extends JFrame {
         gachaCtrl = new GachaMenuController(cardLayout, mainContainer, skinManager, gachaResultPanel);
         GachaMenuPanel gachaMenuPanel = new GachaMenuPanel(gachaCtrl, skinManager);
         gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
+        GridManager gridManager           = new GridManager(MapData.GRID);
+        EntityManager entityManager       = new EntityManager();
+        SpawnManager spawnManager         = new SpawnManager();
+        CollisionManager collisionManager = new CollisionManager();
+        GameStateManager gameStateManager = new GameStateManager();
 
         // ── Map Panels (truyền skinManager để load đúng skin đã chọn) ────────
-        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager, renderer, MapData.GRID, gameStateListener1,GameAssets.wall2Img, GameAssets.backGround2Img);
-        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer, SnakeData.GRID,  gameStateListener2,GameAssets.wall3Img, GameAssets.backGround1Img);
-        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer, ChaoData.GRID,  gameStateListener3, GameAssets.wall1Img, GameAssets.backGround2Img);
+        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager,
+            renderer,
+            gameStateListener1,
+            GameAssets.wall1Img,
+            GameAssets.backGround1Img,
+            gridManager,
+            entityManager,
+            spawnManager,
+            collisionManager,
+            gameStateManager);
+        //Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer, SnakeData.GRID,  gameStateListener2,GameAssets.wall3Img, GameAssets.backGround1Img);
+        //Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer, ChaoData.GRID,  gameStateListener3, GameAssets.wall1Img, GameAssets.backGround2Img);
         //EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager);
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────
@@ -85,8 +99,8 @@ public class GameFrame extends JFrame {
         mainContainer.add(skinMenuPanel,               "SkinMenu");
         mainContainer.add(new MapMenuPanel(mapCtrl),   "MapMenu");
         mainContainer.add(map1Panel,                   "Map1");
-        mainContainer.add(map2Panel,                   "Map2");
-        mainContainer.add(map3Panel,                   "Map3");
+        //mainContainer.add(map2Panel,                   "Map2");
+        //mainContainer.add(map3Panel,                   "Map3");
         mainContainer.add(new WinPanel(winCtrl), "Win");
         mainContainer.add(new LosePanel(loseCtrl), "Lose");
         //mainContainer.add(endlessPanel,                "Endless");

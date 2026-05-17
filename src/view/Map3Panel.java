@@ -5,11 +5,25 @@ import gacha.SkinManager;
 import game.*;
 import java.awt.*;
 public class Map3Panel extends MapPanel {
-    public Map3Panel(MapController map3controller, SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener,Image wallImg, Image backGroundImg) {
-        super(map3controller, skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
-    }
-    @Override
-    public Map setMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, GameStateListener gameStateListener, Image wallImg, Image backGroundImg){
-        return new ChaoTilesMap(skinManager, renderer, grid, gameStateListener, wallImg, backGroundImg);
+    public Map3Panel(MapController map3controller,SkinManager skinManager, 
+        GameRenderer renderer, 
+        GameStateListener gameStateListener, 
+        Image wallImg, 
+        Image backGroundImg,
+        GridManager gridManager,
+        EntityManager entityManager,
+        SpawnManager spawnManager,
+        CollisionManager collisionManager,
+        GameStateManager gameStateManager) {
+        super(map3controller,skinManager,
+            renderer,
+            gameStateListener,
+            wallImg,
+            backGroundImg,
+            gridManager,
+            entityManager,
+            spawnManager,
+            collisionManager,
+            gameStateManager);
     }
 }
