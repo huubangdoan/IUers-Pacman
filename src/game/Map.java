@@ -142,15 +142,11 @@ public class Map extends JPanel implements ActionListener {
             int dx = px - f.getX(), dy = py - f.getY();
             if (dx * dx + dy * dy < 256) { 
                 f.onCollected(player);
-                if (f instanceof Apple)  { for (Ghost g : ghosts) g.setFrightened(true, 300); }
-                if (f instanceof Chilli) { player.activateChilliPower(9000); }
-                if (f instanceof Kiwi)   { player.activateKiwiDisguise(); }
                 if (!(f instanceof LightPoint)) fruitEaten[0] = true;
                 return true;
             }
             return false;
         });
-        handleFruitLogic();
         checkLive();
         if (fruitEaten[0]) spawnOneFruit();
     }
@@ -189,41 +185,6 @@ public class Map extends JPanel implements ActionListener {
         }
     }
 
-    public void handleFruitLogic() {
-        final int px = playerX, py = playerY;
-        if (player.hasWatermelon()) {
-            for (Ghost g : ghosts) {
-                int dx = px - g.getX(), dy = py - g.getY();
-                if (dx * dx + dy * dy < 9216) { // 96²
-                    g.setFrozen(true, 180);
-                    player.setHasWatermelon(false);
-                    break;
-                }
-            }
-        }
-        for (Ghost g : ghosts) {
-            if (player.hasThorns() || g.getIsFrighted()) {
-                int dx = px - g.getX(), dy = py - g.getY();
-                if (dx * dx + dy * dy < 256) { // 16²
-                    g.respawnAtRandomLocation(grid);
-                    g.setFrightened(false, 0);
-                    player.setHasThorns(false);
-                    break;
-                }
-            }
-        }
-        if (player.isDragonMode()) {
-            for (Ghost g : ghosts) {
-                int dx = px - g.getX(), dy = py - g.getY();
-                if (dx * dx + dy * dy < 4096) { 
-                    g.knockbackFrom(player, this);
-                    g.setStunned(true, 90);
-                    player.setDragonMode(false);
-                    break;
-                }
-            }
-        }
-    }
 
     public void spawnRandomEvent() {
         for (int r = 0; r < gridRows; r++)
@@ -236,13 +197,7 @@ public class Map extends JPanel implements ActionListener {
         while (true) {
             int r = rand.nextInt(gridRows), c = rand.nextInt(gridCols);
             if (grid[r][c] == 0) {
-                int type = rand.nextInt(6);
-                if      (type == 0) collectable.add(new Durian(c*32, r*32, "Durian"));
-                else if (type == 1) collectable.add(new Apple(c*32, r*32, "Apple"));
-                else if (type == 2) collectable.add(new Kiwi(c*32, r*32, "Kiwi"));
-                else if (type == 3) collectable.add(new DragonFruit(c*32, r*32, "Dragon Fruit"));
-                else if (type == 4) collectable.add(new Watermelon(c*32, r*32, "Watermelon"));
-                else                collectable.add(new Chilli(c*32, r*32, "Chilli"));
+                collectable.add(FruitFactory.createRandom(c, r, rand));
                 return;
             }
         }
