@@ -93,7 +93,7 @@ public class Map extends JPanel implements ActionListener {
         }
         boolean noDotsLeft = true;
         for (Collectable c : collectable) {
-            if (c instanceof LightPoint) {
+            if (c instanceof LightPoint|| c instanceof Fruit) {
                 noDotsLeft = false; 
                 break;
             }
