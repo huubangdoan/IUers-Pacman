@@ -17,14 +17,17 @@ public class Map extends JPanel implements ActionListener {
     public static final int FRUIT_DURATION = 300;
     private long startTime;
     private ScoreManager scoreManager;
+    private Image backGroundImg, wallImg;
     protected final java.util.Random rand = new java.util.Random();
     protected int gridRows, gridCols;
     protected int playerX, playerY;
 
-    public Map(SkinManager skinManager, GameRenderer renderer, short[][] grid) {
+    public Map(SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg) {
         this.scoreManager = skinManager != null ? skinManager.getScoreManager() : new ScoreManager();
         this.grid        = grid;
         this.renderer    = renderer;
+        this.wallImg= wallImg;
+        this.backGroundImg= backGroundImg;
         this.collectable = new ArrayList<>();
         this.ghosts      = new ArrayList<>();
         this.startTime   = System.currentTimeMillis();
@@ -201,13 +204,15 @@ public class Map extends JPanel implements ActionListener {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        renderer.render((Graphics2D) g, this, GameAssets.wall1Img);
+        renderer.render((Graphics2D) g, this, wallImg, backGroundImg);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) { update(); }
     public GameRenderer getRenderer()              { return renderer; }
     public PacMan getPlayer()                      { return player; }
+    public Image getWallImg()                      { return wallImg; }
+    public Image getBackGroundImg()                      { return backGroundImg; }
     public Timer getTimer()                        { return timer; }
     public short[][] getGrid()                     { return grid; }
     public void setGrid( short[][] grid)           {this.grid=grid;}

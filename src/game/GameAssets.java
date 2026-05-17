@@ -8,6 +8,7 @@ import javax.swing.*;
 public class GameAssets {
     public Image dotImg, appleImg, durianImg, watermelonImg, chilliImg, kiwiImg, dragonFruitImg;
     public static Image wall1Img, wall2Img, wall3Img;
+    public static Image backGround1Img, backGround2Img;
     public Image ghostImg, blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
     public Image[] pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
     public GameAssets(SkinManager skinManager) {
@@ -41,9 +42,13 @@ public class GameAssets {
         chilliImg      = new ImageIcon("src/assets/New Fruit/chilli.png").getImage();
         kiwiImg        = new ImageIcon("src/assets/New Fruit/Kiwi.png").getImage();
         dragonFruitImg = new ImageIcon("src/assets/New Fruit/DragonFruit.png").getImage();
+
         wall1Img = new ImageIcon("src/assets/Menu Graphics/gachmap1.png").getImage();
         wall2Img = new ImageIcon("src/assets/Menu Graphics/gachmap2.png").getImage();
         wall3Img = new ImageIcon("src/assets/Menu Graphics/gachmap3.png").getImage();
+
+        backGround1Img = new ImageIcon("src/assets/Menu Graphics/backGround1.png").getImage();
+        backGround2Img = new ImageIcon("src/assets/Menu Graphics/backGround2.png").getImage();
     }
     private File resolveBase(String skinFolder) {
         if (SkinManager.DEFAULT_SKIN_FOLDER.equals(skinFolder)) {

@@ -6,8 +6,8 @@ import java.util.ArrayList;
 public class ChaoTilesMap extends Map {
 
     private final ArrayList<Point> specialTiles = new ArrayList<>();
-    public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer, short[][] grid) {
-        super(skinManager, renderer, grid);
+    public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg) {
+        super(skinManager, renderer, grid, wallImg, backGroundImg);
         buildSpecialTileCache();  
     }
 
@@ -68,6 +68,7 @@ public class ChaoTilesMap extends Map {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
+        getRenderer().render((Graphics2D) g, this, getWallImg(), getBackGroundImg());
         for (Point p : specialTiles) {
             short tile = grid[p.y][p.x];
             if      (tile == 7) g2d.setColor(Color.GREEN);

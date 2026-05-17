@@ -2,16 +2,18 @@ package game;
 import java.awt.*;
 public class GameRenderer {
     private GameAssets assets;
-
+    private static final java.awt.BasicStroke SNAKE_STROKE = 
+    new java.awt.BasicStroke(32f, java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND);
+    private final java.awt.geom.GeneralPath snakePath = new java.awt.geom.GeneralPath();
     public GameRenderer(GameAssets assets) {
         this.assets = assets;
     }
 
-    public void render(Graphics2D g2d, Map map, Image image) {
+    public void render(Graphics2D g2d, Map map, Image wallImage, Image backGroundImg) {
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-        drawBackground(g2d, map);
-        drawWalls(g2d, map.getGrid(), image);
+        drawBackground(g2d, map, backGroundImg);
+        drawWalls(g2d, map.getGrid(), wallImage);
         drawCollectables(g2d, map.getCollectable());
         drawGhosts(g2d, map.getGhosts());
         drawPlayer(g2d, map.getPlayer());
@@ -19,9 +21,8 @@ public class GameRenderer {
         drawActiveSkills(g2d, map); 
     }
 
-    private void drawBackground(Graphics2D g2d, Map map) {
-        g2d.setColor(Color.BLACK);
-        g2d.fillRect(0, 0, map.getWidth(), map.getHeight());
+    public void drawBackground(Graphics2D g2d, Map map, Image image) {
+        g2d.drawImage(image, 0, 0,map.getWidth(), map.getHeight(), null);
     }
 
     public void drawWalls(Graphics2D g2d, short[][] grid, Image image) {
@@ -121,5 +122,44 @@ public class GameRenderer {
         g2d.drawString(text, x + 1, y + 1); 
         g2d.setColor(mainColor);
         g2d.drawString(text, x, y); 
+    }
+    public void drawSnakeBody(Graphics2D g2d, java.util.LinkedList<SnakeMap.BodyPart> body) {
+        if (body == null || body.isEmpty()) return;
+        
+        int bodySize = body.size();
+        if (bodySize > 1) {
+            // Cấu hình nét vẽ to bản và bo tròn góc
+            g2d.setStroke(SNAKE_STROKE);
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
+            
+            snakePath.reset();
+            Color lastColor = null;
+            SnakeMap.BodyPart prev = null;
+            int index = 0;
+    
+            for (SnakeMap.BodyPart current : body) {
+                if (index++ < 5) { prev = current; continue; }
+                if (prev == null) { prev = current; continue; }
+                Color c = current.color; 
+                
+                if (!c.equals(lastColor)) {
+                    if (lastColor != null && snakePath.getCurrentPoint() != null) {
+                        g2d.setColor(lastColor);
+                        g2d.draw(snakePath);
+                    }
+                    snakePath.reset();
+                    snakePath.moveTo(prev.x + 16, prev.y + 16);
+                    lastColor = c;
+                }
+                snakePath.lineTo(current.x + 16, current.y + 16);
+                prev = current;
+            }
+        
+            if (lastColor != null && snakePath.getCurrentPoint() != null) {
+                g2d.setColor(lastColor);
+                g2d.draw(snakePath);
+            }
+        }
     }
 }

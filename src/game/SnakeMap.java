@@ -7,7 +7,7 @@ import java.util.LinkedList;
 
 public class SnakeMap extends Map {
 
-    private static class BodyPart {       
+    public static class BodyPart {       
         int x, y;                        
         Color color;
         BodyPart(int x, int y, Color c) { this.x = x; this.y = y; this.color = c; }
@@ -28,8 +28,8 @@ public class SnakeMap extends Map {
         new BasicStroke(32f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND);
     private final GeneralPath snakePath = new GeneralPath();
 
-    public SnakeMap(SkinManager skinManager, GameRenderer renderer, short[][] grid) {
-        super(skinManager, renderer, grid);
+    public SnakeMap(SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg) {
+        super(skinManager, renderer, grid, wallImg, backGroundImg);
         this.setDoubleBuffered(true);
         if (getGhosts() != null) getGhosts().clear();
         if (getPlayer() != null) getPlayer().setLives(1);
@@ -168,40 +168,8 @@ public class SnakeMap extends Map {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2d = (Graphics2D) g;
-        getRenderer().render((Graphics2D) g, this, GameAssets.wall3Img);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,    RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL,  RenderingHints.VALUE_STROKE_PURE);
-        int bodySize = snakeBody.size();
-        if (bodySize > 1) {
-            g2d.setStroke(SNAKE_STROKE);
-            snakePath.reset();
-            Color lastColor = null;
-            BodyPart prev = null;
-            int index = 0;
-
-            for (BodyPart current : snakeBody) {
-                if (index++ < 5) { prev = current; continue; }
-                if (prev == null) { prev = current; continue; }
-
-                Color c = current.color;
-                if (!c.equals(lastColor)) {
-                    if (lastColor != null && snakePath.getCurrentPoint() != null) {
-                        g2d.setColor(lastColor);
-                        g2d.draw(snakePath);
-                    }
-                    snakePath.reset();
-                    snakePath.moveTo(prev.x + 16, prev.y + 16);
-                    lastColor = c;
-                }
-                snakePath.lineTo(current.x + 16, current.y + 16);
-                prev = current;
-            }
-            if (lastColor != null && snakePath.getCurrentPoint() != null) {
-                g2d.setColor(lastColor);
-                g2d.draw(snakePath);
-            }
-        }
-
+        getRenderer().render((Graphics2D) g, this, getWallImg(), getBackGroundImg());
+        getRenderer().drawSnakeBody(g2d, this.snakeBody);
         if (getPlayer() != null) {
             getRenderer().drawPlayer(g2d, getPlayer());
         }

@@ -66,9 +66,9 @@ public class GameFrame extends JFrame {
         gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
 
         // ── Map Panels (truyền skinManager để load đúng skin đã chọn) ────────
-        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager, renderer, MapData.GRID);
-        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer, SnakeData.GRID);
-        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer, ChaoData.GRID);
+        Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager, renderer, MapData.GRID, GameAssets.wall2Img, GameAssets.backGround2Img);
+        Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer, SnakeData.GRID, GameAssets.wall3Img, GameAssets.backGround1Img);
+        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer, ChaoData.GRID, GameAssets.wall1Img, GameAssets.backGround2Img);
         //EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager);
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────

@@ -3,10 +3,11 @@ package view;
 import controller.*;
 import game.*;
 import gacha.SkinManager;
+import java.awt.*;
 
 public class Map1Panel extends MapPanel {
 
-    public Map1Panel(MapController map1controller, SkinManager skinManager, GameRenderer renderer, short[][] grid) {
-        super(map1controller, skinManager, renderer, grid);
+    public Map1Panel(MapController map1controller, SkinManager skinManager, GameRenderer renderer, short[][] grid, Image wallImg, Image backGroundImg) {
+        super(map1controller, skinManager, renderer, grid, wallImg, backGroundImg);
     }
 }

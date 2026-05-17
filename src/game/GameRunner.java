@@ -12,7 +12,7 @@ public class GameRunner {
             GameAssets assets= new GameAssets(skinManager);
             GameRenderer renderer = new GameRenderer(assets);
             frame.setDefaultCloseOperation(3);
-            frame.add(new Map(skinManager, renderer, MapData.GRID));
+            frame.add(new ChaoTilesMap(skinManager, renderer, ChaoData.GRID));
             frame.pack();
             frame.setResizable(false);
             frame.setLocationRelativeTo(null);
