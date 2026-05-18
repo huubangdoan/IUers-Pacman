@@ -3,7 +3,7 @@ package game;
 import gacha.SkinManager;
 import java.awt.*;
 
-public class InvisibleMap extends ClassicPacmanMap {
+public class InvisibleMap extends Map {
     private final FogOfWar fogEffect;
 
     public InvisibleMap(SkinManager skinManager, GameRenderer renderer, GameStateListener gameStateListener, 

@@ -18,6 +18,8 @@ public class CollisionManager {
             int dx = px - f.getX(), dy = py - f.getY();
             if (dx * dx + dy * dy < 256) {
                 f.onCollected(player);
+                if (f instanceof Chilli) { player.activateChilliPower(9000); }
+                if (f instanceof Kiwi)   { player.activateKiwiDisguise(); }
                 if (!(f instanceof LightPoint)) fruitEaten[0] = true;
                 return true;
             }
@@ -30,7 +32,7 @@ public class CollisionManager {
         }
     }
 
-    public void checkChaosTiles(ClassicPacmanMap map, EntityManager em, GridManager gm) {
+    public void checkChaosTiles(Map map, EntityManager em, GridManager gm) {
         PacMan player = em.getPlayer();
         int row = player.getY() >> 5;
         int col = player.getX() >> 5;
@@ -55,7 +57,7 @@ public class CollisionManager {
         }
     }
 
-    public void checkLive(BaseMap map, EntityManager em, GridManager gm) {
+    public void checkLive(Map map, EntityManager em, GridManager gm) {
         PacMan player = em.getPlayer();
         final int px = player.getX();
         final int py = player.getY();
@@ -70,7 +72,7 @@ public class CollisionManager {
         }
     }
 
-    public void handleFruitLogic(ClassicPacmanMap map, EntityManager em, GridManager gm) {
+    public void handleFruitLogic(Map map, EntityManager em, GridManager gm) {
         PacMan player = em.getPlayer();
         final int px = player.getX();
         final int py = player.getY();
@@ -109,7 +111,7 @@ public class CollisionManager {
         }
     }
 
-    public void handlePlayerDeath(BaseMap map, EntityManager em) {
+    public void handlePlayerDeath(Map map, EntityManager em) {
         PacMan player = em.getPlayer();
         player.loseLife();
         if (player.getLives() <= 0) {

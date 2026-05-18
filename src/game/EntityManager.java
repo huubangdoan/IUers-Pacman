@@ -25,11 +25,11 @@ public class EntityManager {
         }
     }
 
-    public void updateEntities(ClassicPacmanMap map, GridManager gridManager) {
+    public void updateEntities(Map map) {
         if (!player.hasChilli()) {
             player.setSpeed(utils.GameConfig.pacmanSpeed);
         }
-        player.move(map, gridManager);
+        player.move(map);
         player.updateAnimation();
         player.updatePowerup();
         player.updateDragon();

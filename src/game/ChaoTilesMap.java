@@ -3,7 +3,7 @@ package game;
 import gacha.SkinManager;
 import java.awt.*;
 
-public class ChaoTilesMap extends ClassicPacmanMap {
+public class ChaoTilesMap extends Map {
     public ChaoTilesMap(SkinManager skinManager, GameRenderer renderer, GameStateListener gameStateListener, 
                         Image wallImg, Image backGroundImg, GridManager gridManager,
                         EntityManager entityManager, SpawnManager spawnManager,
