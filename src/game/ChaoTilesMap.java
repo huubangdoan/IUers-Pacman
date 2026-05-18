@@ -11,5 +11,4 @@ public class ChaoTilesMap extends Map {
         super(skinManager, renderer, gameStateListener, wallImg, backGroundImg, gridManager, 
               entityManager, spawnManager, collisionManager, gameStateManager);
     }
-    // Hoàn toàn không vi phạm LSP vì không sửa đổi hay phá hủy bất cứ hành vi nào của lớp cha!
 }

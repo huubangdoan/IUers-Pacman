@@ -1,27 +1,20 @@
 package controller;
-import view.*;
 import java.awt.CardLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
-public class EndlessController implements ActionListener{
-    private CardLayout cardLayout;
-    private JPanel mainContainer;
-    public EndlessController( CardLayout cardLayout, JPanel endlessContainer){
-        this.cardLayout = cardLayout;
-        this.mainContainer = endlessContainer;
+public class EndlessController extends MapController {
+    public EndlessController( CardLayout cardLayout, JPanel map1Container){
+        super(cardLayout, map1Container);
     }
     @Override
     public void actionPerformed(ActionEvent click) {
         String command = click.getActionCommand();
-        switch (command){
+         switch (command){
             case "Back":
-                cardLayout.show(mainContainer, "MapMenu");
+                cardLayout.show(mainContainer, "MainMenu"); 
                 break;
-            default:
-                System.out.println("chua set tinh nang cho nut nay");
-                break;
-        }
+         }
     }
 }

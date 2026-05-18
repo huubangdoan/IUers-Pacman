@@ -27,7 +27,7 @@ public class EntityManager {
 
     public void updateEntities(Map map) {
         if (!player.hasChilli()) {
-            player.setSpeed(utils.GameConfig.pacmanSpeed);
+            player.setSpeed(2);
         }
         player.move(map);
         player.updateAnimation();

@@ -18,6 +18,7 @@ public class CollisionManager {
             int dx = px - f.getX(), dy = py - f.getY();
             if (dx * dx + dy * dy < 256) {
                 f.onCollected(player);
+                if (f instanceof Apple)  { for (Ghost g : map.getGhosts()) g.setFrightened(true, 300); }
                 if (f instanceof Chilli) { player.activateChilliPower(9000); }
                 if (f instanceof Kiwi)   { player.activateKiwiDisguise(); }
                 if (!(f instanceof LightPoint)) fruitEaten[0] = true;

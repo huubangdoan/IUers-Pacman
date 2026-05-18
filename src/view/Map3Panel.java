@@ -26,4 +26,26 @@ public class Map3Panel extends MapPanel {
             collisionManager,
             gameStateManager);
     }
+    @Override
+    public Map setMap(SkinManager skinManager, 
+        GameRenderer renderer, 
+        GameStateListener gameStateListener, 
+        Image wallImg, 
+        Image backGroundImg,
+        GridManager gridManager,
+        EntityManager entityManager,
+        SpawnManager spawnManager,
+        CollisionManager collisionManager,
+        GameStateManager gameStateManager){
+        return new ChaoTilesMap(skinManager,
+            renderer,
+            gameStateListener,
+            wallImg,
+            backGroundImg,
+            gridManager,
+            entityManager,
+            spawnManager,
+            collisionManager,
+            gameStateManager);
+    }
 }

@@ -19,7 +19,7 @@ public class GameFrame extends JFrame {
     private Map1Controller        map1Ctrl;
     private Map2Controller        map2Ctrl;
     private Map3Controller        map3Ctrl;
-    //private EndlessController     endlessCtrl;
+    private EndlessController     endlessCtrl;
     private SettingsController    settingsCtrl;
     private LoseController        loseCtrl;
     private WinController         winCtrl;
@@ -48,7 +48,7 @@ public class GameFrame extends JFrame {
         map1Ctrl    = new Map1Controller(cardLayout, mainContainer);
         map2Ctrl    = new Map2Controller(cardLayout, mainContainer);
         map3Ctrl    = new Map3Controller(cardLayout, mainContainer);
-        //endlessCtrl = new EndlessController(cardLayout, mainContainer);
+        endlessCtrl = new EndlessController(cardLayout, mainContainer);
         settingsCtrl= new SettingsController(cardLayout, mainContainer);
         loseCtrl    = new LoseController(cardLayout, mainContainer);
         winCtrl     = new WinController(cardLayout, mainContainer);
@@ -61,6 +61,7 @@ public class GameFrame extends JFrame {
         GameStateListener gameStateListener1= new GameStateListener(map1Ctrl);
         GameStateListener gameStateListener2= new GameStateListener(map2Ctrl);
         GameStateListener gameStateListener3= new GameStateListener(map3Ctrl);
+        GameStateListener gameStateListener4= new GameStateListener(endlessCtrl);
 
         // ── GachaResult ──────────────────────────────────────────────────────
         gachaResultCtrl = new GachaResultController(cardLayout, mainContainer, skinMenuPanel);
@@ -70,26 +71,58 @@ public class GameFrame extends JFrame {
         gachaCtrl = new GachaMenuController(cardLayout, mainContainer, skinManager, gachaResultPanel);
         GachaMenuPanel gachaMenuPanel = new GachaMenuPanel(gachaCtrl, skinManager);
         gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
-        GridManager gridManager           = new GridManager(MapData.GRID);
+        GridManager gridManager1           = new GridManager(MapData.GRID);
+        GridManager gridManager2           = new GridManager(SnakeData.GRID);
+        GridManager gridManager3           = new GridManager(ChaoData.GRID);
+        GridManager gridManager4           = new GridManager(InvisibleMazeData.GRID);
         EntityManager entityManager       = new EntityManager();
         SpawnManager spawnManager         = new SpawnManager();
         CollisionManager collisionManager = new CollisionManager();
+        CollisionManager snakeCollisionManager = new SnakeCollisionManager();
         GameStateManager gameStateManager = new GameStateManager();
+        FogOfWar fogEffect = new FogOfWar(InvisibleMazeData.INITIAL_VISION_RADIUS);
 
         // ── Map Panels (truyền skinManager để load đúng skin đã chọn) ────────
         Map1Panel map1Panel       = new Map1Panel(map1Ctrl, skinManager,
             renderer,
             gameStateListener1,
             GameAssets.wall1Img,
-            GameAssets.backGround1Img,
-            gridManager,
+            GameAssets.backGround2Img,
+            gridManager1,
             entityManager,
             spawnManager,
             collisionManager,
             gameStateManager);
-        //Map2Panel map2Panel       = new Map2Panel(map2Ctrl, skinManager, renderer, SnakeData.GRID,  gameStateListener2,GameAssets.wall3Img, GameAssets.backGround1Img);
-        //Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager, renderer, ChaoData.GRID,  gameStateListener3, GameAssets.wall1Img, GameAssets.backGround2Img);
-        //EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager);
+        Map2Panel map2Panel       = new Map2Panel(map2Ctrl,skinManager,
+            renderer,
+            gameStateListener1,
+            GameAssets.wall3Img,
+            GameAssets.backGround1Img,
+            gridManager2,
+            entityManager,
+            spawnManager,
+            snakeCollisionManager,
+            gameStateManager);
+        Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager,
+            renderer,
+            gameStateListener1,
+            GameAssets.wall3Img,
+            GameAssets.backGround2Img,
+            gridManager3,
+            entityManager,
+            spawnManager,
+            collisionManager,
+            gameStateManager);
+        EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager,
+            renderer,
+            gameStateListener1,
+            GameAssets.wall3Img,
+            GameAssets.backGround2Img, fogEffect,
+            gridManager4,
+            entityManager,
+            spawnManager,
+            collisionManager,
+            gameStateManager);
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────
         mainContainer.add(new MainMenuPanel(mainCtrl), "MainMenu");
@@ -99,11 +132,11 @@ public class GameFrame extends JFrame {
         mainContainer.add(skinMenuPanel,               "SkinMenu");
         mainContainer.add(new MapMenuPanel(mapCtrl),   "MapMenu");
         mainContainer.add(map1Panel,                   "Map1");
-        //mainContainer.add(map2Panel,                   "Map2");
-        //mainContainer.add(map3Panel,                   "Map3");
+        mainContainer.add(map2Panel,                   "Map2");
+        mainContainer.add(map3Panel,                   "Map3");
         mainContainer.add(new WinPanel(winCtrl), "Win");
         mainContainer.add(new LosePanel(loseCtrl), "Lose");
-        //mainContainer.add(endlessPanel,                "Endless");
+        mainContainer.add(endlessPanel,                "Endless");
 
         add(mainContainer);
         cardLayout.show(mainContainer, "MainMenu");

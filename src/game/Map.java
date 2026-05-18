@@ -50,9 +50,8 @@ public class Map extends JPanel implements ActionListener {
         this.gameStateManager = gameStateManager;
 
         // Ủy thác việc khởi tạo trò chơi cho các Manager chuyên biệt
-        this.entityManager.initEntities(this.gridManager);
         this.spawnManager.spawnInitialCollectables(this.gridManager);
-        
+        this.entityManager.initEntities(this.gridManager);
         addKeyListener(new PacmanInput(this.entityManager.getPlayer()));
         setFocusable(true);
         setPreferredSize(new Dimension(672, 672));
@@ -79,8 +78,6 @@ public class Map extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) { 
         update(); 
     }
-
-    // --- CÁC HÀM ỦY THÁC (DELEGATES) ĐỂ ĐẢM BẢO TÍNH TƯƠNG THÍCH VỚI PACMAN / GHOST KHÔNG BỊ LỖI ---
     public boolean isWall(int x, int y) { 
         return gridManager.isWall(x, y); 
     }
@@ -91,8 +88,6 @@ public class Map extends JPanel implements ActionListener {
     public short[][] getGrid()                     { return gridManager.getGrid(); }
     public void setGrid(short[][] grid)            { gridManager.setGrid(grid); }
     public ArrayList<Point> getSpecialTiles()      { return gridManager.getSpecialTiles(); }
-    
-    // --- CÁC GETTER GỐC ---
     public GameRenderer getRenderer()              { return renderer; }
     public Image getWallImg()                      { return wallImg; }
     public Image getBackGroundImg()                { return backGroundImg; }
