@@ -51,11 +51,13 @@ public class SkinMenuPanel extends JPanel {
         add(back);
 
         // ── Nút Default ────────────────────────────────────────────────────
-        JButton defaultBtn = new JButton("Default");
-        defaultBtn.setFont(new Font("Consolas", Font.BOLD, 13));
-        defaultBtn.setForeground(Color.WHITE);
-        defaultBtn.setBackground(new Color(40, 40, 40));
-        defaultBtn.setBounds(536, 15, 110, 35);
+        ImageIcon originalDefault = new ImageIcon("src/assets/Menu Graphics/default.png");
+        Image scaledDefaultImg = originalDefault.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
+        ImageIcon defaultIcon = new ImageIcon(scaledDefaultImg);
+        JButton defaultBtn = new JButton(defaultIcon);
+        defaultBtn.setBounds(536, 15, 105, 60);
+        UIUtils.makeButtonTransparent(defaultBtn);
+        UIUtils.setupZoomEffect(defaultBtn, defaultIcon, 105, 60);
         defaultBtn.addActionListener(e -> {
             skinManager.selectSkin(SkinManager.DEFAULT_SKIN_FOLDER);
             selectedLabel.setText("Using: Default Skin");
@@ -68,12 +70,18 @@ public class SkinMenuPanel extends JPanel {
 
         JScrollPane scrollPane = new JScrollPane(skinGrid,
                 JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER); 
         scrollPane.setBounds(20, 150, 634, 490);
+        
         scrollPane.setOpaque(false);
         scrollPane.getViewport().setOpaque(false);
         scrollPane.setBorder(null);
+
+        scrollPane.getVerticalScrollBar().setUI(new utils.ModernScrollBarUI()); 
+        scrollPane.getVerticalScrollBar().setOpaque(false);
+        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(8, 0)); 
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+        
         add(scrollPane);
 
         // ── Background ─────────────────────────────────────────────────────
