@@ -4,11 +4,12 @@ import gacha.SkinManager;
 import game.*;
 import java.awt.*;
 public class Map2Panel extends MapPanel {
+    private final FogOfWar fogEffect;
     public Map2Panel(Map2Controller map2controller, SkinManager skinManager, 
         GameRenderer renderer, 
         GameStateListener gameStateListener, 
         Image wallImg, 
-        Image backGroundImg,
+        Image backGroundImg,  FogOfWar fogEffect,
         GridManager gridManager,
         EntityManager entityManager,
         SpawnManager spawnManager,
@@ -24,7 +25,7 @@ public class Map2Panel extends MapPanel {
             spawnManager,
             collisionManager,
             gameStateManager);
-        
+        this.fogEffect=fogEffect;
     }
     @Override
     public Map setMap(SkinManager skinManager, 
@@ -37,11 +38,11 @@ public class Map2Panel extends MapPanel {
         SpawnManager spawnManager,
         CollisionManager collisionManager,
         GameStateManager gameStateManager){
-        return new SnakeMap(skinManager,
+        return new InvisibleMap(skinManager,
             renderer,
             gameStateListener,
             wallImg,
-            backGroundImg,
+            backGroundImg, fogEffect,
             gridManager,
             entityManager,
             spawnManager,

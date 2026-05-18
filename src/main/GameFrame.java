@@ -72,13 +72,11 @@ public class GameFrame extends JFrame {
         GachaMenuPanel gachaMenuPanel = new GachaMenuPanel(gachaCtrl, skinManager);
         gachaCtrl.setGachaMenuPanel(gachaMenuPanel);
         GridManager gridManager1           = new GridManager(MapData.GRID);
-        GridManager gridManager2           = new GridManager(SnakeData.GRID);
         GridManager gridManager3           = new GridManager(ChaoData.GRID);
         GridManager gridManager4           = new GridManager(InvisibleMazeData.GRID);
         EntityManager entityManager       = new EntityManager();
         SpawnManager spawnManager         = new SpawnManager();
         CollisionManager collisionManager = new CollisionManager();
-        CollisionManager snakeCollisionManager = new SnakeCollisionManager();
         GameStateManager gameStateManager = new GameStateManager();
         FogOfWar fogEffect = new FogOfWar(InvisibleMazeData.INITIAL_VISION_RADIUS);
 
@@ -95,17 +93,17 @@ public class GameFrame extends JFrame {
             gameStateManager);
         Map2Panel map2Panel       = new Map2Panel(map2Ctrl,skinManager,
             renderer,
-            gameStateListener1,
-            GameAssets.wall3Img,
-            GameAssets.backGround1Img,
-            gridManager2,
+            gameStateListener2,
+            GameAssets.wall1Img,
+            GameAssets.backGround2Img, fogEffect,
+            gridManager3,
             entityManager,
             spawnManager,
-            snakeCollisionManager,
+            collisionManager,
             gameStateManager);
         Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager,
             renderer,
-            gameStateListener1,
+            gameStateListener3,
             GameAssets.wall3Img,
             GameAssets.backGround2Img,
             gridManager3,
@@ -115,7 +113,7 @@ public class GameFrame extends JFrame {
             gameStateManager);
         EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager,
             renderer,
-            gameStateListener1,
+            gameStateListener4,
             GameAssets.wall3Img,
             GameAssets.backGround2Img, fogEffect,
             gridManager4,
