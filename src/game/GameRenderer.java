@@ -40,7 +40,7 @@ public class GameRenderer {
         for (Point p : chaoMap.getSpecialTiles()) {
             short tile = grid[p.y][p.x];
             if      (tile == 7)  {
-                g2d.drawImage(GameAssets.revertImg, p.x*32, p.y*32, 32,32,null);}
+                g2d.drawImage(GameAssets.teleportImg, p.x*32, p.y*32, 32,32,null);}
             else if (tile == 8) {
                 g2d.drawImage(GameAssets.deadImg, p.x*32, p.y*32,32,32 ,null);}
             else if (tile == 9) {

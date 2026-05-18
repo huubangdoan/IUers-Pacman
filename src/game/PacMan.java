@@ -258,10 +258,6 @@ public class PacMan {
     public void setSpeed(int newSpeed) {
         this.speed = newSpeed;
     }
-    public void reverseDirection() {
-        direction = (direction + 2) % 4;
-        nextDirection = direction;
-    }
     public void activateWallHack(Map map) {
         wallHack = true;
         javax.swing.Timer timer = new javax.swing.Timer(5000, e -> {

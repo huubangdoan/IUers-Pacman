@@ -1,7 +1,7 @@
 package game;
-
+import java.util.Random;
 public class CollisionManager {
-
+    private final Random random = new Random();
     public void checkAllCollisions(Map map, EntityManager em, SpawnManager sm, GridManager gm) {
         checkEntityCollisions(map, em, sm, gm);
         checkChaosTiles(map, em, gm);
@@ -42,19 +42,12 @@ public class CollisionManager {
         if (row < 0 || row >= gm.getGridRows() || col < 0 || col >= gm.getGridCols()) return;
         short tile = grid[row][col];
         if (tile == 0 || tile == 1) return;
-
         if (tile == 7) {
-            player.reverseDirection();
-            grid[row][col] = 0;
-            gm.getSpecialTiles().removeIf(p -> p.x == col && p.y == row);
+            handleRandomTeleportation(player, gm, grid);
         } else if (tile == 8) {
             handlePlayerDeath(map, em);
-            grid[row][col] = 0;
-            gm.getSpecialTiles().removeIf(p -> p.x == col && p.y == row);
         } else if (tile == 9) {
             player.activateWallHack(map);
-            grid[row][col] = 0;
-            gm.getSpecialTiles().removeIf(p -> p.x == col && p.y == row);
         }
     }
 
@@ -62,14 +55,36 @@ public class CollisionManager {
         PacMan player = em.getPlayer();
         final int px = player.getX();
         final int py = player.getY();
+        final boolean thorns     = player.hasThorns();
+        final boolean disguised  = player.isDisguised();
         for (Ghost g : em.getGhosts()) {
             int dx = px - g.getX(), dy = py - g.getY();
             if (dx * dx + dy * dy < 256) {
-                if (!player.hasThorns() && !g.getIsFrighted() && !player.isDisguised()) {
+                if (!thorns && !g.getIsFrighted() && !disguised) {
                     handlePlayerDeath(map, em);
                     return;
                 }
             }
+        }
+    }
+    private void handleRandomTeleportation(PacMan player, GridManager gm, short[][] grid) {
+        int rows = gm.getGridRows();
+        int cols = gm.getGridCols();
+        int targetRow = -1;
+        int targetCol = -1;
+        boolean isSafeLocationFound = false;
+        for (int i = 0; i < 200; i++) {
+            int r = random.nextInt(rows);
+            int c = random.nextInt(cols);
+            if (grid[r][c] == 0) {
+                targetRow = r;
+                targetCol = c;
+                isSafeLocationFound = true;
+                break; 
+            }
+        }
+        if (isSafeLocationFound) {
+            player.setPosition(targetCol << 5, targetRow << 5); 
         }
     }
 
@@ -77,8 +92,11 @@ public class CollisionManager {
         PacMan player = em.getPlayer();
         final int px = player.getX();
         final int py = player.getY();
-
-        if (player.hasWatermelon()) {
+        final boolean hasThorns    = player.hasThorns();
+        final boolean hasWatermelon = player.hasWatermelon();
+        final boolean isDragon     = player.isDragonMode();
+        if (!hasThorns && !hasWatermelon && !isDragon) return;
+        if (hasWatermelon) {
             for (Ghost g : em.getGhosts()) {
                 int dx = px - g.getX(), dy = py - g.getY();
                 if (dx * dx + dy * dy < 9216) {
@@ -89,7 +107,7 @@ public class CollisionManager {
             }
         }
         for (Ghost g : em.getGhosts()) {
-            if (player.hasThorns() || g.getIsFrighted()) {
+            if (hasThorns || g.getIsFrighted()) {
                 int dx = px - g.getX(), dy = py - g.getY();
                 if (dx * dx + dy * dy < 256) {
                     g.respawnAtRandomLocation(gm.getGrid());
@@ -99,7 +117,7 @@ public class CollisionManager {
                 }
             }
         }
-        if (player.isDragonMode()) {
+        if (isDragon) {
             for (Ghost g : em.getGhosts()) {
                 int dx = px - g.getX(), dy = py - g.getY();
                 if (dx * dx + dy * dy < 4096) {

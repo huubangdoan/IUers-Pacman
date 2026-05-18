@@ -24,16 +24,14 @@ public class SettingsController implements ActionListener {
                 cardLayout.show(mainContainer, "MainMenu"); 
                 break;
             case "Sound":
-                /* utils.GameConfig.isSoundOn = !utils.GameConfig.isSoundOn; 
+                utils.GameConfig.isSoundOn = !utils.GameConfig.isSoundOn; 
                 if (utils.GameConfig.isSoundOn) {
-                    SoundManager.playBGM("src/assets/Sound/StartingBGM.wav");
+                    SoundManager.playBGM("src/assets/Sound/sound.wav");
                     System.out.println("Trang thai: DA MO AM THANH");
-                // Ghi chú: thêm lệnh đổi hình cái nút thành 'Loa đang phát' ở đây
                 } else {
                     SoundManager.stopBGM();
                     System.out.println("Trang thai: DA TAT AM THANH");
-                // Ghi chú: thêm lệnh đổi hình cái nút thành 'Loa bị gạch chéo' ở đây
-            }*/
+            }
                 break;
             default:
                 System.out.println("chua set tinh nang cho nut nay");

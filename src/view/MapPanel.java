@@ -1,8 +1,8 @@
 package view;
 
 import controller.*;
-import game.*;
 import gacha.SkinManager;
+import game.*;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -15,7 +15,6 @@ public class MapPanel extends JPanel {
     private MapController mapcontroller;
     private Map currentMap;
     private GameRenderer renderer;
-    private short[][] grid;
     private Image wallImg;
     private Image backGroundImg;
     private  GameStateListener gameStateListener;
@@ -42,8 +41,6 @@ public class MapPanel extends JPanel {
         this.gameStateListener = gameStateListener;
         this.wallImg = wallImg;
         this.backGroundImg = backGroundImg;
-
-        // Gán các Dependency thông qua Constructor Injection
         this.gridManager = gridManager;
         this.entityManager = entityManager;
         this.spawnManager = spawnManager;
@@ -89,6 +86,7 @@ public class MapPanel extends JPanel {
             collisionManager,
             gameStateManager);
         currentMap.setGameStateListener(gameStateListener);
+        //currentMap.getCollectable().clear(); 
         currentMap.setBounds(0, 0, 672, 672);
         add(currentMap);
         setComponentZOrder(currentMap, getComponentCount() - 1);

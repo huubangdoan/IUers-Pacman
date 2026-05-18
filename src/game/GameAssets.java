@@ -8,7 +8,7 @@ import javax.swing.*;
 public class GameAssets {
     public Image dotImg, appleImg, durianImg, watermelonImg, chilliImg, kiwiImg, dragonFruitImg;
     public static Image wall1Img, wall2Img, wall3Img;
-    public static Image wallHackImg, deadImg, revertImg;
+    public static Image wallHackImg, deadImg, teleportImg;
     public static Image backGround1Img, backGround2Img;
     public Image ghostImg, blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
     public Image[] pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
@@ -52,7 +52,7 @@ public class GameAssets {
         backGround2Img = new ImageIcon("src/assets/Menu Graphics/backGround2.png").getImage();
 
         deadImg = new ImageIcon("src/assets/Chao Tiles/dead.png").getImage();
-        revertImg = new ImageIcon("src/assets/Chao Tiles/revert.png").getImage();
+        teleportImg = new ImageIcon("src/assets/Chao Tiles/teleport.png").getImage();
         wallHackImg = new ImageIcon("src/assets/Chao Tiles/wallHack.png").getImage();
 
     }
