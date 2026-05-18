@@ -137,43 +137,4 @@ public class GameRenderer {
         g2d.setColor(mainColor);
         g2d.drawString(text, x, y); 
     }
-    public void drawSnakeBody(Graphics2D g2d, java.util.LinkedList<SnakeMap.BodyPart> body) {
-        if (body == null || body.isEmpty()) return;
-        
-        int bodySize = body.size();
-        if (bodySize > 1) {
-            // Cấu hình nét vẽ to bản và bo tròn góc
-            g2d.setStroke(SNAKE_STROKE);
-            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-            g2d.setRenderingHint(RenderingHints.KEY_STROKE_CONTROL, RenderingHints.VALUE_STROKE_PURE);
-            
-            snakePath.reset();
-            Color lastColor = null;
-            SnakeMap.BodyPart prev = null;
-            int index = 0;
-    
-            for (SnakeMap.BodyPart current : body) {
-                if (index++ < 5) { prev = current; continue; }
-                if (prev == null) { prev = current; continue; }
-                Color c = current.color; 
-                
-                if (!c.equals(lastColor)) {
-                    if (lastColor != null && snakePath.getCurrentPoint() != null) {
-                        g2d.setColor(lastColor);
-                        g2d.draw(snakePath);
-                    }
-                    snakePath.reset();
-                    snakePath.moveTo(prev.x + 16, prev.y + 16);
-                    lastColor = c;
-                }
-                snakePath.lineTo(current.x + 16, current.y + 16);
-                prev = current;
-            }
-        
-            if (lastColor != null && snakePath.getCurrentPoint() != null) {
-                g2d.setColor(lastColor);
-                g2d.draw(snakePath);
-            }
-        }
-    }
 }
