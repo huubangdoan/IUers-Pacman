@@ -104,7 +104,7 @@ public class GameFrame extends JFrame {
         Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager,
             renderer,
             gameStateListener3,
-            GameAssets.wall3Img,
+            GameAssets.wall1Img,
             GameAssets.backGround2Img,
             gridManager3,
             entityManager,

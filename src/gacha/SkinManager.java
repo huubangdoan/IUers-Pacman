@@ -25,6 +25,8 @@ public class SkinManager {
         ALL_SKINS.add(new Skin("purple",      "purple",      Skin.Rarity.COMMON));
         ALL_SKINS.add(new Skin("red",         "red",         Skin.Rarity.COMMON));
         ALL_SKINS.add(new Skin("white",       "white",       Skin.Rarity.COMMON));
+        ALL_SKINS.add(new Skin("bang",       "huu bang",       Skin.Rarity.COMMON));
+        ALL_SKINS.add(new Skin("chau",       "phuong chau",       Skin.Rarity.COMMON));
         
         // RARE skins
         ALL_SKINS.add(new Skin("Fire",       "Fire PacMan",       Skin.Rarity.RARE));
