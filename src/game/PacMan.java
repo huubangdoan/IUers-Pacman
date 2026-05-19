@@ -256,7 +256,7 @@ public class PacMan {
     }
     public void activateWallHack(Map map) {
         wallHack = true;
-        javax.swing.Timer timer = new javax.swing.Timer(5000, e -> {
+        javax.swing.Timer timer = new javax.swing.Timer(850, e -> {
             wallHack = false;
             escapeFromWall(map);
         });

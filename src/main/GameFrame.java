@@ -94,7 +94,7 @@ public class GameFrame extends JFrame {
         Map2Panel map2Panel       = new Map2Panel(map2Ctrl,skinManager,
             renderer,
             gameStateListener2,
-            GameAssets.wall1Img,
+            GameAssets.wall3Img,
             GameAssets.backGround2Img, fogEffect,
             gridManager3,
             entityManager,
