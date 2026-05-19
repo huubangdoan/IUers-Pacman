@@ -1,0 +1,12 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Đo Performance Game Pacman",
+            "request": "launch",
+            "mainClass": "main.Main1",
+            "vmArgs": "-XX:StartFlightRecording=disk=true,dumponexit=true,filename=pacman_perf.jfr"
+        }
+    ]
+}
