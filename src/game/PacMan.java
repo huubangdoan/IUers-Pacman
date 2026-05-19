@@ -18,13 +18,9 @@ public class PacMan {
     private int animIndex = 0;
     private boolean moving = false;
     private boolean wasStuck = false; // Track if we were stuck last frame
-    private final int SIZE = 28;
     private boolean isDisguised = false;
     private long disguiseEndTime = 0;
-    private boolean canShoot = false;
-    private int seedAmmo = 0;
     private boolean chilliMode = false;
-    private final int TILE_SIZE = 32;
     private boolean wallHack = false;
     
     public PacMan(int x, int y, int speed) {
