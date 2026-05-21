@@ -22,14 +22,20 @@ The game includes multiple maps, character selection, and various gameplay featu
 ## Maps
 The game currently contains 3 maps:
 
-### Map 1 - [Map Name]
-Description: ______________________
 
-### Map 2 - [Map Name]
-Description: ______________________
 
-### Map 3 - [Map Name]
-Description: ______________________
+### Map 1 - ClassicPacmanMap
+* **Description:** This is the standard, traditional Pac-man map designed to replicate the nostalgic arcade experience. It features the iconic symmetric maze layout, precise grid alignments, and standard gameplay rules that players know and love.
+
+### Map 2 - ChaoTilesMap
+* **Description:** A custom tile-based map inheriting from the base `Map` class. It serves as a flexible framework for the game, altering the visual aesthetic and theme of the arena while keeping the gameplay fully visible.
+
+### Map 3 - InvisibleMap
+* **Description:** An advanced challenge map that introduces environmental blindness. It forces players to rely on short-range reflexes rather than long-term planning by hiding the maze in total darkness.
+
+
+### Map 4 - MixMap
+* **Description:** The ultimate endgame stage that seamlessly blends the architectural design of `ChaoTilesMap`, the traditional layout of `ClassicPacmanMap`, and the intense blindness mechanic of `InvisibleMap`. 
 
 ---
 
