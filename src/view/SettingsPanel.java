@@ -146,10 +146,10 @@ public class SettingsPanel extends JPanel {
         infoPopup.setBounds(centerX, centerY, overlayW, overlayH);
         infoPopup.setVisible(false); 
 
-        ImageIcon helpImg = new ImageIcon("src/assets/Menu Graphics/guide.png");
+        ImageIcon helpImg = new ImageIcon("src/assets/Menu Graphics/helpp.png");
         helpPopup = new JLabel(helpImg); 
-        int helpW = 500; 
-        int helpH = 500; 
+        int helpW = 600; 
+        int helpH = 600; 
         int helpcenterX = (672 - helpW) / 2;
         int helpcenterY = (672 - helpH) / 2;
 
