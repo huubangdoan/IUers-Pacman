@@ -13,21 +13,7 @@ public class SkinManager {
     private String selectedSkinFolder;
     private ScoreManager scoreManager;
     private static final List<Skin> ALL_SKINS = new ArrayList<>();
-    
     static {
-        // COMMON skins
-        ALL_SKINS.add(new Skin("black",       "black",       Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("blue",        "blue",        Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("green",       "green",       Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("grey",        "grey",        Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("orange",      "orange",      Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("pink",        "pink",        Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("purple",      "purple",      Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("red",         "red",         Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("white",       "white",       Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("bang",       "huu bang",       Skin.Rarity.COMMON));
-        ALL_SKINS.add(new Skin("chau",       "phuong chau",       Skin.Rarity.COMMON));
-        
         // RARE skins
         ALL_SKINS.add(new Skin("Fire",       "Fire PacMan",       Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Ice",        "Ice PacMan",        Skin.Rarity.RARE));
@@ -40,11 +26,12 @@ public class SkinManager {
         ALL_SKINS.add(new Skin("Polar Bear", "Polar PacMan",      Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Brown Bear", "Brown PacMan",      Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
-        ALL_SKINS.add(new Skin("Lime",       "Lime PacMan",       Skin.Rarity.RARE));
-        ALL_SKINS.add(new Skin("Saiyan",     "Saiyan PacMan",     Skin.Rarity.RARE));
-        ALL_SKINS.add(new Skin("Samurai",    "Samurai PacMan",    Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Koala",      "Koala PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Lime",      "Lime PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Saiyan",      "Saiyan PacMan",      Skin.Rarity.RARE));
+        ALL_SKINS.add(new Skin("Samurai",      "Samurai PacMan",      Skin.Rarity.RARE));
         ALL_SKINS.add(new Skin("Ghost",      "Ghost PacMan",      Skin.Rarity.RARE));
-        
         // EPIC skins
         ALL_SKINS.add(new Skin("Thanos",   "Thanos PacMan",   Skin.Rarity.EPIC));
         ALL_SKINS.add(new Skin("Batman",   "Bat-Man PacMan",  Skin.Rarity.EPIC));
@@ -52,48 +39,27 @@ public class SkinManager {
         ALL_SKINS.add(new Skin("Joker",    "Joker PacMan",    Skin.Rarity.EPIC));
     }
 
+
     public SkinManager(ScoreManager scoreManager) {
         this.scoreManager      = scoreManager;
         this.selectedSkinFolder = DEFAULT_SKIN_FOLDER;
         loadData();
     }
-
-     // 2% Epic, 18% Rare, 80% Common
-    private Skin getRandomSkinByRate(Random rand) {
-        int chance = rand.nextInt(100);
-        List<Skin> pool;
-        
-        if (chance < 2) {
-            pool = getSkinsByRarity(Skin.Rarity.EPIC);
-        } else if (chance < 20) { // 2 + 18 = 20
-            pool = getSkinsByRarity(Skin.Rarity.RARE);
-        } else {
-            pool = getSkinsByRarity(Skin.Rarity.COMMON);
-        }
-        if (pool.isEmpty()) {
-            pool = getSkinsByRarity(Skin.Rarity.COMMON);
-        }
-        return pool.get(rand.nextInt(pool.size()));
-    }
-
-    private boolean handleUnlockAndCheckDuplicate(Skin skin) {
-        boolean isDuplicate = unlockedFolderNames.contains(skin.getFolderName());
-        if (isDuplicate) {
-            scoreManager.addCumulativeScore(REFUND_COST);
-        } else {
-            unlockedFolderNames.add(skin.getFolderName());
-        }
-        return isDuplicate;
-    }
-
     public RollResult rollOne() {
         if (scoreManager.getCumulativeScore() < ROLL_COST) return null;
         scoreManager.deductCumulativeScore(ROLL_COST);
-        
         Random rand = new Random();
-        Skin result = getRandomSkinByRate(rand);
-        
-        boolean isDuplicate = handleUnlockAndCheckDuplicate(result);
+        List<Skin> pool = (rand.nextInt(100) < 20)
+                ? getSkinsByRarity(Skin.Rarity.EPIC)
+                : getSkinsByRarity(Skin.Rarity.RARE);
+        Skin result = pool.get(rand.nextInt(pool.size()));
+
+        boolean isDuplicate = unlockedFolderNames.contains(result.getFolderName());
+        if (isDuplicate) {
+            scoreManager.addCumulativeScore(REFUND_COST);
+        } else {
+            unlockedFolderNames.add(result.getFolderName());
+        }
         saveData();
         return new RollResult(result, isDuplicate);
     }
@@ -101,32 +67,36 @@ public class SkinManager {
     public List<RollResult> rollTen() {
         long totalCost = (long) ROLL_COST * 10;
         if (scoreManager.getCumulativeScore() < totalCost) return null;
-        scoreManager.deductCumulativeScore(totalCost);
 
         List<RollResult> results = new ArrayList<>();
-        boolean hasRareOrBetter = false;
+        boolean hasRare = false;
         Random rand = new Random();
 
         for (int i = 0; i < 10; i++) {
-            Skin skin;
-            if (i == 9 && !hasRareOrBetter) {
-                List<Skin> rarePool = getSkinsByRarity(Skin.Rarity.RARE);
-                skin = rarePool.get(rand.nextInt(rarePool.size()));
+            List<Skin> pool;
+            if (i == 10 && !hasRare) {
+                pool = getSkinsByRarity(Skin.Rarity.RARE);
             } else {
-                skin = getRandomSkinByRate(rand);
+                pool = (rand.nextInt(100) < 2)
+                        ? getSkinsByRarity(Skin.Rarity.EPIC)
+                        : getSkinsByRarity(Skin.Rarity.RARE);
             }
+            Skin skin = pool.get(rand.nextInt(pool.size()));
+            if (skin.getRarity() == Skin.Rarity.RARE) hasRare = true;
 
-            if (skin.getRarity() == Skin.Rarity.RARE || skin.getRarity() == Skin.Rarity.EPIC) {
-                hasRareOrBetter = true;
+            boolean isDuplicate = unlockedFolderNames.contains(skin.getFolderName());
+            if (isDuplicate) {
+                scoreManager.addCumulativeScore(REFUND_COST);
+            } else {
+                unlockedFolderNames.add(skin.getFolderName());
             }
-            boolean isDuplicate = handleUnlockAndCheckDuplicate(skin);
             results.add(new RollResult(skin, isDuplicate));
         }
 
+        scoreManager.deductCumulativeScore(totalCost);
         saveData();
         return results;
     }
-
     public List<RollResult> rollHundred() {
         long totalCost = (long) ROLL_COST * 100;
         if (scoreManager.getCumulativeScore() < totalCost) return null;
@@ -137,25 +107,29 @@ public class SkinManager {
         boolean hasEpic = false;
 
         for (int i = 0; i < 100; i++) {
-            Skin skin;
+            List<Skin> pool;
             if (i == 99 && !hasEpic) {
-                List<Skin> epicPool = getSkinsByRarity(Skin.Rarity.EPIC);
-                skin = epicPool.get(rand.nextInt(epicPool.size()));
+                pool = getSkinsByRarity(Skin.Rarity.EPIC);
             } else {
-                skin = getRandomSkinByRate(rand);
+                pool = (rand.nextInt(100) < 2)
+                        ? getSkinsByRarity(Skin.Rarity.EPIC)
+                        : getSkinsByRarity(Skin.Rarity.RARE);
             }
+            Skin skin = pool.get(rand.nextInt(pool.size()));
+            if (skin.getRarity() == Skin.Rarity.EPIC) hasEpic = true;
 
-            if (skin.getRarity() == Skin.Rarity.EPIC) {
-                hasEpic = true;
+            boolean isDuplicate = unlockedFolderNames.contains(skin.getFolderName());
+            if (isDuplicate) {
+                scoreManager.addCumulativeScore(REFUND_COST);
+            } else {
+                unlockedFolderNames.add(skin.getFolderName());
             }
-
-            boolean isDuplicate = handleUnlockAndCheckDuplicate(skin);
             results.add(new RollResult(skin, isDuplicate));
         }
-
         saveData();
         return results;
     }
+
 
     public void selectSkin(String folderName) {
         this.selectedSkinFolder = folderName;

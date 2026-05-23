@@ -2,6 +2,9 @@ package game;
 import java.awt.*;
 public class GameRenderer {
     private GameAssets assets;
+    private static final java.awt.BasicStroke SNAKE_STROKE = 
+    new java.awt.BasicStroke(32f, java.awt.BasicStroke.CAP_ROUND, java.awt.BasicStroke.JOIN_ROUND);
+    private final java.awt.geom.GeneralPath snakePath = new java.awt.geom.GeneralPath();
     public GameRenderer(GameAssets assets) {
         this.assets = assets;
     }

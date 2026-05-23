@@ -186,6 +186,7 @@ public class GachaResultPanel extends JPanel {
         contentArea.setPreferredSize(new Dimension(672, Math.max(560, maxY + 20)));
     }
 
+    /** Tạo card với nền gradient tối + viền rarity */
     private JPanel createCard(Color borderColor) {
         JPanel card = new JPanel(null) {
             @Override
