@@ -16,7 +16,7 @@ public class GameStateManager {
         }
         boolean noDotsLeft = true;
         for (Collectable c : sm.getCollectables()) {
-            if (c instanceof LightPoint) {
+            if (c instanceof LightPoint || c instanceof Fruit) {
                 noDotsLeft = false;
                 break;
             }
