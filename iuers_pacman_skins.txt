@@ -1,4 +1,4 @@
-phuong chau
+huu bang
 pink
 Ghost PacMan
 Brown PacMan
@@ -21,6 +21,7 @@ black
 grey
 Basketball PacMan
 orange
+Iron-Man PacMan
 Saiyan PacMan
 blue
 Volleyball PacMan

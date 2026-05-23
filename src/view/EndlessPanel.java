@@ -3,15 +3,23 @@ package view;
 import controller.*;
 import gacha.SkinManager;
 import game.*;
+
 import java.awt.*;
 
 public class EndlessPanel extends MapPanel {
     private final FogOfWar fogEffect;
     public EndlessPanel(MapController endlesscontroller, 
-        SkinManager skinManager, GameRenderer renderer, GameStateListener gameStateListener, 
-        Image wallImg, Image backGroundImg, FogOfWar fogEffect, GridManager gridManager,
-        EntityManager entityManager, SpawnManager spawnManager,
-        CollisionManager collisionManager, GameStateManager gameStateManager ){
+        SkinManager skinManager, 
+        GameRenderer renderer, 
+        GameStateListener gameStateListener, 
+        Image wallImg, Image backGroundImg, 
+        FogOfWar fogEffect, 
+        GridManager gridManager,
+        EntityManager entityManager, 
+        SpawnManager spawnManager,
+        CollisionManager collisionManager, 
+        GameStateManager gameStateManager,
+        String musicPath ){
         super(endlesscontroller, skinManager,
             renderer,
             gameStateListener,
@@ -21,7 +29,8 @@ public class EndlessPanel extends MapPanel {
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
+            gameStateManager,
+            musicPath);
         this.fogEffect=fogEffect;
     }
     @Override

@@ -2,6 +2,7 @@ package view;
 import controller.Map2Controller;
 import gacha.SkinManager;
 import game.*;
+
 import java.awt.*;
 public class Map2Panel extends MapPanel {
     private final FogOfWar fogEffect;
@@ -14,7 +15,8 @@ public class Map2Panel extends MapPanel {
         EntityManager entityManager,
         SpawnManager spawnManager,
         CollisionManager collisionManager,
-        GameStateManager gameStateManager) {
+        GameStateManager gameStateManager,
+        String musicPath) {
         super(map2controller, skinManager,
             renderer,
             gameStateListener,
@@ -24,7 +26,8 @@ public class Map2Panel extends MapPanel {
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
+            gameStateManager, 
+            musicPath);
         this.fogEffect=fogEffect;
     }
     @Override

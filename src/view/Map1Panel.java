@@ -16,7 +16,8 @@ public class Map1Panel extends MapPanel {
         EntityManager entityManager,
         SpawnManager spawnManager,
         CollisionManager collisionManager,
-        GameStateManager gameStateManager) {
+        GameStateManager gameStateManager,
+        String musicPath) {
         super(map1controller, skinManager,
             renderer,
             gameStateListener,
@@ -26,6 +27,6 @@ public class Map1Panel extends MapPanel {
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
-    }
-}
+            gameStateManager,
+            musicPath);
+}}

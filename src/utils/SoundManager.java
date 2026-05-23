@@ -1,14 +1,14 @@
 package utils;
 
-import javax.sound.sampled.*;
 import java.io.File;
+import javax.sound.sampled.*;
 
 public class SoundManager {
     private static Clip backgroundMusic;
 
     public static void playBGM(String filePath) {
         if (!GameConfig.isSoundOn) return;
-
+        stopBGM();
         try {
             File musicPath = new File(filePath);
             if (musicPath.exists()) {
@@ -26,6 +26,8 @@ public class SoundManager {
     public static void stopBGM() {
         if (backgroundMusic != null && backgroundMusic.isRunning()) {
             backgroundMusic.stop();
+            backgroundMusic.close();
+            backgroundMusic = null;
         }
     }
 }

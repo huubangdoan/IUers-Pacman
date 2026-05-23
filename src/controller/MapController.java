@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 
+import utils.SoundManager;
+
 public class MapController implements ActionListener{
     CardLayout cardLayout;
     JPanel mainContainer;
@@ -14,7 +16,7 @@ public class MapController implements ActionListener{
     @Override
     public void actionPerformed(ActionEvent click) {
         
-    }
+        }
     public void showLoseScreen() {
         cardLayout.show(mainContainer, "Lose");
     }
