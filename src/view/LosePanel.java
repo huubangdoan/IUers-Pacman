@@ -2,6 +2,10 @@ package view;
 import controller.*;
 import java.awt.*;
 import javax.swing.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+
+import utils.SoundManager;
 import utils.UIUtils;
 
 public class LosePanel extends JPanel {
@@ -30,12 +34,16 @@ public class LosePanel extends JPanel {
 
         add(tryag);
         add(mainmenu);
-        
+        this.addComponentListener(new ComponentAdapter() {
+         @Override
+        public void componentShown(ComponentEvent e) {
+        SoundManager.stopBGM();
+            }
+        });
+
         ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/losebgr.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
-        return;
-
     }
 }

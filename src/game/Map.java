@@ -52,7 +52,7 @@ public class Map extends JPanel implements ActionListener {
         // Ủy thác việc khởi tạo trò chơi cho các Manager chuyên biệt
         this.spawnManager.spawnInitialCollectables(this.gridManager);
         this.entityManager.initEntities(this.gridManager);
-        addKeyListener(new PacmanInput(this.entityManager.getPlayer()));
+        PacmanInput.setupInput(this, this.entityManager.getPlayer());
         setFocusable(true);
         setPreferredSize(new Dimension(672, 672));
         

@@ -172,6 +172,7 @@ public class SkinMenuPanel extends JPanel {
                 final String displayName = skin.getName();
                 equipBtn.addActionListener(e -> {
                     skinManager.selectSkin(folder);
+                    equipBtn.setText("Equiped");
                     selectedLabel.setText("Using: " + displayName);
                 });
                 card.add(equipBtn);

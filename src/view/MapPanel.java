@@ -7,6 +7,8 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.*;
+
+import utils.SoundManager;
 import utils.UIUtils;
 
 public class MapPanel extends JPanel {
@@ -23,6 +25,7 @@ public class MapPanel extends JPanel {
     private final SpawnManager spawnManager;
     private final CollisionManager collisionManager;
     private final GameStateManager gameStateManager;
+    private String musicPath;
 
     public MapPanel(MapController mapcontroller, 
         SkinManager skinManager, 
@@ -34,7 +37,8 @@ public class MapPanel extends JPanel {
         EntityManager entityManager,
         SpawnManager spawnManager,
         CollisionManager collisionManager,
-        GameStateManager gameStateManager) {
+        GameStateManager gameStateManager,
+        String MusicPath) {
         this.mapcontroller = mapcontroller;
         this.skinManager    = skinManager;
         this.renderer = renderer;
@@ -46,6 +50,7 @@ public class MapPanel extends JPanel {
         this.spawnManager = spawnManager;
         this.collisionManager = collisionManager;
         this.gameStateManager = gameStateManager;
+        this.musicPath=MusicPath;
         setLayout(null);
         ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
         Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
@@ -65,6 +70,7 @@ public class MapPanel extends JPanel {
         this.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
+                SoundManager.playBGM(musicPath);
                 reloadMap();
             }
         });

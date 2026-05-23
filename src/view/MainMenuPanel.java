@@ -7,7 +7,6 @@ import utils.UIUtils;
 public class MainMenuPanel extends JPanel {
     public MainMenuPanel(MainMenuController controller) {
         setLayout(null);
-        
         ImageIcon originalStart = new ImageIcon("src/assets/Menu Graphics/start.png");
         Image scaledStartImg = originalStart.getImage().getScaledInstance(210, 120, Image.SCALE_SMOOTH);
         ImageIcon startIcon = new ImageIcon(scaledStartImg);
@@ -68,8 +67,6 @@ public class MainMenuPanel extends JPanel {
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);
         add(background);
-        return;
-
     }
 
 }

@@ -12,6 +12,7 @@ public class GameAssets {
     public static Image backGround1Img, backGround2Img;
     public Image ghostImg, blinkyImg, pinkyImg, inkyImg, clydeImg, frightenedImg;
     public Image[] pacmanRight, pacmanLeft, pacmanUp, pacmanDown;
+    public static String sound1, gigaSound, ratdanceSound, chibichabaSound,menuSound;
     public GameAssets(SkinManager skinManager) {
         String skinFolder = (skinManager != null)
                 ? skinManager.getSelectedSkinFolder()
@@ -54,6 +55,12 @@ public class GameAssets {
         deadImg = new ImageIcon("src/assets/Chao Tiles/dead.png").getImage();
         teleportImg = new ImageIcon("src/assets/Chao Tiles/teleport.png").getImage();
         wallHackImg = new ImageIcon("src/assets/Chao Tiles/wallHack.png").getImage();
+
+        sound1="src/assets/Sound/sound1.wav";
+        gigaSound="src/assets/Sound/sound2.wav";
+        chibichabaSound="src/assets/Sound/sound.wav";
+        ratdanceSound="src/assets/Sound/sound3.wav";
+        menuSound="src/assets/Sound/menuSound.wav";
 
     }
     private File resolveBase(String skinFolder) {

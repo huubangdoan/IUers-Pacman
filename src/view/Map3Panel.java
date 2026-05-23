@@ -14,7 +14,8 @@ public class Map3Panel extends MapPanel {
         EntityManager entityManager,
         SpawnManager spawnManager,
         CollisionManager collisionManager,
-        GameStateManager gameStateManager) {
+        GameStateManager gameStateManager,
+        String musicPath) {
         super(map3controller,skinManager,
             renderer,
             gameStateListener,
@@ -24,7 +25,9 @@ public class Map3Panel extends MapPanel {
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
+            gameStateManager, 
+            musicPath);
+
     }
     @Override
     public Map setMap(SkinManager skinManager, 

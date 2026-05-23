@@ -90,27 +90,33 @@ public class GameFrame extends JFrame {
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
+            gameStateManager,
+            GameAssets.ratdanceSound
+        );
         Map2Panel map2Panel       = new Map2Panel(map2Ctrl,skinManager,
             renderer,
             gameStateListener2,
-            GameAssets.wall1Img,
+            GameAssets.wall3Img,
             GameAssets.backGround2Img, fogEffect,
             gridManager3,
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
+            gameStateManager,
+            GameAssets.gigaSound
+        );
         Map3Panel map3Panel       = new Map3Panel(map3Ctrl, skinManager,
             renderer,
             gameStateListener3,
-            GameAssets.wall3Img,
+            GameAssets.wall1Img,
             GameAssets.backGround2Img,
             gridManager3,
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
+            gameStateManager,
+            GameAssets.sound1
+        );
         EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager,
             renderer,
             gameStateListener4,
@@ -120,7 +126,9 @@ public class GameFrame extends JFrame {
             entityManager,
             spawnManager,
             collisionManager,
-            gameStateManager);
+            gameStateManager,
+            GameAssets.ratdanceSound
+        );
 
         // ── Thêm tất cả vào CardLayout ───────────────────────────────────────
         mainContainer.add(new MainMenuPanel(mainCtrl), "MainMenu");
@@ -135,7 +143,6 @@ public class GameFrame extends JFrame {
         mainContainer.add(new WinPanel(winCtrl), "Win");
         mainContainer.add(new LosePanel(loseCtrl), "Lose");
         mainContainer.add(endlessPanel,                "Endless");
-
         add(mainContainer);
         cardLayout.show(mainContainer, "MainMenu");
     }
