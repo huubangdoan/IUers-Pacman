@@ -111,12 +111,4 @@ public class GachaMenuPanel extends JPanel {
         long pts = skinManager.getScoreManager().getCumulativeScore();
         scoreLabel.setText(String.format("%,d", pts) + " pts");
     }
-
-    private JLabel makeGoldLabel(String text, int x, int y, int w) {
-        JLabel lbl = new JLabel(text, SwingConstants.CENTER);
-        lbl.setFont(new Font("Consolas", Font.BOLD, 12));
-        lbl.setForeground(new Color(255, 215, 0));
-        lbl.setBounds(x, y, w, 20);
-        return lbl;
-    }
 }

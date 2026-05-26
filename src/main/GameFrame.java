@@ -115,7 +115,7 @@ public class GameFrame extends JFrame {
             spawnManager,
             collisionManager,
             gameStateManager,
-            GameAssets.sound1
+            GameAssets.chibichabaSound
         );
         EndlessPanel endlessPanel = new EndlessPanel(endlessCtrl, skinManager,
             renderer,

@@ -110,7 +110,7 @@ public class GachaResultPanel extends JPanel {
 
         // NEW / DUPLICATE
         if (result.isDuplicate) {
-            JLabel dupLabel = new JLabel("✦ TRÙNG  +800 pts ✦", SwingConstants.CENTER);
+            JLabel dupLabel = new JLabel("✦ DUPLICATED  +800 pts ✦", SwingConstants.CENTER);
             dupLabel.setFont(new Font("Consolas", Font.BOLD, 13));
             dupLabel.setForeground(new Color(255, 180, 0));
             dupLabel.setBounds(0, 260, 200, 25);

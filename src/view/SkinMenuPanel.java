@@ -98,7 +98,7 @@ public class SkinMenuPanel extends JPanel {
         List<Skin> unlocked = skinManager.getUnlockedSkins();
 
         if (unlocked.isEmpty()) {
-            JLabel empty = new JLabel("Chưa có skin nào! Hãy thử Gacha.", SwingConstants.CENTER);
+            JLabel empty = new JLabel("not have skin yet! try Gacha.", SwingConstants.CENTER);
             empty.setFont(new Font("Consolas", Font.ITALIC, 16));
             empty.setForeground(Color.LIGHT_GRAY);
             empty.setBounds(0, 50, 632, 30);

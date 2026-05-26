@@ -95,7 +95,8 @@ public class CollisionManager {
         final boolean hasThorns    = player.hasThorns();
         final boolean hasWatermelon = player.hasWatermelon();
         final boolean isDragon     = player.isDragonMode();
-        if (!hasThorns && !hasWatermelon && !isDragon) return;
+        boolean anyFrightened = em.getGhosts().stream().anyMatch(Ghost::getIsFrighted);
+        if (!hasThorns && !hasWatermelon && !isDragon && !anyFrightened) return;
         if (hasWatermelon) {
             for (Ghost g : em.getGhosts()) {
                 int dx = px - g.getX(), dy = py - g.getY();
@@ -107,7 +108,7 @@ public class CollisionManager {
             }
         }
         for (Ghost g : em.getGhosts()) {
-            if (hasThorns || g.getIsFrighted()) {
+            if (hasThorns || anyFrightened) {
                 int dx = px - g.getX(), dy = py - g.getY();
                 if (dx * dx + dy * dy < 256) {
                     g.respawnAtRandomLocation(gm.getGrid());

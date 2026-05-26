@@ -7,7 +7,6 @@ import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.*;
-
 import utils.SoundManager;
 import utils.UIUtils;
 
