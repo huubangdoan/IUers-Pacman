@@ -20,10 +20,10 @@ public class MapMenuController implements ActionListener{
                 cardLayout.show(mapContainer, "Map1");
                 break;
             case "Map 2":
-                cardLayout.show(mapContainer, "Endless");
+                cardLayout.show(mapContainer, "Map3");
                 break;
             case "Map 3":
-                cardLayout.show(mapContainer, "Map3");
+                cardLayout.show(mapContainer, "Endless");
                 break;
             case "Endless":
                 cardLayout.show(mapContainer, "Map2");
