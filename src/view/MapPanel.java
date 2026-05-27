@@ -8,7 +8,6 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import javax.swing.*;
 import utils.SoundManager;
-import utils.UIUtils;
 
 public class MapPanel extends JPanel {
 
@@ -51,17 +50,6 @@ public class MapPanel extends JPanel {
         this.gameStateManager = gameStateManager;
         this.musicPath=MusicPath;
         setLayout(null);
-        ImageIcon originalBack = new ImageIcon("src/assets/Menu Graphics/back.png");
-        Image scaledBackImg = originalBack.getImage().getScaledInstance(105, 60, Image.SCALE_SMOOTH);
-        ImageIcon backIcon = new ImageIcon(scaledBackImg);
-        JButton back = new JButton(backIcon);
-        back.setBounds(25, 15, 105, 60);
-        UIUtils.makeButtonTransparent(back);
-        UIUtils.setupZoomEffect(back, backIcon, 105, 60);
-        back.setActionCommand("Back");
-        back.addActionListener(mapcontroller);
-        add(back);
-        setComponentZOrder(back, 0);
         ImageIcon bgIcon = new ImageIcon("src/assets/Menu Graphics/bgr.png");
         JLabel background = new JLabel(bgIcon);
         background.setBounds(0, 0, 672, 672);

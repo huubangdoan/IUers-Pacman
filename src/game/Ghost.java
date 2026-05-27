@@ -43,8 +43,8 @@ public class Ghost extends MoveSystem{
         }
 
     private void calculateBestDirection(Map map, PacMan player) {
-            int[] dirsX = {0, 0, -1, 1}; // Lên, Xuống, Trái, Phải
-            int[] dirsY = {-1, 1, 0, 0};
+            int[] dirsX = {0, 0, -1, 1}; //  Trái, Phải
+            int[] dirsY = {-1, 1, 0, 0};// lên xuống
             
             double minDistance = Double.MAX_VALUE;
             int bestDx = dx;
@@ -72,7 +72,7 @@ public class Ghost extends MoveSystem{
             }
         
             java.util.Random rand = new java.util.Random();
-            // 60% Ma sẽ đi thông minh hướng về Pacman
+            // 30% Ma sẽ đi thông minh hướng về Pacman
             boolean beSmart = rand.nextInt(100) < 30;
             
             if (beSmart && !isFrighted) {
