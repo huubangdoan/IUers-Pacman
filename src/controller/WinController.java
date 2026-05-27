@@ -19,6 +19,9 @@ public class WinController implements ActionListener{
             case "Main menu":
                 cardLayout.show(mapContainer, "MainMenu");
                 break;
+            case "Back":
+                cardLayout.show(mapContainer, "MapMenu"); 
+                break;
             default:
                 System.out.println("chua set tinh nang cho nut nay");
                 break;
