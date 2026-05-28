@@ -1,0 +1,18 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Main1",
+            "request": "launch",
+            "mainClass": "main.Main1",
+            "projectName": "IUers-s-Pacman_ad75d258"
+        },
+        {
+            "type": "java",
+            "name": "Main1",
+            "request": "launch",
+            "mainClass": "main.Main1",
+            "projectName": "IUers-s-Pacman_eece4562"
+        }
+    ]
+}

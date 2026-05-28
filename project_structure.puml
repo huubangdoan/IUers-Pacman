@@ -1,0 +1,152 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam linetype ortho
+
+' --- Core Engine ---
+class Map {
+    +Map(SkinManager s, GameRenderer r, GameStateListener l, Image wall, Image bg, GridManager gm, EntityManager em, SpawnManager sm, CollisionManager cm, GameStateManager gsm)
+    +update()
+    +paintComponent(Graphics g)
+    +actionPerformed(ActionEvent e)
+    +isWall(int x, int y)
+}
+class GameRenderer {
+    +GameRenderer(GameAssets assets)
+    +render(Graphics2D g2d, Map map, Image wallImage, Image backGroundImg)
+    +drawBackground(Graphics2D g2d, Map map, Image image)
+    +drawWalls(Graphics2D g2d, short[][] grid, Image image)
+    +drawChaosTiles(Graphics2D g2d, Map chaoMap)
+    +drawCollectables(Graphics2D g2d, java.util.List collectables)
+    +drawPlayer(Graphics2D g2d, PacMan player)
+    +drawActiveSkills(Graphics2D g2d, Map map)
+}
+class GameAssets {
+    +GameAssets(SkinManager skinManager)
+    +GameAssets()
+}
+class ScoreManager {
+    +ScoreManager()
+    +saveData(int currentScore)
+    +deductCumulativeScore(long amount)
+    +addCumulativeScore(long amount)
+}
+
+' --- Managers ---
+class GridManager {
+    +GridManager(short[][] grid)
+    +buildCaches()
+    +buildSpecialTileCache()
+    +isWall(int x, int y)
+    +findRandomEmptySpot(Random r, List occupied)
+}
+class EntityManager {
+    +initEntities(GridManager gridManager)
+    +updateEntities(Map map)
+}
+class SpawnManager {
+    +spawnInitialCollectables(GridManager gridManager)
+    +spawnOneFruit(GridManager gridManager)
+}
+class CollisionManager {
+    +checkAllCollisions(Map map, EntityManager em, SpawnManager sm, GridManager gm)
+    +checkEntityCollisions(Map map, EntityManager em, SpawnManager sm, GridManager gm)
+    +checkChaosTiles(Map map, EntityManager em, GridManager gm)
+    +checkLive(Map map, EntityManager em, GridManager gm)
+    +handleFruitLogic(Map map, EntityManager em, GridManager gm)
+    +handlePlayerDeath(Map map, EntityManager em)
+}
+class GameStateManager {
+    +checkGameStatus(PacMan player, SpawnManager sm, GameStateListener listener, Timer timer)
+}
+class GameStateListener {
+    +GameStateListener(MapController mapController)
+    +onGameOver(int finalScore)
+    +onGameWon(int finalScore)
+}
+
+' --- Entities ---
+abstract class MoveSystem {
+    ~int x, y, dx, dy, speed
+    +MoveSystem(int x, int y, int speed)
+    +move(Map map)
+}
+class PacMan {
+    +PacMan(int x, int y, int speed)
+    +move(Map map)
+    +updateAnimation()
+    +addScore(int point)
+    +activateKiwiDisguise()
+    +loseLife()
+    +setPosition(int x, int y)
+    +activatePowerup(int duration)
+    +updatePowerup()
+    +updateDragon()
+    +activateChilliPower(int duration)
+    +activateWallHack(Map map)
+    +escapeFromWall(Map map)
+}
+class Ghost {
+    +Ghost(int x, int y, int speed, String ghostType)
+    +move(Map map)
+    +updateFrightened()
+    +setFrozen(boolean status, int duration)
+    +setStunned(boolean status, int duration)
+    +knockbackFrom(PacMan player, Map map)
+    +respawnAtRandomLocation(short[][] grid)
+}
+
+' --- Collectables ---
+interface Collectable {
+    +onCollected(PacMan player)
+    +draw(Graphics2D g2d, GameAssets assets)
+}
+abstract class Fruit {
+    +Fruit(int x, int y, String name)
+    +hide()
+    +onCollected(PacMan player)
+}
+class Apple { +Apple(int x, int y, String name); +onCollected(PacMan player); +draw(Graphics2D g2d, GameAssets assets) }
+class Chilli { +Chilli(int x, int y, String name); +onCollected(PacMan player); +draw(Graphics2D g2d, GameAssets assets) }
+class DragonFruit { +DragonFruit(int x, int y, String name); +onCollected(PacMan player); +draw(Graphics2D g2d, GameAssets assets) }
+class Durian { +Durian(int x, int y, String name); +onCollected(PacMan player); +draw(Graphics2D g2d, GameAssets assets) }
+class Kiwi { +Kiwi(int x, int y, String name); +onCollected(PacMan player); +draw(Graphics2D g2d, GameAssets assets) }
+class Watermelon { +Watermelon(int x, int y, String name); +onCollected(PacMan player); +draw(Graphics2D g2d, GameAssets assets) }
+class LightPoint { +LightPoint(int x, int y); +onCollected(PacMan player); +draw(Graphics2D g2d, GameAssets assets) }
+class FruitFactory { +{static} createRandom(int col, int row, Random rand) }
+
+' --- Special ---
+class InvisibleMap { +InvisibleMap(SkinManager s, GameRenderer r, GameStateListener l, Image wall, Image bg, FogOfWar f, GridManager gm, EntityManager em, SpawnManager sm, CollisionManager cm, GameStateManager gsm); +paintComponent(Graphics g) }
+class InvisibleMazeData {}
+class ChaoTilesMap { +ChaoTilesMap(SkinManager s, GameRenderer r, GameStateListener l, Image wall, Image bg, GridManager gm, EntityManager em, SpawnManager sm, CollisionManager cm, GameStateManager gsm) }
+class ChaoData {}
+class FogOfWar { +FogOfWar(int radius); +draw(Graphics2D g2d, int cx, int cy, int w, int h) }
+class PacmanInput { +{static} setupInput(JPanel gamePanel, PacMan player) }
+class MapData {}
+
+' --- Relationships ---
+Map *-- GridManager
+Map *-- EntityManager
+Map *-- SpawnManager
+Map *-- CollisionManager
+Map *-- GameStateManager
+Map *-- GameRenderer
+Map *-- ScoreManager
+Map *-- GameStateListener
+
+MoveSystem <|-- Ghost
+Collectable <|.. Fruit
+Collectable <|.. LightPoint
+Fruit <|-- Apple
+Fruit <|-- Chilli
+Fruit <|-- DragonFruit
+Fruit <|-- Durian
+Fruit <|-- Kiwi
+Fruit <|-- Watermelon
+
+Map <|-- InvisibleMap
+Map <|-- ChaoTilesMap
+
+SpawnManager ..> FruitFactory
+Map ..> PacmanInput
+Map ..> MapData
+@enduml
